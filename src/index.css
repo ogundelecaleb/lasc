@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@300;400;500;600&family=Barlow&family=Clicker+Script&family=Inter:wght@500;600&family=Manrope:wght@400;500;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root,
+.app,
+.css-65doyh-MuiTableCell-root,
+.content {
+  height: 100%;
+  width: 100%;
+  font-family: "Manrope", sans-serif;
+  position: relative;
+}
+@layer base {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+  }
+}
+.app {
+  display: flex;
+  position: relative;
+}
+
+input {
+  border: solid;
+}
