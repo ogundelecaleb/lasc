@@ -7,7 +7,7 @@ import api from "../../api";
 import { useQuery } from "@tanstack/react-query";
 import { NumericFormat } from "react-number-format";
 
-const Transaction = () => {
+const Settlements = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -69,8 +69,8 @@ const Transaction = () => {
     return formattedDate;
   }
 
-  async function getTransaction(currentPage) {
-    const response = await api.getTransaction({
+  async function getSettlement(currentPage) {
+    const response = await api.getSettlement({
       params: {
         PageIndex: currentPage,
         // Biller: biller,
@@ -86,7 +86,7 @@ const Transaction = () => {
   const { isLoading, isError, data, error, isPreviousData, refetch } = useQuery(
     [
       "electricity",
-      currentPage,
+      // currentPage,
       // biller,
       // referenceNumber,
       // status,
@@ -94,8 +94,8 @@ const Transaction = () => {
       // endDate,
     ],
     () =>
-    getTransaction(),
-      currentPage,
+      getSettlement(),
+      // currentPage,
       // biller,
       // referenceNumber,
       // status,
@@ -788,4 +788,4 @@ const Transaction = () => {
   );
 };
 
-export default Transaction;
+export default Settlements;

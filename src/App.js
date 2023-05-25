@@ -23,7 +23,6 @@ import HomeIndex from "./scene/home";
 import { Toaster } from "react-hot-toast";
 import { SnackbarProvider } from "notistack";
 import Currency from "./scene/currency";
-import Country from "./scene/country";
 import Channel from "./scene/channel";
 import Name from "./scene/name";
 import IsActive from "./scene/isActive";
@@ -31,6 +30,7 @@ import SignUp from "./signUp";
 import RequestOtp from "./requestOtp";
 import ValidateOtp from "./validateOtp";
 import SettlementAccount from "./scene/settlementAccount";
+import Settlements from "./scene/settlement";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -85,7 +85,7 @@ function App() {
               </Route>
               <Route path="/transaction" element={<Transaction />} />
               <Route path="/merchant" element={<Merchant />} />
-              <Route path="/country" element={<Country />} />
+              <Route path="/settlement" element={<Settlements />} />
 
               <Route path="/name" element={<Name />} />
               <Route path="/userAdmin" element={<UserAdmin />} />

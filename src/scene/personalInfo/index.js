@@ -1,16 +1,46 @@
 import React,{useState} from "react";
 import api from "../../api";
+import { enqueueSnackbar } from "notistack";
+import { useQuery } from "@tanstack/react-query";
+import Modal from "../../components/Modal";
 
 const PersonalInfo = () => {
  
+  const getMerchantProfilenQuery = useQuery(
+    ["getMerchantProfile"],
+    () => getMerchantProfile(),
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: "always",
+    }
+  );
 
+  // function clearForm() {
+  //   setBankCode("");
+  //   setBankName(" ");
+  //   setBankSortCode("");
+  //   setCountryId("");
+  //   setSwiftCode("");
+  //   setIbanCode("");
+  // }
+
+  async function getMerchantProfile() {
+    try {
+      const response = await api.getMerchantProfile();
+      console.log("merchant profile", response);
+      // console.log(merchantData);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
   return (
     <div>
-      <div className="p-[40px] h-screen ">
+      <div className="p-[40px] ">
         <h2 className="text-[24px] text-dark font-bold mb-[48px]">Personal Information</h2>
         <div className="flex flex-row items-center mb-[40px] ">
-          <div className="border border-dark-blue rounded-full p-1 mr-2 lg:p-2 lg:mr-4">
-            <img src="../profile-pic.png" alt="" className=" h-[30px] md:h-[48px]  lg:h-[78px]" />
+          <div className="border  w-[30px] md:w-[48px]  lg:w-[78px]  h-[30px] md:h-[48px]  lg:h-[78px] bg-grey-600 border-dark-blue rounded-full p-1 mr-2 lg:p-2 lg:mr-4">
+            {/* <img src="../profile-pic.png" alt="" className=" h-[30px] md:h-[48px]  lg:h-[78px]" /> */}
           </div>
           <button className="py-[7px] px-[12px]   lg:py-[11px] lg:px-[20px] bg-dark-blue text-[#fafafa] text-[12px] font-bold mr-3 rounded-lg">
             Upload new picture
@@ -19,7 +49,67 @@ const PersonalInfo = () => {
             Delete
           </button>
         </div>
-        <form action="" className="">
+
+        {getMerchantProfilenQuery.data && (
+          <table>
+            <tr className="my-2">
+              <th className="text-grey-600 font-bold text-left ">
+                First Name
+              </th>
+              <td className="py-6 md:pl-3 text-gray-600">
+                <p className="md:px-10 ">
+                  {getMerchantProfilenQuery.data?.data?.user?.firstName}
+                </p>
+              </td>
+            </tr>
+            <tr className="my-2">
+              <th className="text-grey-600 font-bold text-left ">
+                Last Name
+              </th>
+              <td className="py-6 md:pl-3 text-gray-600">
+                <p className="md:px-10 ">
+                  {getMerchantProfilenQuery.data?.data?.user?.lastName}
+                </p>
+              </td>
+            </tr>
+            <tr className="my-2">
+              <th className="text-grey-600 font-bold text-left ">Email</th>
+              <td className="py-6 md:pl-3 text-gray-600">
+                <p className="md:px-10 ">
+                  {getMerchantProfilenQuery.data?.data?.user?.email}
+                </p>
+              </td>
+            </tr>
+            <tr className="my-2">
+              <th className="text-grey-600 font-bold text-left ">
+                Phone Number
+              </th>
+              <td className="py-6 md:pl-3 text-gray-600">
+                <p className="md:px-10 ">
+                  {getMerchantProfilenQuery.data?.data?.user?.phoneNumber}
+                </p>
+              </td>
+            </tr>
+            {/* <tr className="my-2">
+              <th className="text-grey-600 font-bold "></th>
+              <td className="py-6 md:pl-3 text-grey-600 text-right">
+                <button
+                  onClick={() =>
+                    handleUpdateModalOpen(
+                      getMerchantProfilenQuery.data?.data?.userId
+                    )
+                  }
+                  className="bg-[blue] text-[white] px-4 py-2 rounded-lg shadow "
+                >
+                  Edit
+                </button>
+               
+              </td>
+            </tr> */}
+          </table>
+        )}
+
+        {/* <form action="" className="">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 items-center mb-[28px] gap-[24px] ">
             <div className="flex flex-col">
               <label
@@ -77,7 +167,7 @@ const PersonalInfo = () => {
             </div>
           </div>
           <button type="submit" className="mb-4 absolute right-0 bottom-0 py-[11px] px-[20px] bg-dark-blue text-[#fafafa] text-[12px] font-bold rounded-lg">Save Details</button>
-        </form>
+        </form> */}
 
         
       </div>

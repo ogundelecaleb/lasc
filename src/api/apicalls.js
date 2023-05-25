@@ -10,22 +10,52 @@ import {
   CREATEACCESS,
   SETPIN,
   GETPROFILE,
+  GETSETTLEMENTACCOUNT
 } from "../utils/config";
 import { apiGet, apiGetCSV, apiPost, apiPut } from "../utils/utils";
 
 // Merchant Profile
 export function createProfile(data) {
-  return apiPost(CREATEPROFILE, data);
+  return apiPut(CREATEPROFILE, data);
 }
 export function createTransactionAccess(data) {
   return apiPut(CREATEACCESS, data);
 }
-// export function getClients(data = null) {
-//   return apiGet(ALLCLIENTS, data);
-// }
-// export function activateClient(data) {
-//   return apiPut(ACTIVATECLIENT, data);
-// }
+export function getMerchantProfile(data = null) {
+  return apiGet(GETPROFILE, data);
+}
+export function createPin(data) {
+  return apiPost(SETPIN, data);
+}
+
+//settlement
+export function exportSettlement(data) {
+  return apiGetCSV(EXPORTSETTLEMENT, data);
+}
+export function getSettlement(data = null) {
+  return apiGet(GETSETTLEMENTRECORD, data);
+}
+
+
+//transaction
+export function exportTransaction(data) {
+  return apiGetCSV(EXPORTTRANSACTION, data);
+}
+export function getTransaction(data = null) {
+  return apiGet(TRANSACTION, data);
+}
+
+//settle account
+export function createSettlementAcct(data) {
+  return apiPost(CREATESETTLEMENTACCT, data);
+}
+export function updateSettlementAcct(data) {
+  return apiPut(UPDATESETTLEMENTACCT, data);
+}
+export function getSettlementAcct(data = null) {
+  return apiGet(GETSETTLEMENTACCOUNT, data);
+}
+
 
 // export const CREATEPROFILE = getApiUrl("/merchant/update");
 // export const GETPROFILE = getApiUrl("/merchant/profile");

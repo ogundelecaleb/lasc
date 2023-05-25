@@ -83,11 +83,11 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
           Dashboard
         </Link>
 
-        {/* My wallets */}
+        {/* My settlements */}
         <Link
-          to="/wallet"
+          to="/settlement"
           className={`mx-[24px] py-[13px] px-[16px]  flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-end mb-[12px] ${
-            window.location.pathname === "/wallet"
+            window.location.pathname === "/settlement"
               ? "bg-[#124072] text-[white] rounded-xl"
               : "text-[#718096]"
           }`}
@@ -136,10 +136,10 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
               stroke-linejoin="round"
             />
           </svg>
-          My Wallets
+          Settlements
         </Link>
 
-{/* transaction */}
+        {/* transaction */}
         <Link
           to="/transaction"
           className={`mx-[24px] py-[13px] px-[16px]  flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-end mb-[12px] ${
@@ -168,7 +168,6 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
           Transaction
         </Link>
 
-        
         {/* Users */}
         <button
           onClick={() => setOpenUsers(!openUsers)}
@@ -181,7 +180,7 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
               : "text-[#718096]"
           }`}
         >
-                   <svg
+          <svg
             className="mr-[12px]"
             width="20"
             height="20"
@@ -234,102 +233,15 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
         )}
         {/* end user menu */}
 
-
-        {/* wallet management */}
-        <button
-          onClick={() => setOpenWallet(!openWallet)}
-          // to="/dashboard"
-          className={`mx-[24px] py-[13px] px-[16px]  flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-end  mb-[12px] ${
-            window.location.pathname === "/country" ||
-            window.location.pathname === "/bank" ||
-            window.location.pathname === "/currency"
-              ? "bg-[#124072] text-[white] rounded-xl"
-              : "text-[#718096]"
-          }`}
-        >
-                   <svg
-            class="mr-[12px]"
-            width="22"
-            height="23"
-            viewBox="0 0 22 23"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M8.25004 10.5833C10.2751 10.5833 11.9167 8.94171 11.9167 6.91667C11.9167 4.89162 10.2751 3.25 8.25004 3.25C6.225 3.25 4.58337 4.89162 4.58337 6.91667C4.58337 8.94171 6.225 10.5833 8.25004 10.5833Z"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M2.75 19.75V17.9167C2.75 16.9442 3.13631 16.0116 3.82394 15.3239C4.51158 14.6363 5.44421 14.25 6.41667 14.25H10.0833C11.0558 14.25 11.9884 14.6363 12.6761 15.3239C13.3637 16.0116 13.75 16.9442 13.75 17.9167V19.75"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M14.6666 3.36917C15.4553 3.57111 16.1544 4.02981 16.6536 4.67296C17.1528 5.3161 17.4238 6.1071 17.4238 6.92125C17.4238 7.73541 17.1528 8.52641 16.6536 9.16955C16.1544 9.81269 15.4553 10.2714 14.6666 10.4733"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M19.25 19.75V17.9167C19.2453 17.1074 18.9731 16.3224 18.4757 15.684C17.9782 15.0457 17.2836 14.5898 16.5 14.3875"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          Supported Services
-        </button>
-        {openWallet && (
-          <div className={`ml-[50px] mb-3 `}>
-            <div className="border-l border-[#E2E8F0]">
-              <Link
-                to="country"
-                className={` px-[16px]  flex tracking-[0.2px] text-[14px] leading-[21px]  mb-[12px] ${
-                  window.location.pathname === "/country"
-                    ? " text-[#124072] font-extrabold  "
-                    : "text-[#718096] font-medium "
-                }`}
-              >
-                Country
-              </Link>
-              <Link
-                to="/bank"
-                className={` px-[16px]  flex tracking-[0.2px] text-[14px] leading-[21px]  mb-[12px] ${
-                  window.location.pathname === "/bank"
-                    ? " text-[#124072] font-extrabold"
-                    : "text-[#718096] font-medium"
-                }`}
-              >
-                Bank
-              </Link>
-              <Link
-                to="/currency"
-                className={` px-[16px]  flex tracking-[0.2px] text-[14px] leading-[21px]  mb-[12px] ${
-                  window.location.pathname === "/currency"
-                    ? " text-[#124072] font-extrabold"
-                    : "text-[#718096] font-medium"
-                }`}
-              >
-                Currency
-              </Link>
-            </div>
-          </div>
-        )}
-        {/*supported service end */}
-
+       
+       
 
         {/* configuration switch */}
         <div
           onClick={() => setOpenVendor(!openVendor)}
           className={`mx-[24px] py-[13px] px-[16px]  flex tracking-[0.2px] font-medium text-[14px] leading-[21px] cursor-pointer items-end mb-[12px] ${
-            window.location.pathname === "/name" || window.location.pathname === "/isActive" ||
+            window.location.pathname === "/name" ||
+            window.location.pathname === "/isActive" ||
             window.location.pathname === "/channel"
               ? "bg-[#124072] text-[white] rounded-xl"
               : "text-[#718096]"
@@ -427,8 +339,6 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
           </div>
         )}
         {/*  configuration switch end  */}
-
-
       </div>
     </div>
   );

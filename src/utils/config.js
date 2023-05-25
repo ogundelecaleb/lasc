@@ -11,11 +11,16 @@ export const SETPIN= getApiUrl('/merchant/setpin');
 export const CREATEACCESS = getApiUrl('/merchant/access');
 export const GETSETTLEMENTRECORD = getApiUrl('/settlement/getall');
 export const EXPORTSETTLEMENT = getApiUrl('/settlement/export');
-export const CREATESETTLEMENTACCT = getApiUrl('/merchant/create');
-export const UPDATESETTLEMENTACCT = getApiUrl('/merchant/create');
+export const CREATESETTLEMENTACCT = getApiUrl('/settlementAccount/create');
+export const UPDATESETTLEMENTACCT = getApiUrl('/settlementAccount/update');
+export const GETSETTLEMENTACCOUNT = getApiUrl('/settlementAccount/getall');
 export const TRANSACTION = getApiUrl('/transaction/getall');
 export const EXPORTTRANSACTION = getApiUrl('/transaction/export');
 export const ADDUSER= getApiUrl('/usermanagement/adduser');
+
+export const GENERATEKEY = getApiUrl('/transaction/getall');
+export const GETALLKEYS = getApiUrl('/transaction/export');
+
 
 
 
