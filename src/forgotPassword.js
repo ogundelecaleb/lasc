@@ -19,7 +19,7 @@ const ForgotPassword = () => {
       enqueueSnackbar("OTP has been sent to your mail", { variant: "success" });
 
       // setUserData(response);
-      localStorage.setItem("sessionId", response.data);
+      localStorage.setItem("sessionId", response.data?.sessionHash);
       setIsLoading(false);
       navigate("/newpass");
     } catch (error) {

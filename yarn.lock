@@ -4707,7 +4707,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-fflate@^0.4.8:
+fflate@^0.4.1, fflate@^0.4.8:
   version "0.4.8"
   resolved "https://registry.npmjs.org/fflate/-/fflate-0.4.8.tgz"
   integrity sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==
@@ -7782,6 +7782,13 @@ postcss@^7.0.35:
   dependencies:
     picocolors "^0.2.1"
     source-map "^0.6.1"
+
+posthog-js@^1.68.3:
+  version "1.68.3"
+  resolved "https://registry.npmjs.org/posthog-js/-/posthog-js-1.68.3.tgz"
+  integrity sha512-bgDwVJDQdEwjptaf4L8obmjt3JQ4kZfqCYll009Q1pI06hPd0M4R50sphjWXRm9VG4EhpGFDjb+GccRw2yVreA==
+  dependencies:
+    fflate "^0.4.1"
 
 prelude-ls@^1.2.1:
   version "1.2.1"

@@ -9,15 +9,18 @@ import { useEffect } from "react";
 const BusinessProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [keyloading, setKeyLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [businessName, setBusinessName] = useState("");
   const [merchantFullName, setMerchantFullName] = useState("");
   const [industryType, setIndustryType] = useState("");
   const [bvn, setBvn] = useState("");
-  const [pin, setPin] = useState("")
-  const [businessAddress, setBusinessAddress] = useState("");
+  const [pin, setPin] = useState("");
+  const [businessAddresss, setBusinessAddresss] = useState("");
   const [defaultCurrency, setDefualtCurrency] = useState("");
   const [merchantData, setMerchantData] = useState("");
+  const [publicCopySuccess, setPublicCopySuccess] = useState("");
+  const [publicKey, setPublicKey] = useState("");
 
   const handleUpdateModalOpen = (id) => {
     setMerchantData(id);
@@ -27,31 +30,6 @@ const BusinessProfile = () => {
   const handleUpdateModalClose = () => {
     setIsOpen(false);
   };
- 
-
-  async function createPin(e) {
-    e.preventDefault();
-
-    setLoading(true);
-    try {
-      const response = await api.createPin({
-        defaultCurrency: defaultCurrency,
-      });
-      console.log("res of setPin==>>>>>", response);
-      enqueueSnackbar("Pin Created Successfully 😃", {
-        variant: "success",
-      });
-      setLoading(false);
-      // refetch();
-      // handleModalClose();
-      // clearForm();
-    } catch (error) {
-      console.log(error);
-      enqueueSnackbar(error.message, { variant: "error" });
-      setLoading(false);
-    }
-  }
-
 
   async function createTransactionAccess(e) {
     e.preventDefault();
@@ -62,7 +40,7 @@ const BusinessProfile = () => {
         defaultCurrency: defaultCurrency,
       });
       console.log("res of transactionAcess==>>>>>", response);
-      enqueueSnackbar("Default Currency Created Successfully 😃", {
+      enqueueSnackbar("Default Currency Created Successfully", {
         variant: "success",
       });
       setLoading(false);
@@ -122,11 +100,11 @@ const BusinessProfile = () => {
     setUpdateLoading(true);
     try {
       const response = await api.createProfile({
-        industryType,
+        // industryType,
         bvn,
-        merchantFullName,
+        // merchantFullName,
         businessName,
-        businessAddress,
+        businessAddresss,
         id: merchantData,
       });
       console.log("res of vendors==>>>>>", response);
@@ -148,65 +126,21 @@ const BusinessProfile = () => {
   return (
     <div>
       {" "}
-      <div className="px-[40px] py-[20px] overflow-hidden ">
-        <h2 className="text-[24px] text-dark font-bold mb-[32px]">
-          Merchant Details
-        </h2>
-        <h2 className="text-[16px] text-grey-600 font-bold mb-3">
-          Set Default Currency
-        </h2>
-        <div className="flex items-center gap-3">
-          <select
-            type="text"
-            className="block w-full   px-4 py-[9px] placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
-            autofocus
-            required
-            value={defaultCurrency}
-            onChange={(e) => setDefualtCurrency(e.target.value)}
-          >
-            <option value="">Select Currency </option>
-            <option value="NGN">Naira</option>
-            <option value="$">Dollar</option>
-          </select>
-
-          <button
-            onClick={handleSubmit}
-            className="bg-[blue] flex text-[white] px-4 py-2 rounded-lg shadow "
-          >
-            Save{" "}
-            {loading && (
-              <svg
-                className="ml-4 w-6 h-6 text-[white] animate-spin"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-            )}
-          </button>
+      <div className="px-[40px] py-[20px] ">
+        <div className="w-full pb-1 mb-[28px] border-b border-b-grey-600">
+          <h2 className="text-[24px] text-dark font-bold">
+            Bussiness Details
+          </h2>
         </div>
 
         {getMerchantProfilenQuery.data && (
           <table>
-            <tr className="my-2">
+            <tr className="my-2 rounded-xl ">
               <th className="text-grey-600 font-bold text-left ">
                 Business Name:
               </th>
-              <td className="py-6 md:pl-3 text-gray-600">
-                <p className="md:px-10 ">
+              <td className="py-3 w-full md:w-[65%] lg:w-[72%]">
+                <p className="py-3 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
                   {getMerchantProfilenQuery.data?.data?.businessName}
                 </p>
               </td>
@@ -215,30 +149,29 @@ const BusinessProfile = () => {
               <th className="text-grey-600 font-bold text-left ">
                 Business Address:
               </th>
-              <td className="py-6 md:pl-3 text-gray-600">
-                <p className="md:px-10 ">
+              <td className="py-3 w-full md:w-[65%] lg:w-[72%]">
+                <p className="py-3 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
                   {getMerchantProfilenQuery.data?.data?.businessAddresss}
                 </p>
               </td>
             </tr>
             <tr className="my-2">
               <th className="text-grey-600 font-bold text-left ">BVN:</th>
-              <td className="py-6 md:pl-3 text-gray-600">
-                <p className="md:px-10 ">
-                  {getMerchantProfilenQuery.data?.data?.bvn}
-                </p>
+              <td className="py-3 w-full md:w-[65%] lg:w-[72%]">
+                <p className="py-3 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
+                  {getMerchantProfilenQuery.data?.data?.bvn}</p>
               </td>
             </tr>
-            <tr className="my-2">
+            {/* <tr className="space-y-9">
               <th className="text-grey-600 font-bold text-left ">
                 Industry Type:
               </th>
-              <td className="py-6 md:pl-3 text-gray-600">
-                <p className="md:px-10 ">
+              <td className="py-3 w-full md:w-[65%] lg:w-[72%]">
+                <p className="py-3 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
                   {getMerchantProfilenQuery.data?.data?.industryType}
                 </p>
               </td>
-            </tr>
+            </tr> */}
             <tr className="my-2">
               <th className="text-grey-600 font-bold "></th>
               <td className="py-6 md:pl-3 text-grey-600 text-right">
@@ -248,7 +181,7 @@ const BusinessProfile = () => {
                       getMerchantProfilenQuery.data?.data?.userId
                     )
                   }
-                  className="bg-[blue] text-[white] px-4 py-2 rounded-lg shadow "
+                  className="py-[7px] px-[12px]   lg:py-[11px] lg:px-[20px] bg-dark-blue text-[#fafafa] text-[12px] font-bold mr-3 rounded-lg "
                 >
                   Edit
                 </button>
@@ -258,7 +191,6 @@ const BusinessProfile = () => {
           </table>
         )}
       </div>
-     
       <Modal isOpen={isOpen} onClose={handleUpdateModalClose}>
         <div className="inline-block overflow-hidden text-left align-bottom transition-all transform bg-[white] rounded-2xl shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           <div className="mt-6 flex justify-between mx-5">
@@ -295,7 +227,7 @@ const BusinessProfile = () => {
               <div className="overflow-hidden shadow sm:rounded-md">
                 <div className="px-4 py-5 bg-white sm:p-6">
                   <div className="grid grid-cols-6 gap-6 pt-4">
-                    <div className="col-span-12 sm:col-span-6 ">
+                    {/* <div className="col-span-12 sm:col-span-6 ">
                       <p className="text-[#718096] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]">
                         Full Name
                       </p>
@@ -308,7 +240,7 @@ const BusinessProfile = () => {
                         value={merchantFullName}
                         onChange={(e) => setMerchantFullName(e.target.value)}
                       />
-                    </div>
+                    </div> */}
                     <div className="col-span-12 sm:col-span-6 ">
                       <p
                         // htmlFor="firstName"
@@ -336,8 +268,8 @@ const BusinessProfile = () => {
                         placeholder="business address"
                         autofocus
                         required
-                        value={businessAddress}
-                        onChange={(e) => setBusinessAddress(e.target.value)}
+                        value={businessAddresss}
+                        onChange={(e) => setBusinessAddresss(e.target.value)}
                       />
                     </div>
 
@@ -356,7 +288,7 @@ const BusinessProfile = () => {
                       />
                     </div>
 
-                    <div className="col-span-12 sm:col-span-6 ">
+                    {/* <div className="col-span-12 sm:col-span-6 ">
                       <p className="text-[#718096] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]">
                         Industry Type
                       </p>
@@ -369,7 +301,7 @@ const BusinessProfile = () => {
                         value={industryType}
                         onChange={(e) => setIndustryType(e.target.value)}
                       />
-                    </div>
+                    </div> */}
 
                     <div className="col-span-12 sm:col-span-6 mb- mt-6">
                       <button

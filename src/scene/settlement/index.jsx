@@ -9,6 +9,7 @@ import { NumericFormat } from "react-number-format";
 
 const Settlements = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -20,7 +21,7 @@ const Settlements = () => {
   const [endDate, setEndDate] = useState("");
   const [displaySearch, setDisplaySearch] = useState(false);
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
-  const [isCostumInvoiceOpen, setIsCostumInvoiceOpen] = useState(false);
+  const [currency, setCurrency] = useState("");
   const [transactionData, setTransactionData] = useState([]);
 
   const handleTransacModalOpen = (electricity) => {
@@ -73,11 +74,9 @@ const Settlements = () => {
     const response = await api.getSettlement({
       params: {
         PageIndex: currentPage,
-        // Biller: biller,
-        // ReferenceNumber: referenceNumber,
-        // Status: status,
-        // StartDate: startDate,
-        // EndDate: endDate,
+        currency: currency,
+                StartDate: startDate,
+        EndDate: endDate,
       },
     });
     console.log("settlement", response);
@@ -86,21 +85,18 @@ const Settlements = () => {
   const { isLoading, isError, data, error, isPreviousData, refetch } = useQuery(
     [
       "electricity",
-      // currentPage,
-      // biller,
-      // referenceNumber,
-      // status,
-      // startDate,
-      // endDate,
+      currency,
+      startDate,
+      endDate,
     ],
     () =>
       getSettlement(),
       // currentPage,
-      // biller,
+      currency,
       // referenceNumber,
       // status,
-      // startDate,
-      // endDate
+      startDate,
+      endDate,
     {
       keepPreviousData: true,
       refetchOnWindowFocus: "always",
@@ -236,16 +232,15 @@ const Settlements = () => {
                   className="w-full py-2 pl-3 pr-4 text-[#A0AEC0] leading-[21px] tracking-[0.2px] text-[14px] border border-[#E2E8F0] rounded-xl  focus:border-gray-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
                   autofocus
                   required
-                  placeholder="status"
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
+                  placeholder=""
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
                 >
-                  <option value="">All Status</option>
+                  <option value="">All currency</option>
 
-                  <option value={"Success"}>Success</option>
-                  <option value={"Failed"}>Failed</option>
-                  <option value={"Initiated"}>Initiated</option>
-                  <option value={"Processing"}>Processing</option>
+                  <option value={"NGN"}>Naira</option>
+                  <option value={"USD"}>Dollar</option>
+                 
                 </select>
               </div>
               <div className="relative py-4   w-full mx-6 ">
@@ -276,31 +271,29 @@ const Settlements = () => {
 
       <div className="flex flex-col break-words overflow-x-auto bg-white  mb-6">
         <table className="min-w-full mb-6">
-          <thead>
+        <thead>
             <tr className="mb-2">
               <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Bussiness Name
-              </th>
-
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Bank Account
+                Merchant Name
               </th>
 
               <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                 Amount
               </th>
               <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Currency
+                Account Name
               </th>
-              
+              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                Bank Account
+              </th>
               <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                 Status
               </th>
               <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Date Created
+                Date
               </th>
               <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Actions
+                Action
               </th>
             </tr>
           </thead>
@@ -320,11 +313,10 @@ const Settlements = () => {
               data?.data?.results?.map((result) => (
                 <tr key={result.id} className="mb-2">
                   <td className=" py-[24px] pr-3 border-t border-[#EDF2F7]  lg:flex items-center text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    {/* {result.biller && result.biller.code} */}
+                  {result?.merchant?.bussinessName}
                   </td>
-
                   <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    {/* <NumericFormat
+                    <NumericFormat
                       value={result.amount}
                       displayType={"text"}
                       thousandSeparator={true}
@@ -332,77 +324,43 @@ const Settlements = () => {
                       decimalScale={2}
                       fixedDecimalScale={true}
                       renderText={(value) => <p>{value}</p>}
-                    /> */}
-                  </td>
-
-                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    {/* {result.meterNumber} */}
+                    />
                   </td>
                   <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    {/* {result.meterType} */}
-                  </td>
-
-                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    {/* {result.units} */}
+                    {result.paymentReference}
                   </td>
                   <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    {/* {result.status === "Success" ? (
-                      <button class="bg-[#F6FDF9] rounded-lg text-[#22C55E] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
-                        {result.status}
+                    {result.bankAccountNumber}
+                  </td>
+                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                    {result.status ==="Success" ? (
+                      <button class="bg-[#F6FDF9] flex rounded-lg text-[#22C55E] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
+                      Success
                       </button>
                     ) : (
-                      <button class="bg-[#FFF7F5] rounded-lg text-[#FF784B] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
-                        {result.status}
+                      <button class="bg-[#FFF7F5] flex rounded-lg text-[#FF784B] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
+                       Pending
                       </button>
-                    )} */}
+                    )}
                   </td>
                   <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
                     <div className="">
-                      {/* <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1">
-                        {result.createdDate && formatDate(result.createdDate)}
+                      <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1">
+                        {formatDate(result.createdDate)}
                       </p>
                       <p className="text-[14px] leading-[21px] tracking-[0.2px] text-[#718096] font-medium text-left">
-                        {result.createdDate && "at"}
-                        {result.createdDate && formatTime(result.createdDate)}
-                      </p> */}
+                        at {formatTime(result.createdDate)}
+                      </p>
                     </div>
                   </td>
+
                   <td className=" py-[24px] border-t border-[#EDF2F7]  ">
                     <div>
                       <button
-                        onClick={() => handleTransacModalOpen(result)}
-                        className="h-8 w-8 border border-[#E2E8F0] hover:bg-[#CBD5E0] px-[6px] py-[6px] rounded-[8px] "
+                        // onClick={() => handleTransacModalOpen(result)}
+                        className=" text-sm border border-[#E2E8F0] hover:bg-[#CBD5E0] px-[6px] py-[6px] rounded-[8px] "
                       >
-                        <svg
-                          className="hover:text-[white]"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M10.8337 10.0002C10.8337 9.53993 10.4606 9.16683 10.0003 9.16683C9.54009 9.16683 9.16699 9.53993 9.16699 10.0002C9.16699 10.4604 9.54009 10.8335 10.0003 10.8335C10.4606 10.8335 10.8337 10.4604 10.8337 10.0002Z"
-                            stroke="#718096"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                          <path
-                            d="M16.6667 10.0002C16.6667 9.53993 16.2936 9.16683 15.8333 9.16683C15.3731 9.16683 15 9.53993 15 10.0002C15 10.4604 15.3731 10.8335 15.8333 10.8335C16.2936 10.8335 16.6667 10.4604 16.6667 10.0002Z"
-                            stroke="#718096"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                          <path
-                            d="M5.00016 10.0002C5.00016 9.53993 4.62707 9.16683 4.16683 9.16683C3.70659 9.16683 3.3335 9.53993 3.3335 10.0002C3.3335 10.4604 3.70659 10.8335 4.16683 10.8335C4.62707 10.8335 5.00016 10.4604 5.00016 10.0002Z"
-                            stroke="#718096"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </svg>
+                        Details
                       </button>
                     </div>
                   </td>

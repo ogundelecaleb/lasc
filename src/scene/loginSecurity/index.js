@@ -11,7 +11,7 @@ const LoginSecurity = () => {
   const [newPassword, setNewPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isLoading, setIsLoading] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -53,7 +53,7 @@ const LoginSecurity = () => {
   async function changePassword(e) {
     e.preventDefault();
 
-    setIsLoading(true);
+    setLoading(true);
     try {
       const response = await api.changePassword({
         newPassword,
@@ -61,14 +61,14 @@ const LoginSecurity = () => {
         confirmPassword,
       });
       console.log("res of password change==>>>>>", response);
-      enqueueSnackbar(response.message, { variant: "success" });
+      enqueueSnackbar("Password changed successfully", { variant: "success" });
 
-      setIsLoading(false);
+      setLoading(false);
     } catch (error) {
       console.log(error);
       enqueueSnackbar(error.message, { variant: "error" });
-      // toast.error(error.message)
-      setIsLoading(false);
+     
+      setLoading(false);
     }
   }
 
@@ -87,22 +87,22 @@ const LoginSecurity = () => {
   return (
     <div>
       {" "}
-      <div className="p-[40px] h-screen ">
+      <div className="p-[40px] ">
         <h2 className="text-[24px] text-dark font-bold mb-[48px]">
-          Login Security
+          Change Password
         </h2>
         <form action="" className="">
-          <div className="flex flex-col items-center mb-[28px] gap-[24px]">
+          <div className="flex flex-col mb-[28px] gap-[24px]">
             <div className="flex flex-col">
               <label
                 htmlFor=""
-                className="text-grey-600 text-[14px] mb-[6px] font-bold tracking-[50%] b"
+                className="text-grey-600 text-[14px] mb-[6px] font-bold tracking-[50%] "
               >
                 Enter Old Password
                 <div className="relative">
                   <input
                     type={open === false ? "password" : "text"}
-                    className="border px-[16px] py-[9px] rounded-[10px] mb-[16px] max-w-[360px]"
+                    className="border px-[16px] py-[9px] rounded-[10px] mb-[16px] w-full "
                     placeholder="password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
@@ -115,23 +115,19 @@ const LoginSecurity = () => {
                     )}
                   </div>
                 </div>
-              </label>{" "}
-              {/* <input
-                type="password"
-                className="border px-[16px] py-[9px] rounded-[10px] mb-[16px] inline-block w-[360px]"
-                placeholder="Emmanuel"
-              /> */}
+              </label>
+
             </div>
             <div className="flex flex-col">
               <label
                 htmlFor=""
-                className="text-grey-600 text-[14px] mb-[6px] font-bold tracking-[50%]"
+                className="text-grey-600 text-[14px]  font-bold tracking-[50%]"
               >
                 Enter New Password
                 <div className="relative">
                   <input
                     type={open1 === false ? "password" : "text"}
-                    className="border px-[16px] py-[9px] rounded-[10px] mb-[16px] max-w-[360px]"
+                    className="border px-[16px] py-[9px] rounded-[10px]  w-full "
                     placeholder="password"
                     value={newPassword}
                     onChange={handlePassword}
@@ -144,23 +140,20 @@ const LoginSecurity = () => {
                       <AiFillEyeInvisible onClick={toggle1} />
                     )}
                   </div>
-                  <p
+                </div>
+               
+              </label>
+              <p
                     className={` ${
                       errorMessage === "Password is strong!"
                         ? "text-[green]"
                         : "text-[red]"
-                    }  pt-2 pl-1 text-left text-xs`}
+                    }  pt-2 pl-1 text-left text-xs font-bold`}
                   >
                     {" "}
                     {errorMessage}
                   </p>
-                </div>
-              </label>
-              {/* <input
-                type="password"
-                className="border px-[16px] py-[9px] rounded-[10px] mb-[16px] w-[360px]"
-                placeholder="Okolie"
-              /> */}
+
             </div>
             <div className="flex flex-col">
               <label
@@ -171,7 +164,7 @@ const LoginSecurity = () => {
                 <div className="relative">
                   <input
                     type={open2 === false ? "password" : "text"}
-                    className="border px-[16px] py-[9px] rounded-[10px] mb-[16px] max-w-[360px]"
+                    className="border px-[16px] py-[9px] rounded-[10px] w-full "
                     placeholder="password"
                     value={confirmPassword}
                     onChange={handleConfirmPassword}
@@ -184,7 +177,9 @@ const LoginSecurity = () => {
                       <AiFillEyeInvisible onClick={toggle2} />
                     )}
                   </div>
-                  <p
+                
+                </div>
+                <p
                     className={` ${
                       confirmPasswordError === "Password match!"
                         ? "text-[green]"
@@ -194,16 +189,36 @@ const LoginSecurity = () => {
                     {" "}
                     {confirmPasswordError}
                   </p>
-                </div>
               </label>
             </div>
           </div>
           <button
             type="submit"
             onClick={changePassword}
-            className="mb-4 absolute right-0 bottom-0 py-[11px] px-[20px] bg-dark-blue text-[#fafafa] text-[12px] font-bold rounded-lg"
+            className=" py-[11px] px-[20px] flex items-center bg-dark-blue text-[#fafafa] text-[12px] font-bold rounded-lg"
           >
-            Save New Password
+            Save New Password  {loading && (
+                          <svg
+                            className="ml-4 w-6 h-6 text-[white] animate-spin"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              stroke-width="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                        )}
           </button>
         </form>
       </div>

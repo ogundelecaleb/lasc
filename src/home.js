@@ -3,16 +3,17 @@ import Topbar from "./scene/global/Topbar";
 import Sidebar from "./scene/global/Sidebar";
 import { Navigate, Outlet, redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import posthog from "posthog-js"; // new
+import CookieBanner from "./components/cookieBanner";
 
 const Home = () => {
-
   const [isSidebar, setIsSidebar] = useState(true);
-  let userData = localStorage.getItem('userData');
+  let userData = localStorage.getItem("userData");
   // console.log(userData)
-  console.log(userData)
+  console.log(userData);
 
   function isTokenExpired(token) {
-    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    const decodedToken = JSON.parse(atob(token.split(".")[1]));
     const expirationDate = new Date(decodedToken.exp * 1000);
     return expirationDate < new Date();
   }
@@ -22,7 +23,7 @@ const Home = () => {
   userData = JSON.parse(userData);
 
   var decoded = jwtDecode(userData?.data?.accessToken);
-  console.log("decoded", decoded)
+  console.log("decoded", decoded);
   const handleSideBarClose = () => {
     setIsSidebar(false);
   };
@@ -35,7 +36,15 @@ const Home = () => {
       <main className="bg-[white] w-full overflow-x-hidden">
         <Topbar setIsSidebar={toggleSidebar} userData={decoded} />
 
-        <Outlet />
+        <Outlet context={[decoded]}/>
+
+        <div className="absolute top-4 right-3">
+          {" "}
+          {posthog.has_opted_out_capturing() || // new
+          posthog.has_opted_in_capturing() ? null : (
+            <CookieBanner />
+          )}
+        </div>
       </main>
     </div>
   );

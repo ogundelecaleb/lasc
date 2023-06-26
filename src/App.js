@@ -1,10 +1,8 @@
 // import { useState } from "react";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import Dashboard from "./scene/dashboard";
-
 import Transaction from "./scene/transaction";
 import Merchant from "./scene/merchant";
-
 import Login from "./login";
 import ForgotPassword from "./forgotPassword";
 import Otp from "./validateOtp";
@@ -31,6 +29,9 @@ import RequestOtp from "./requestOtp";
 import ValidateOtp from "./validateOtp";
 import SettlementAccount from "./scene/settlementAccount";
 import Settlements from "./scene/settlement";
+import ApiKey from "./scene/apiKey";
+import CustomerSupport from "./scene/customerSupport";
+import FAQ from "./scene/faq";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -74,22 +75,23 @@ function App() {
                   path="/accountDetails/loginSecurity"
                   element={<LoginSecurity />}
                 />
-                 <Route
-                  path="/accountDetails/businessProfile"
-                  element={<BusinessProfile />}
-                />
-                 <Route
-                  path="/accountDetails/settlementAccount"
-                  element={<SettlementAccount />}
-                />
+
+                
               </Route>
               <Route path="/transaction" element={<Transaction />} />
               <Route path="/merchant" element={<Merchant />} />
               <Route path="/settlement" element={<Settlements />} />
-
+              <Route path="/businessProfile" element={<BusinessProfile />} />
+              <Route path="/apikey" element={<ApiKey />} />
               <Route path="/name" element={<Name />} />
               <Route path="/userAdmin" element={<UserAdmin />} />
+              <Route path="/customersupport" element={<CustomerSupport />} />
+              <Route path="/faq" element={<FAQ />} />
               <Route path="/wallet" element={<Wallet />} />
+              <Route
+                  path="/settlementAccount"
+                  element={<SettlementAccount />}
+                />
               <Route path="/currency" element={<Currency />} />
 
               <Route path="/bank" element={<Bank />} />

@@ -2,9 +2,19 @@ import React, { useState } from "react";
 import { NumericFormat } from "react-number-format";
 import Moment from "moment";
 import Modal from "../../components/Modal";
+import { useQuery } from "@tanstack/react-query";
+import api from "../../api";
+import { enqueueSnackbar } from "notistack";
 
 const Merchant = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const HandleModalOpen = () => {
     setIsOpen(true);
@@ -21,6 +31,52 @@ const Merchant = () => {
     return formattedDate;
   }
 
+  async function addUser(e) {
+    e.preventDefault();
+
+    setLoading(true);
+    try {
+      const response = await api.addUser({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        role,
+      });
+      console.log("res of update==>>>>>", response);
+
+      enqueueSnackbar("New User Registered Successful 😃", {
+        variant: "success",
+      });
+      setLoading(false);
+      // refetch();
+      // handleAssignModalClose();
+    } catch (error) {
+      console.log(error);
+      enqueueSnackbar(error.message, { variant: "error" });
+      setLoading(false);
+    }
+  }
+
+  async function getUser(currentPage) {
+    const response = await api.getUser({
+      params: {
+        PageIndex: currentPage,
+      },
+    });
+    console.log("transactions", response);
+    return response;
+  }
+
+  const { isLoading, isError, data, error, isPreviousData, refetch } = useQuery(
+    ["transaction", currentPage],
+    () => getUser(currentPage),
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: "always",
+      // retry: true,
+    }
+  );
 
   return (
     <div className="mt-2  mx-6">
@@ -63,7 +119,7 @@ const Merchant = () => {
           />
         </div>
         <div className="flex items-center">
-          <button
+          {/* <button
             // onClick={handleDisplaySearch}
             className="px-4 py-4 border border-[#E2E8F0]  text-[#1A202C] text-[14px] leading-[21px] tracking-[0.2px] h-[48px] font-semibold rounded-xl flex items-center mr-4 "
           >
@@ -109,10 +165,10 @@ const Merchant = () => {
               />
             </svg>
             Filters
-          </button>
+          </button> */}
           <button
             onClick={HandleModalOpen}
-            className="px-6 py-2 bg-[#124072] w-full text-[white] text-[14px] h-[48px] leading-[21px] tracking-[0.2px] font-extrabold rounded-xl flex items-center mr-4 "
+            className="px-6 py-2 bg-[#124072]  text-[white] text-[14px] h-[48px] leading-[21px] tracking-[0.2px] font-extrabold rounded-xl flex items-center mr-4 "
           >
             <svg
               className="mr-1"
@@ -137,7 +193,7 @@ const Merchant = () => {
                 stroke-linejoin="round"
               />
             </svg>
-            Add New Merchant
+            Add New User
           </button>
         </div>
       </div>
@@ -230,113 +286,58 @@ const Merchant = () => {
                 Email
               </th>
               <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-               User Type
+                Phone Number
               </th>
 
               <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                 Status
               </th>
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Date Created
-              </th>
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-               Role
-              </th>
+              
             </tr>
           </thead>
           <tbody>
-            <tr className="mb-2">
-              <td className=" py-[24px] pr-3 border-t border-[#EDF2F7]  lg:flex items-center  ">
-                <div className="rounded-[1000px] h-12 w-12 px-3 py-3 bg-[#E8EDFF] lg:mr-3 mr-3 ">
-                  <svg
-                    width="20"
-                    height="21"
-                    viewBox="0 0 20 21"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M10 5.13336H18.3333"
-                      stroke="#171717"
-                      stroke-width="1.5"
-                      stroke-miterlimit="10"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M11.85 2.16669H16.4833C17.9667 2.16669 18.3333 2.53335 18.3333 4.00002V7.42502C18.3333 8.89169 17.9667 9.25835 16.4833 9.25835H11.85C10.3667 9.25835 10 8.89169 10 7.42502V4.00002C10 2.53335 10.3667 2.16669 11.85 2.16669Z"
-                      stroke="#171717"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M1.6665 14.7167H9.99984"
-                      stroke="#171717"
-                      stroke-width="1.5"
-                      stroke-miterlimit="10"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M3.5165 11.75H8.14984C9.63317 11.75 9.99984 12.1167 9.99984 13.5833V17.0083C9.99984 18.475 9.63317 18.8417 8.14984 18.8417H3.5165C2.03317 18.8417 1.6665 18.475 1.6665 17.0083V13.5833C1.6665 12.1167 2.03317 11.75 3.5165 11.75Z"
-                      stroke="#171717"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M18.3333 13C18.3333 16.225 15.725 18.8333 12.5 18.8333L13.375 17.375"
-                      stroke="#171717"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M1.6665 8.00002C1.6665 4.77502 4.27484 2.16669 7.49984 2.16669L6.62485 3.62502"
-                      stroke="#171717"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </div>
-                <div className="">
-                  <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1a202c] font-bold text-left mb-1">
-                    {" "}
-                    Shola David
-                  </p>
+            {isLoading && !isPreviousData && <div>Loading...</div>}
+            {!isLoading && data?.data?.results.length === 0 && (
+              <tr>
+                <td className="text-center" colspan="6">
+                  <img src="./nodata.gif" className="mx-auto mt-6 " alt="" />
+                  <h3 className="text-[30px] leading-[35px]  text-[#1A202C] font-extrabold mb-[6px]">
+                    No Data
+                  </h3>
+                </td>
+              </tr>
+            )}
+            {data &&
+              data?.data?.results?.map((result) => (
+                <tr key={result.id} className="mb-2">
+                  <td className=" py-[24px] pr-3 border-t border-[#EDF2F7]  lg:flex items-center  ">
+                    
+                    <div className="text-[18px] leading-[24px] tracking-[0.2px] text-[#3b434e] font-extrabold">{result.firstName}  {result.lastName}</div>
+                        
+                      
+                  </td>
+                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                    {result.email}
+                  </td>
+                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                    {result.phoneNumber}
+                  </td>
+                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                    {result.isActive === true ? (
+                      <button class="bg-[#F6FDF9] rounded-lg text-[#22C55E] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
+                        Active
+                      </button>
+                    ) : (
+                      <button class="bg-[#F6FDF9] rounded-lg text-[#FF784B] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
+                        Inactive
+                      </button>
+                    )}
+                  </td>
                   
-                </div>
-              </td>
-              <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-               sholadavid@gmail.com
-              </td>
-              <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-               Individual
-              </td>
-              <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                <button class="bg-[#F6FDF9] rounded-lg text-[#22C55E] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
-                 Active
-                </button>
-              </td>
-              <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                <div className="">
-                  <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1">
-                    {formatDate("2023-05-06")}
-                  </p>
-                  <p className="text-[14px] leading-[21px] tracking-[0.2px] text-[#718096] font-medium text-left">
-                    {/* at {formatTime(result.createdDate)} */}
-                  </p>
-                </div>
-              </td>
 
-              <td className=" py-[24px] border-t border-[#EDF2F7]  ">
-                <div>
-                  Admin
-                </div>
-              </td>
-            </tr>
+                 
+                </tr>
+              ))}
           </tbody>
         </table>
         {/* {data && data.data && data?.data?.results.length > 0 && (
@@ -402,12 +403,13 @@ const Merchant = () => {
           </div>
         )} */}
       </div>
-      {/* Create New Merchant Modal */}
+
+      {/* Create New Admin Modal */}
       <Modal isOpen={isOpen} onClose={HandleModalClose}>
         <div className="inline-block overflow-hidden text-left align-bottom transition-all transform bg-[white] rounded-2xl shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           <div className="mt-6 flex justify-between mx-5">
             <h3 className="text-[24px] leading-[31px]  text-[#1A202C] font-extrabold">
-              Add New Merchant
+              Register New User
             </h3>
             <svg
               onClick={HandleModalClose}
@@ -435,79 +437,94 @@ const Merchant = () => {
             </svg>
           </div>
           <div className="mt-5 md:mt-0 md:col-span-2">
-            <form
-            // onSubmit={createClient}
-            >
+            <form onSubmit={addUser}>
               <div className="overflow-hidden shadow sm:rounded-md">
                 <div className="px-4 py-5 bg-white sm:p-6">
-                  <div className="grid grid-cols-6 gap-6 pt-4">
-                    <div className="col-span-12 sm:col-span-6 ">
+                  <div className="grid grid-cols-1 gap-6 pt-4">
+                    <div className="flex flex-row gap-2 items-center w-full">
                       <p
                         // htmlFor="firstName"
-                        className="text-[#718096] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]"
+                        className="text-[#718096] w-[35%] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]"
                       >
                         First Name
                       </p>
                       <input
                         type="text"
-                        className="block w-full  h-14 px-4 py-[13.5px] placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
-                        placeholder="First Name"
+                        className="block w-[65%]  h-14 px-4 py-[13.5px] placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
+                        placeholder="first name"
                         autofocus
                         required
-                        // value={firstName}
-                        // onChange={(e) => setFirstName(e.target.value)}
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                       />
                     </div>
-                    <div className="col-span-12 sm:col-span-6 ">
-                      <p className="text-[#718096] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]">
+                    <div className="flex flex-row gap-5 items-center w-full">
+                      <p className="text-[#718096] w-[35%] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]">
                         Last Name
                       </p>
                       <input
                         type="text"
-                        className="block w-full  h-14 px-4 py-[13.5px] placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
-                        placeholder="Last Name"
+                        className="block w-[65%]  h-14 px-4 py-[13.5px] placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
+                        placeholder="last Name"
                         autofocus
                         required
-                        // value={lastName}
-                        // onChange={(e) => setLastName(e.target.value)}
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
                       />
                     </div>
-                    <div className="col-span-12 sm:col-span-6 ">
-                      <p className="text-[#718096] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]">
+                    <div className="flex flex-row gap-5 items-center w-full">
+                      <p className="text-[#718096] w-[35%] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]">
                         Email
                       </p>
                       <input
                         type="email"
-                        className="block w-full  h-14 px-4 py-[13.5px] placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
-                        placeholder="Email"
+                        className="block w-[65%]  h-14 px-4 py-[13.5px] placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
+                        placeholder="email"
                         autofocus
                         required
-                        // value={email}
-                        // onChange={(e) => setEmail(e.target.value)}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
-                    <div className="col-span-12 sm:col-span-6 ">
-                      <p className="text-[#718096] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]">
-                        Password
+                    <div className="flex flex-row gap-5 items-center w-full">
+                      <p className="text-[#718096] w-[35%] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]">
+                        Phone Number
                       </p>
                       <input
                         type="text"
-                        className="block w-full  h-14 px-4 py-[13.5px] placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
-                        placeholder="password"
+                        className="block w-[65%]  h-14 px-4 py-[13.5px] placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
+                        placeholder="phone number"
                         autofocus
                         required
-                        // value={companyName}
-                        // onChange={(e) => setCompanyName(e.target.value)}
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
                       />
                     </div>
+                    <div className="flex flex-row items-center gap-5 w-full">
+                      <p className="text-[#718096] w-[35%] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]">
+                        Role
+                      </p>
+                      <select
+                        type="text"
+                        className="block w-full  h-14 px-4 py-[13.5px] placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
+                        autofocus
+                        required
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                      >
+                        <option value="">Select Role </option>
+                        <option value="user">User</option>
+                        <option value="Sub user">Sub User</option>
+                      </select>
+                    </div>
 
-                    <div className="col-span-12 sm:col-span-6 mb- mt-6">
+                    <div className="">
                       <button
                         type="submit"
                         className="py-4 items-center rounded-[24px] w-full bg-[#124072] text-[white] text-[16px] leading-[24px] tracking-[0.2px] font-extrabold flex justify-center "
                       >
-                        Add New Merchant{" "}
-                        {/* {loading && (
+                        Submit{" "}
+                        {loading && (
                           <svg
                             className="ml-4 w-6 h-6 text-[white] animate-spin"
                             xmlns="http://www.w3.org/2000/svg"
@@ -528,7 +545,7 @@ const Merchant = () => {
                               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                             ></path>
                           </svg>
-                        )} */}
+                        )}
                       </button>
                     </div>
                   </div>

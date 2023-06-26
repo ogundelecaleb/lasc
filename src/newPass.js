@@ -7,6 +7,7 @@ import { enqueueSnackbar } from "notistack";
 const NewPass = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [otp, setOTP] = useState("");
   const [password, setPassword] = useState("");
@@ -45,9 +46,9 @@ const NewPass = () => {
   const handleConfirmPassword = (event) => {
     let confirm_pass = event.target.value;
     setConfirmPassword(confirm_pass);
-    if (confirm_pass !== password ) {
+    if (confirm_pass !== password) {
       setConfirmPasswordError("Password does not match!");
-    } else{
+    } else {
       setConfirmPasswordError("Password match!");
     }
   };
@@ -57,13 +58,17 @@ const NewPass = () => {
     setOpen(!open);
   };
 
+  const confirmToggle = () => {
+    setConfirmOpen(!confirmOpen);
+  };
+
   async function resetPassword(e) {
     e.preventDefault();
 
     setIsLoading(true);
     try {
       const response = await api.resetPassword({
-        securityHash: sessionId,
+        sessionHash: sessionId,
         otp,
         password,
         email,
@@ -129,7 +134,13 @@ const NewPass = () => {
                   <AiFillEyeInvisible onClick={toggle} />
                 )}
               </div>
-              <p className={` ${errorMessage === "Password is strong!"? "text-[green]" : "text-[red]" }  pt-2 pl-1 text-left text-xs`} >
+              <p
+                className={` ${
+                  errorMessage === "Password is strong!"
+                    ? "text-[green]"
+                    : "text-[red]"
+                }  pt-2 pl-1 text-left text-xs`}
+              >
                 {" "}
                 {errorMessage}
               </p>
@@ -146,13 +157,19 @@ const NewPass = () => {
               />
 
               <div className="text-2xl absolute top-4 right-5">
-                {open === false ? (
-                  <AiFillEye onClick={toggle} />
+                {confirmOpen === false ? (
+                  <AiFillEye onClick={confirmToggle} />
                 ) : (
-                  <AiFillEyeInvisible onClick={toggle} />
+                  <AiFillEyeInvisible onClick={confirmToggle} />
                 )}
               </div>
-              <p className={` ${confirmPasswordError === "Password match!"? "text-[green]" : "text-[red]" }  pt-2 pl-1 text-left text-xs `}>
+              <p
+                className={` ${
+                  confirmPasswordError === "Password match!"
+                    ? "text-[green]"
+                    : "text-[red]"
+                }  pt-2 pl-1 text-left text-xs `}
+              >
                 {" "}
                 {confirmPasswordError}
               </p>
