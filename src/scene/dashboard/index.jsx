@@ -217,14 +217,14 @@ const Dashboard = () => {
         <div class="flex justify-between  gap-[16px] mb-6">
           <div className="w-full">
             <div className="flex items-center mb-5">
-              <h2 className="text-[20px] text-[#313841] font-bold ">
+              <h2 className="text-[16px] text-[#313841] font-bold ">
                 Default Currency:
               </h2>{" "}
-             <h2 className="font-extrabold text-xl">{getMerchantProfilenQuery.data &&
+             <h2 className="font-extrabold text-sm text-[#313841]">{getMerchantProfilenQuery.data &&
                 getMerchantProfilenQuery.data?.data?.currency?.currencyName}</h2> 
             </div>
 
-            <h2 className="text-[14px] text-gray-800  mb-2">
+            <h2 className="text-[10px] text-gray-800  mb-2">
               Set Default Currency
             </h2>
             <div className="flex items-center w-full gap-3">
@@ -238,7 +238,7 @@ const Dashboard = () => {
               >
                 <option value="">Currency </option>
                 {currencyQuery.data &&
-                  currencyQuery.data?.data?.data.map((currency) => (
+                  currencyQuery.data?.data?.results.map((currency) => (
                     <option key={currency.iso2} value={currency.currency}>
                       {currency.currency}
                     </option>

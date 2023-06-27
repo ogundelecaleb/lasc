@@ -107,6 +107,7 @@ const Login = () => {
           </div>
 
           <button
+          type="button"
           onClick={() => {
             navigate("/forgotPassword");
           }}

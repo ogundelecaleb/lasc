@@ -46,7 +46,7 @@ const BusinessProfile = () => {
       setLoading(false);
       // refetch();
       // handleModalClose();
-      // clearForm();
+      clearForm();
     } catch (error) {
       console.log(error);
       enqueueSnackbar(error.message, { variant: "error" });
@@ -74,14 +74,12 @@ const BusinessProfile = () => {
     }
   );
 
-  // function clearForm() {
-  //   setBankCode("");
-  //   setBankName(" ");
-  //   setBankSortCode("");
-  //   setCountryId("");
-  //   setSwiftCode("");
-  //   setIbanCode("");
-  // }
+  function clearForm() {
+    setBusinessName("");
+    setBusinessAddresss(" ");
+    setBvn("");
+   
+  }
 
   async function getMerchantProfile() {
     try {
@@ -113,7 +111,7 @@ const BusinessProfile = () => {
       });
       setUpdateLoading(false);
       getMerchantProfilenQuery.refetch();
-      // handleModalClose();
+      handleUpdateModalClose();
       // clearForm();
     } catch (error) {
       console.log(error);

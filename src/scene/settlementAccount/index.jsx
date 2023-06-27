@@ -577,8 +577,8 @@ const SettlementAccount = () => {
                         <option value="">select Country </option>
                        
                         {countryQuery.data &&
-                          countryQuery.data?.data?.data.map((country) => (
-                            <option key={country.iso2} value={country.iso3}>{country.name}</option>
+                          countryQuery.data?.data?.results.map((country) => (
+                            <option key={country.id} value={country.countryCode}>{country.countryName}</option>
                           ))}
                        
                       </select>

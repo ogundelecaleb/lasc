@@ -336,7 +336,7 @@ const Transaction = () => {
                       value={result.amount}
                       displayType={"text"}
                       thousandSeparator={true}
-                      prefix={"₦"}
+                      prefix={result.currencyCode === "NGN" ? "₦" : result.currencyCode === "USD" ? "$" : "₦"}
                       decimalScale={2}
                       fixedDecimalScale={true}
                       renderText={(value) => <p>{value}</p>}
@@ -348,7 +348,7 @@ const Transaction = () => {
                       value={result.charges}
                       displayType={"text"}
                       thousandSeparator={true}
-                      prefix={"₦"}
+                      prefix={result.currencyCode === "NGN" ? "₦" : result.currencyCode === "USD" ? "$" : "₦"}
                       decimalScale={2}
                       fixedDecimalScale={true}
                       renderText={(value) => <p>{value}</p>}
@@ -360,11 +360,15 @@ const Transaction = () => {
                       <button class="bg-[#F6FDF9] flex rounded-lg text-[#22C55E] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
                         Success
                       </button>
-                    ) : (
+                    ): result.transactionStatus === "Processing" ?  (
                       <button class="bg-[#FFF7F5] flex rounded-lg text-[#FF784B] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
-                        Pending
+                        Processing
                       </button>
-                    )}
+                    ) : result.transactionStatus === "Failed" ?  (
+                      <button class="bg-[#FFF7F5] flex rounded-lg text-[#e23f3f] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
+                        Failed
+                      </button>
+                    ) : ""}
                   </td>
                   <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
                     <div className="">
