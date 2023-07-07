@@ -16,7 +16,7 @@ import {
   GETUSER,
   GETBANK,
   GETCOUNTRY,
-  GETCURRENCY,
+  GETCURRENCY,UPLOAD,GETALLKEYS,
 } from "../utils/config";
 import { apiGet, apiGetCSV, apiPost, apiPut } from "../utils/utils";
 
@@ -32,6 +32,9 @@ export function getMerchantProfile(data = null) {
 }
 export function createPin(data) {
   return apiPost(SETPIN, data);
+}
+export function uploadLogo(data, headers) {
+  return apiPost(UPLOAD, data, headers);
 }
 
 //dashboard
@@ -77,6 +80,9 @@ export function getUser(data) {
 
 export function generatekey(data) {
   return apiPost(GENERATEKEY, data);
+}
+export function getuserkey(data) {
+  return apiGet(GETALLKEYS, data);
 }
 
 //All countries

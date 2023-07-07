@@ -1,11 +1,15 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import api from "../../api";
 import { enqueueSnackbar } from "notistack";
 import { useQuery } from "@tanstack/react-query";
 import Modal from "../../components/Modal";
 
 const PersonalInfo = () => {
- 
+  const BaseApiUrl = "https://pgmerchantsapi.paylodeservices.com/api/v1";
+  const [logo, setLogo] = useState("");
+  const [file, setFile] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const getMerchantProfilenQuery = useQuery(
     ["getMerchantProfile"],
     () => getMerchantProfile(),
@@ -15,20 +19,14 @@ const PersonalInfo = () => {
     }
   );
 
-  // function clearForm() {
-  //   setBankCode("");
-  //   setBankName(" ");
-  //   setBankSortCode("");
-  //   setCountryId("");
-  //   setSwiftCode("");
-  //   setIbanCode("");
-  // }
+ 
 
+  
   async function getMerchantProfile() {
     try {
       const response = await api.getMerchantProfile();
       console.log("merchant profile", response);
-      // console.log(merchantData);
+      
       return response;
     } catch (error) {
       return error;
@@ -37,37 +35,24 @@ const PersonalInfo = () => {
   return (
     <div>
       <div className="p-[40px] ">
-        <h2 className="text-[24px] text-dark font-bold mb-[48px]">Personal Information</h2>
-        <div className="flex flex-row items-center mb-[40px] ">
-          <div className="border  w-[30px] md:w-[48px]  lg:w-[78px]  h-[30px] md:h-[48px]  lg:h-[78px] bg-grey-600 border-dark-blue rounded-full p-1 mr-2 lg:p-2 lg:mr-4">
-            {/* <img src="../profile-pic.png" alt="" className=" h-[30px] md:h-[48px]  lg:h-[78px]" /> */}
-          </div>
-          <button className="py-[7px] px-[12px]   lg:py-[11px] lg:px-[20px] bg-dark-blue text-[#fafafa] text-[12px] font-bold mr-3 rounded-lg">
-            Upload new picture
-          </button>
-          <button className="px-[10px]  py-[7px]    lg:py-[11px] lg:px-[30px] bg-[#ffffff] text-dark text-[12px] font-bold rounded-lg border border-grey-600">
-            Delete
-          </button>
-        </div>
-
+        <h2 className="text-[24px] text-dark font-bold mb-[30px]">
+          Personal Information
+        </h2>
+        
         {getMerchantProfilenQuery.data && (
           <table>
             <tr className="my-2">
-              <th className="text-grey-600 font-bold text-left ">
-                First Name
-              </th>
+              <th className="text-grey-600 font-bold text-left ">First Name</th>
               <td className="py-6 md:pl-3 text-gray-600">
-                <p className="md:px-10 ">
+              <p className="py-3 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
                   {getMerchantProfilenQuery.data?.data?.user?.firstName}
                 </p>
               </td>
             </tr>
             <tr className="my-2">
-              <th className="text-grey-600 font-bold text-left ">
-                Last Name
-              </th>
+              <th className="text-grey-600 font-bold text-left ">Last Name</th>
               <td className="py-6 md:pl-3 text-gray-600">
-                <p className="md:px-10 ">
+              <p className="py-3 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
                   {getMerchantProfilenQuery.data?.data?.user?.lastName}
                 </p>
               </td>
@@ -75,7 +60,7 @@ const PersonalInfo = () => {
             <tr className="my-2">
               <th className="text-grey-600 font-bold text-left ">Email</th>
               <td className="py-6 md:pl-3 text-gray-600">
-                <p className="md:px-10 ">
+              <p className="py-3 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
                   {getMerchantProfilenQuery.data?.data?.user?.email}
                 </p>
               </td>
@@ -85,7 +70,7 @@ const PersonalInfo = () => {
                 Phone Number
               </th>
               <td className="py-6 md:pl-3 text-gray-600">
-                <p className="md:px-10 ">
+              <p className="py-3 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
                   {getMerchantProfilenQuery.data?.data?.user?.phoneNumber}
                 </p>
               </td>
@@ -168,8 +153,6 @@ const PersonalInfo = () => {
           </div>
           <button type="submit" className="mb-4 absolute right-0 bottom-0 py-[11px] px-[20px] bg-dark-blue text-[#fafafa] text-[12px] font-bold rounded-lg">Save Details</button>
         </form> */}
-
-        
       </div>
     </div>
   );

@@ -7,16 +7,23 @@ import Modal from "../../components/Modal";
 import { enqueueSnackbar } from "notistack";
 
 const Transaction = () => {
+  const [open, setOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
   const [currency, setCurrency] = useState("");
   const [channel, setChannel] = useState("");
   const [displaySearch, setDisplaySearch] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [status, setStatus] = useState("")
+  const [transactionRef, setTransactionRef] = useState("")
 
   const handleDisplaySearch = () => {
     setDisplaySearch(!displaySearch);
   };
+
+  const handleTransacModalOpen =() => {
+    setOpen(true)
+  }
 
   function formatTime(date) {
     const datetime = Moment(date);
@@ -34,9 +41,12 @@ const Transaction = () => {
     const response = await api.getTransaction({
       params: {
         PageIndex: currentPage,
+        Currency: currency,
         Channel: channel,
         StartDate: startDate,
         EndDate: endDate,
+        Status: status,
+        TransactionReference: transactionRef,
       },
     });
     console.log("transactions", response);
@@ -44,14 +54,30 @@ const Transaction = () => {
   }
 
   const { isLoading, isError, data, error, isPreviousData, refetch } = useQuery(
-    ["transaction", currentPage, channel, startDate, endDate],
-    () => getTransaction(currentPage, channel, startDate, endDate),
+    ["transaction", currentPage, channel, currency, status, startDate,transactionRef, endDate],
+    () => getTransaction(currentPage, channel,currency, status, startDate,transactionRef, endDate),
     {
       keepPreviousData: true,
       refetchOnWindowFocus: "always",
       // retry: true,
     }
   );
+
+  const currencyQuery = useQuery(["getCurrency"], () => getCurrency(), {
+    keepPreviousData: true,
+    refetchOnWindowFocus: "always",
+  });
+
+  async function getCurrency() {
+    try {
+      const response = await api.getCurrency();
+      console.log("All Currency", response);
+      // console.log(merchantData);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => prevPage - 1);
@@ -106,9 +132,9 @@ const Transaction = () => {
           <input
             type="text"
             className="w-full py-2 pl-10 pr-4 text-[#A0AEC0] leading-[21px] tracking-[0.2px] text-[14px] border border-[#E2E8F0] rounded-xl  focus:border-gray-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
-            placeholder="Search by client name"
-            // value={client}
-            // onChange={(e) => setClient(e.target.value)}
+            placeholder="Search by transaction ref"
+            value={transactionRef}
+            onChange={(e) => setTransactionRef(e.target.value)}
           />
         </div>
         <div className="flex items-center">
@@ -207,26 +233,29 @@ const Transaction = () => {
                 >
                   <option value="">All Channel</option>
 
-                  <option value={"Card"}>Card</option>
-                  <option value={"Transfer"}>Transfer</option>
-                  <option value={"USSD"}>USSD</option>
+                  <option value="Card">Card</option>
+                  <option value="Transfer">Transfer</option>
+                  <option value="USSD">USSD</option>
                   {/* <option value={"USD"}>Dollar</option> */}
                 </select>
               </div>
               <div className="py-4   w-full px-4 ">
-                <select
-                  className="w-full py-2 pl-3 pr-4 text-[#A0AEC0] leading-[21px] tracking-[0.2px] text-[14px] border border-[#E2E8F0] rounded-xl  focus:border-gray-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
-                  autofocus
-                  required
-                  placeholder=""
-                  value={currency}
-                  onChange={(e) => setCurrency(e.target.value)}
-                >
-                  <option value="">All currency</option>
-
-                  <option value={"NGN"}>Naira</option>
-                  <option value={"USD"}>Dollar</option>
-                </select>
+              <select
+                type="text"
+                className=" w-full  text-[9px]  px-2 py-[8px] placeholder:text-[#A0AEC0] placeholder:text-[5px] placeholder:font-normal font-medium text-[#1A202C] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
+                autofocus
+                required
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+              >
+                <option value="">Currency </option>
+                {currencyQuery.data &&
+                  currencyQuery.data?.data?.results.map((currency) => (
+                    <option key={currency.currencyCode} value={currency.currencyCode}>
+                      {currency.currencyName}
+                    </option>
+                  ))}
+              </select>
               </div>
               {/* <div className="relative py-4   w-full px-4 ">
                 <input
@@ -237,7 +266,7 @@ const Transaction = () => {
                   onChange={(e) => setTransactionRef(e.target.value)}
                 />
               </div> */}
-              {/* <div className="  py-4 px-4 ">
+              <div className="  py-4 px-4 ">
                 <select
                   className="w-full py-2 pl-3 pr-4 text-[#A0AEC0] leading-[21px] tracking-[0.2px] text-[14px] border border-[#E2E8F0] rounded-xl  focus:border-gray-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
                   autofocus
@@ -253,7 +282,7 @@ const Transaction = () => {
                   <option value={"Initiated"}>Initiated</option>
                   <option value={"Processing"}>Processing</option>
                 </select>
-              </div> */}
+              </div>
               <div className=" py-4  px-4 ">
                 <input
                   type="date"
@@ -305,9 +334,9 @@ const Transaction = () => {
               <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                 Date
               </th>
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+              {/* <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                 Action
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody>
@@ -381,16 +410,16 @@ const Transaction = () => {
                     </div>
                   </td>
 
-                  <td className=" py-[24px] border-t border-[#EDF2F7]  ">
+                  {/* <td className=" py-[24px] border-t border-[#EDF2F7]  ">
                     <div>
                       <button
-                        // onClick={() => handleTransacModalOpen(result)}
+                        onClick={() => handleTransacModalOpen(result)}
                         className=" text-sm border border-[#E2E8F0] hover:bg-[#CBD5E0] px-[6px] py-[6px] rounded-[8px] "
                       >
                         Details
                       </button>
                     </div>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
           </tbody>

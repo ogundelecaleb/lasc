@@ -9,7 +9,7 @@ import { enqueueSnackbar } from "notistack";
 const Merchant = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -31,6 +31,14 @@ const Merchant = () => {
     return formattedDate;
   }
 
+  function clearForm() {
+    setPhoneNumber("");
+    setEmail("");
+    setLastName("");
+    setFirstName("");
+
+  }
+
   async function addUser(e) {
     e.preventDefault();
 
@@ -49,8 +57,9 @@ const Merchant = () => {
         variant: "success",
       });
       setLoading(false);
-      // refetch();
-      // handleAssignModalClose();
+      clearForm()
+      refetch();
+      HandleModalClose()
     } catch (error) {
       console.log(error);
       enqueueSnackbar(error.message, { variant: "error" });
@@ -61,6 +70,7 @@ const Merchant = () => {
   async function getUser(currentPage) {
     const response = await api.getUser({
       params: {
+        Email: email,
         PageIndex: currentPage,
       },
     });
@@ -69,8 +79,8 @@ const Merchant = () => {
   }
 
   const { isLoading, isError, data, error, isPreviousData, refetch } = useQuery(
-    ["transaction", currentPage],
-    () => getUser(currentPage),
+    ["transaction", currentPage, email],
+    () => getUser(currentPage, email),
     {
       keepPreviousData: true,
       refetchOnWindowFocus: "always",
@@ -113,59 +123,12 @@ const Merchant = () => {
           <input
             type="text"
             className="py-2 pl-10 pr-4 text-[#A0AEC0] leading-[21px] tracking-[0.2px] text-[14px] border border-[#E2E8F0] rounded-xl  focus:border-gray-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
-            placeholder="Search by merchant name"
-            // value={client}
-            // onChange={(e) => setClient(e.target.value)}
+            placeholder="Search by email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="flex items-center">
-          {/* <button
-            // onClick={handleDisplaySearch}
-            className="px-4 py-4 border border-[#E2E8F0]  text-[#1A202C] text-[14px] leading-[21px] tracking-[0.2px] h-[48px] font-semibold rounded-xl flex items-center mr-4 "
-          >
-            <svg
-              className="mr-2"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M8.60851 13.8274H3.35791"
-                stroke="#1A202C"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M10.9507 5.75029H16.2013"
-                stroke="#1A202C"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M7.27207 5.70521C7.27207 4.6255 6.39027 3.75 5.30278 3.75C4.2153 3.75 3.3335 4.6255 3.3335 5.70521C3.3335 6.78492 4.2153 7.66042 5.30278 7.66042C6.39027 7.66042 7.27207 6.78492 7.27207 5.70521Z"
-                stroke="#1A202C"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M16.6666 13.7948C16.6666 12.7151 15.7855 11.8396 14.698 11.8396C13.6098 11.8396 12.728 12.7151 12.728 13.7948C12.728 14.8745 13.6098 15.75 14.698 15.75C15.7855 15.75 16.6666 14.8745 16.6666 13.7948Z"
-                stroke="#1A202C"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            Filters
-          </button> */}
           <button
             onClick={HandleModalOpen}
             className="px-6 py-2 bg-[#124072]  text-[white] text-[14px] h-[48px] leading-[21px] tracking-[0.2px] font-extrabold rounded-xl flex items-center mr-4 "
@@ -310,7 +273,7 @@ const Merchant = () => {
             {data &&
               data?.data?.results?.map((result) => (
                 <tr key={result.id} className="mb-2">
-                  <td className=" py-[24px] pr-3 border-t border-[#EDF2F7]  lg:flex items-center  ">
+                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
                     
                     <div className="text-[18px] leading-[24px] tracking-[0.2px] text-[#3b434e] font-extrabold">{result.firstName}  {result.lastName}</div>
                         

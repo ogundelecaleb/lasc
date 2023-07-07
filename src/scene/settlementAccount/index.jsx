@@ -65,7 +65,7 @@ const SettlementAccount = () => {
         accountNumber,
       });
       console.log("res of transactionAcess==>>>>>", response);
-      enqueueSnackbar("Settlement Account Created Successfully 😃", {
+      enqueueSnackbar("Settlement Account Created Successfully ", {
         variant: "success",
       });
       setLoading(false);
@@ -116,6 +116,22 @@ const SettlementAccount = () => {
     }
   }
 
+  const bankQuery = useQuery(["getBank"], () => getBank(), {
+    keepPreviousData: true,
+    refetchOnWindowFocus: "always",
+  });
+
+  async function getBank() {
+    try {
+      const response = await api.getBank();
+      console.log("All Banks", response);
+      // console.log(merchantData);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
   function clearForm() {
     setBank("");
     setCountry(" ");
@@ -149,12 +165,12 @@ const SettlementAccount = () => {
         Id: merchantData,
       });
       console.log("res of vendors==>>>>>", response);
-      enqueueSnackbar("Settlement Account Updated Successfully 😃", {
+      enqueueSnackbar("Settlement Account Updated Successfully", {
         variant: "success",
       });
       setUpdateLoading(false);
       refetch();
-      handleModalClose();
+      handleUpdateModalClose();
       clearForm();
     } catch (error) {
       console.log(error);
@@ -382,8 +398,10 @@ const SettlementAccount = () => {
                         onChange={(e) => setBank(e.target.value)}
                       >
                         <option value="">select banks </option>
-                        <option value="032">Union Bank</option>
-                        <option value="001">First Bank of Nigeria</option>
+                        {bankQuery.data &&
+                          bankQuery.data?.data?.results.map((bank) => (
+                            <option key={bank.bankCode} value={bank.bankCode}>{bank.bankName}</option>
+                          ))}
                       </select>
                     </div>
                     <div className="flex flex-row gap-5 items-center w-full">
@@ -529,8 +547,10 @@ const SettlementAccount = () => {
                         onChange={(e) => setBank(e.target.value)}
                       >
                         <option value="">select banks </option>
-                        <option value="032">Union Bank</option>
-                        <option value="001">First Bank of Nigeria</option>
+                        {bankQuery.data &&
+                          bankQuery.data?.data?.results.map((bank) => (
+                            <option key={bank.bankCode} value={bank.bankCode}>{bank.bankName}</option>
+                          ))}
                       </select>
                     </div>
                     <div className="flex flex-row gap-5 items-center w-full">
@@ -590,7 +610,7 @@ const SettlementAccount = () => {
                         className="py-4 items-center rounded-[24px] w-full bg-[#124072] text-[white] text-[16px] leading-[24px] tracking-[0.2px] font-extrabold flex justify-center "
                       >
                         Submit{" "}
-                        {loading && (
+                        {updateLoading && (
                           <svg
                             className="ml-4 w-6 h-6 text-[white] animate-spin"
                             xmlns="http://www.w3.org/2000/svg"

@@ -7,6 +7,7 @@ import Modal from "../../components/Modal";
 import { useEffect } from "react";
 
 const BusinessProfile = () => {
+  const BaseApiUrl = "http://94.229.79.27:55412/api/v1";
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [keyloading, setKeyLoading] = useState(false);
@@ -19,17 +20,27 @@ const BusinessProfile = () => {
   const [businessAddresss, setBusinessAddresss] = useState("");
   const [defaultCurrency, setDefualtCurrency] = useState("");
   const [merchantData, setMerchantData] = useState("");
+  const [logo, setLogo] = useState("");
+  const [file, setFile] = useState("");
+  const [logoLoading, setLogoLoading] = useState(false);
   const [publicCopySuccess, setPublicCopySuccess] = useState("");
   const [publicKey, setPublicKey] = useState("");
 
   const handleUpdateModalOpen = (id) => {
-    setMerchantData(id);
+    setMerchantData(id.userId);
+    setBusinessAddresss(id.businessAddresss);
+    setBusinessName(id.businessName);
+    setBvn(id.bvn);
     setIsOpen(true);
   };
 
   const handleUpdateModalClose = () => {
     setIsOpen(false);
   };
+
+
+
+
 
   async function createTransactionAccess(e) {
     e.preventDefault();
@@ -85,6 +96,7 @@ const BusinessProfile = () => {
     try {
       const response = await api.getMerchantProfile();
       console.log("merchant profile", response);
+      setLogo(response.data?.logoUrl);
       console.log(merchantData);
       return response;
     } catch (error) {
@@ -121,14 +133,90 @@ const BusinessProfile = () => {
   }
   // handle toggle
 
+  async function upload(e) {
+    let userData = localStorage.getItem("userData");
+
+    userData = JSON.parse(userData);
+    const token = "Bearer " + userData.data.accessToken;
+    console.log(userData.data.accessToken, "header");
+
+    const profile = document.getElementById("profile");
+    const formData = new FormData();
+    formData.append("Image", profile.files[0]);
+    console.log("imagefile", formData.get("Image").name);
+    console.log("imagefile", formData.get("Image").type);
+    e.preventDefault();
+    setLogoLoading(true);
+    const response = await fetch(`${BaseApiUrl}/merchant/upload`, {
+      method: "POST",
+      headers: {
+        Authorization: token,
+        accept: "application/json",
+        // 'Content-Type': 'multipart/form-data',
+      },
+      body: formData,
+    });
+    const data = await response.json();
+    if (data.isSuccessful && data.data) {
+      setLogoLoading(false);
+      getMerchantProfilenQuery.refetch()
+      enqueueSnackbar("Image uploaded successfully", { variant: "success" });
+    } else {
+      setLogoLoading(false);
+      console.log("error message: not successful");
+    }
+  }
+
   return (
     <div>
       {" "}
       <div className="px-[40px] py-[20px] ">
-        <div className="w-full pb-1 mb-[28px] border-b border-b-grey-600">
+        <div className="w-full pb-1 mb-[28px] border-b border-b-[#EDF2F7]">
           <h2 className="text-[24px] text-dark font-bold">
             Bussiness Details
           </h2>
+        </div>
+        <div className="flex flex-row items-center mb-[30px] ">
+          <img
+            src={logo || "../avatar.png"}
+            alt=""
+            className="border object-contain  w-[30px] md:w-[48px]  lg:w-[78px]  h-[30px] md:h-[48px]  lg:h-[78px] bg-[#b3c2d6] border-dark-blue rounded-full p-1 mr-2 lg:p-2 lg:mr-4"
+          />
+
+          <button
+            onClick={upload}
+            className="py-[7px] px-[12px] flex items-center   lg:py-[11px] lg:px-[20px] bg-dark-blue text-[#fafafa] text-[12px] font-bold mr-3 rounded-lg"
+          >
+            Upload Logo
+            {logoLoading && (
+              <svg
+                className="ml-4 w-6 h-6 text-[white] animate-spin"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            )}
+          </button>
+          <input
+            type="file"
+            id="profile"
+            name="profile"
+            onChange={(e) => setFile(e.target.value)}
+          />
         </div>
 
         {getMerchantProfilenQuery.data && (
@@ -176,7 +264,7 @@ const BusinessProfile = () => {
                 <button
                   onClick={() =>
                     handleUpdateModalOpen(
-                      getMerchantProfilenQuery.data?.data?.userId
+                      getMerchantProfilenQuery.data?.data
                     )
                   }
                   className="py-[7px] px-[12px]   lg:py-[11px] lg:px-[20px] bg-dark-blue text-[#fafafa] text-[12px] font-bold mr-3 rounded-lg "

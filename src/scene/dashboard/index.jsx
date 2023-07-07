@@ -230,7 +230,7 @@ const Dashboard = () => {
             <div className="flex items-center w-full gap-3">
               <select
                 type="text"
-                className=" w-full  text-[9px]  px-2 py-[8px] placeholder:text-[#A0AEC0] placeholder:text-[5px] placeholder:font-normal font-medium text-[#1A202C] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
+                className="  min-w-[60%]  text-[9px]  px-2 py-[8px] placeholder:text-[#A0AEC0] placeholder:text-[5px] placeholder:font-normal font-medium text-[#1A202C] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
                 autofocus
                 required
                 value={defaultCurrency}
@@ -239,8 +239,8 @@ const Dashboard = () => {
                 <option value="">Currency </option>
                 {currencyQuery.data &&
                   currencyQuery.data?.data?.results.map((currency) => (
-                    <option key={currency.iso2} value={currency.currency}>
-                      {currency.currency}
+                    <option key={currency.currencyCode} value={currency.currencyCode}>
+                      {currency.currencyName}
                     </option>
                   ))}
               </select>

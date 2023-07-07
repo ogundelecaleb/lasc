@@ -45,9 +45,33 @@ const ApiKey = () => {
     }
   }
 
+  const getuserkeyQuery = useQuery(
+    ["getuserkey"],
+    () => getuserkey(),
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: "always",
+    }
+  );
+
+
+  async function getuserkey() {
+    try {
+      const response = await api.getuserkey();
+      console.log("aplication profile", response);
+      console.log("Userkeys", response.data?.data?.publicKey);
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  
+
   return (
     <div className="mx-10 mt-6">
-      <div className="w-full pb-1 mb-[28px] border-b border-b-grey-600">
+      <div className="w-full pb-1 mb-[28px] border-b border-b-[#EDF2F7]">
         <h2 className="text-grey-600 font-bold text-lg">
           Api Key for <span className="text-[#454e5c]">{decoded.fullName}</span>
         </h2>
@@ -64,10 +88,10 @@ const ApiKey = () => {
         <div class="relative mb-4 flex w-full md:w-[60%] lg:w-[50%] ">
           <input
             type="text"
-            value={publicKey}
+            value={getuserkeyQuery.data?.publicKey || publicKey}
             class="relative m-0 block  min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
             placeholder="Public Key"
-            aria-label="Public Key"
+            // aria-label="Public Key"
             aria-describedby="basic-addon2"
           />
           <button

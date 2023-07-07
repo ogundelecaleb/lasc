@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../../api";
 import Modal from "../../components/Modal";
+import { useQuery } from "@tanstack/react-query";
 
 const Topbar = ({ setIsSidebar, userData }) => {
+  const [logo, setLogo] = useState("")
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -16,6 +18,28 @@ const Topbar = ({ setIsSidebar, userData }) => {
   const handleIsModalClose = () => {
     setIsModalOpen(false);
   };
+
+  const getMerchantProfilenQuery = useQuery(
+    ["getMerchantProfile"],
+    () => getMerchantProfile(),
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: "always",
+    }
+  );
+
+  async function getMerchantProfile() {
+    try {
+      const response = await api.getMerchantProfile();
+      console.log("merchant profile", response);
+      setLogo(response.data?.logoUrl);
+      // console.log(document.getElementById("profile"));
+      console.log("logo", response.data?.logoUrl);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
 
   return (
     <div className="flex w-full items-center justify-between px-6 gap-[16px] pt-6">
@@ -120,16 +144,11 @@ const Topbar = ({ setIsSidebar, userData }) => {
             }}
           >
             <div class="flex items-center lg:mr-[14px] mr-[12px]">
-              <svg
-                class="mr-[12px]"
-                width="32"
-                height="32"
-                viewBox="0 0 32 32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle cx="16" cy="16" r="16" fill="#C4C4C4" />
-              </svg>
+            <img
+            src={logo || "../avatar.png"}
+            alt=""
+            className="border object-contain  w-[30px] md:w-[48px]  lg:w-[48px]  h-[30px] md:h-[48px]  lg:h-[48px] bg-[#b3c2d6] border-dark-blue rounded-full p-1 mr-2  lg:mr-4"
+          />
               <h4 class="text-[#1A202C] lg:text-[16px] lg:leading-[24px] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold ">
                 {userData.fullName}
               </h4>

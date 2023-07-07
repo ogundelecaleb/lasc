@@ -13,7 +13,6 @@ const Settlements = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [actionModalOpen, setActionModalOpen] = useState(false);
   const [biller, setBiller] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
   const [status, setStatus] = useState("");
@@ -75,7 +74,8 @@ const Settlements = () => {
       params: {
         PageIndex: currentPage,
         currency: currency,
-                StartDate: startDate,
+        Status: status,
+        StartDate: startDate,
         EndDate: endDate,
       },
     });
@@ -83,20 +83,14 @@ const Settlements = () => {
     return response;
   }
   const { isLoading, isError, data, error, isPreviousData, refetch } = useQuery(
-    [
-      "electricity",
-      currency,
-      startDate,
-      endDate,
-    ],
-    () =>
-      getSettlement(),
-      // currentPage,
-      currency,
-      // referenceNumber,
-      // status,
-      startDate,
-      endDate,
+    ["getSettlement", currency, status, startDate, endDate],
+    () => getSettlement(),
+    // currentPage,
+    currency,
+    // referenceNumber,
+    status,
+    startDate,
+    endDate,
     {
       keepPreviousData: true,
       refetchOnWindowFocus: "always",
@@ -149,7 +143,7 @@ const Settlements = () => {
           <input
             type="text"
             className="w-full py-2 pl-10 pr-4 text-[rgb(160,174,192)] leading-[21px] tracking-[0.2px] text-[14px] border border-[#E2E8F0] rounded-xl  focus:border-gray-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
-            placeholder="Search by customer name.."
+            placeholder="Search by Account name.."
             value={biller}
             onChange={(e) => setBiller(e.target.value)}
           />
@@ -209,23 +203,22 @@ const Settlements = () => {
         <tr>
           <td className="text-center" colspan="7">
             <div className="grid lg:grid-cols-5 md:grid-cols-4 grid-cols-3 gap-4">
-              <div className="relative py-4   w-full mx-6 ">
-                <input
-                  type="text"
-                  className="w-full py-2 pl-3 pr-4 text-[#A0AEC0] leading-[21px] tracking-[0.2px] text-[14px] border border-[#E2E8F0] rounded-xl  focus:border-gray-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
-                  placeholder="Search for customer"
-                  value={biller}
-                  onChange={(e) => setBiller(e.target.value)}
-                />
-              </div>
               <div className="relative py-4   w-full mx-6  ">
-                <input
-                  type="text"
+                <select
                   className="w-full py-2 pl-3 pr-4 text-[#A0AEC0] leading-[21px] tracking-[0.2px] text-[14px] border border-[#E2E8F0] rounded-xl  focus:border-gray-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300"
-                  placeholder="Search account number"
-                  value={referenceNumber}
-                  onChange={(e) => setReferenceNumber(e.target.value)}
-                />
+                  autofocus
+                  required
+                  placeholder="status"
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                >
+                  <option value="">All Status</option>
+
+                  <option value={"Success"}>Success</option>
+                  <option value={"Failed"}>Failed</option>
+                  <option value={"Initiated"}>Initiated</option>
+                  <option value={"Processing"}>Processing</option>
+                </select>
               </div>
               <div className="  py-4  w-full mx-6 ">
                 <select
@@ -240,7 +233,6 @@ const Settlements = () => {
 
                   <option value={"NGN"}>Naira</option>
                   <option value={"USD"}>Dollar</option>
-                 
                 </select>
               </div>
               <div className="relative py-4   w-full mx-6 ">
@@ -271,7 +263,7 @@ const Settlements = () => {
 
       <div className="flex flex-col break-words overflow-x-auto bg-white  mb-6">
         <table className="min-w-full mb-6">
-        <thead>
+          <thead>
             <tr className="mb-2">
               <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                 Merchant Name
@@ -313,7 +305,7 @@ const Settlements = () => {
               data?.data?.results?.map((result) => (
                 <tr key={result.id} className="mb-2">
                   <td className=" py-[24px] pr-3 border-t border-[#EDF2F7]  lg:flex items-center text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                  {result?.merchant?.bussinessName}
+                    {result?.merchant?.bussinessName}
                   </td>
                   <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
                     <NumericFormat
@@ -333,13 +325,13 @@ const Settlements = () => {
                     {result.bankAccountNumber}
                   </td>
                   <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    {result.status ==="Success" ? (
+                    {result.status === "Success" ? (
                       <button class="bg-[#F6FDF9] flex rounded-lg text-[#22C55E] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
-                      Success
+                        Success
                       </button>
                     ) : (
                       <button class="bg-[#FFF7F5] flex rounded-lg text-[#FF784B] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
-                       Pending
+                        Pending
                       </button>
                     )}
                   </td>

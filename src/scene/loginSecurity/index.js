@@ -88,7 +88,7 @@ const LoginSecurity = () => {
     <div>
       {" "}
       <div className="p-[40px] ">
-        <h2 className="text-[24px] text-dark font-bold mb-[48px]">
+        <h2 className="text-[24px] text-dark font-bold mb-[30px]">
           Change Password
         </h2>
         <form action="" className="">
