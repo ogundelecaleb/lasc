@@ -59,7 +59,9 @@ const ApiKey = () => {
     try {
       const response = await api.getuserkey();
       console.log("aplication profile", response);
-      console.log("Userkeys", response.data?.data?.publicKey);
+      setPublicKey(response.data?.publicKey)
+      setSecretKey(response.data?.secretKey)
+      console.log("Userkeys", response.data?.publicKey);
 
       return response;
     } catch (error) {
@@ -88,7 +90,7 @@ const ApiKey = () => {
         <div class="relative mb-4 flex w-full md:w-[60%] lg:w-[50%] ">
           <input
             type="text"
-            value={getuserkeyQuery.data?.publicKey || publicKey}
+            value={publicKey}
             class="relative m-0 block  min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
             placeholder="Public Key"
             // aria-label="Public Key"
@@ -115,7 +117,7 @@ const ApiKey = () => {
         </label>
         <div class="relative mb-4 flex w-full md:w-[60%] lg:w-[50%] ">
           <input
-            type="text"
+            type="password"
             value={secretKey}
             class="relative m-0 block  min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
             placeholder="Secret Key"

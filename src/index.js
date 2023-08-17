@@ -5,7 +5,7 @@ import App from "./App";
 import posthog from 'posthog-js'; // for cookies consent
 
 
-posthog.init('phc_rj1UhvtOexOSfP03HQIdxosvZS0NTvXctQXWG9VBsIs', { api_host: 'https://app.posthog.com' })
+// posthog.init('phc_rj1UhvtOexOSfP03HQIdxosvZS0NTvXctQXWG9VBsIs', { api_host: 'https://app.posthog.com' })
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

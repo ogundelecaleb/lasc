@@ -51,7 +51,7 @@ export function getSettlement(data = null) {
 }
 
 //transaction
-export function exportTransaction(data) {
+export function exportTransactions(data) {
   return apiGetCSV(EXPORTTRANSACTION, data);
 }
 export function getTransaction(data = null) {

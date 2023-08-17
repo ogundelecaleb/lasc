@@ -5,8 +5,8 @@ const AccountDetails = () => {
   const navigate = useNavigate();
   const router = useLocation();
   return (
-    <div className="flex flex-row  border-t border-t-faint w-full">
-      <div className="max-w-[367px] w-[367px]  left-0 border-r border-r-faint  ">
+    <div className="flex flex-col md:flex-row  border-t border-t-faint w-full">
+      <div className="max-w-[367px] w-[367px] flex flex-row md:flex-col left-0 border-r border-r-faint  ">
         <div
           onClick={() => navigate("/accountDetails/personalInfo")}
           className={`flex  flex-row items-center cursor-pointer gap-3 py-[24px] px-[20px]  ${

@@ -6,6 +6,7 @@ import jwtDecode from "jwt-decode";
 import posthog from "posthog-js"; // new
 import CookieBanner from "./components/cookieBanner";
 
+
 const Home = () => {
   const [isSidebar, setIsSidebar] = useState(true);
   let userData = localStorage.getItem("userData");
@@ -38,13 +39,13 @@ const Home = () => {
 
         <Outlet context={[decoded]}/>
 
-        <div className="absolute top-4 right-3">
+        {/* <div className="absolute top-4 right-3">
           {" "}
           {posthog.has_opted_out_capturing() || // new
           posthog.has_opted_in_capturing() ? null : (
             <CookieBanner />
           )}
-        </div>
+        </div> */}
       </main>
     </div>
   );

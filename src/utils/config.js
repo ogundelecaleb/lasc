@@ -27,7 +27,7 @@ export const GETCOUNTRY= getApiUrl('/supportedservices/getallcountries');
 export const GETCURRENCY= getApiUrl('/supportedservices/getallcurrencies');
 
 export const GENERATEKEY = getApiUrl('/applicationprofile/generate');
-export const GETALLKEYS = getApiUrl('/applicationprofile/getall');
+export const GETALLKEYS = getApiUrl('/applicationprofile/getmerchantapplicationprofile');
 
 
 

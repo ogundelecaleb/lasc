@@ -40,9 +40,9 @@ const RequestOtp = () => {
   return (
     <div className=" bg-[#f5f5f5] py-[108px]  px-[30px] ">
       <div className="flex flex-col bg-[white] justify-center items-center pb-[171px] pt-[81px] lg:px-[90px] md:px-[50px] px-[30px] max-w-[630px] mx-auto text-center ">
-        <img src="./paylodelogo.png" alt="" className="h-[50px] md:h-[70px]" />
+        <img src="./paylodelogo.png" alt="" className="h-[40px]  md:h-[60px] lg:h-[70px]" />
 
-        <h3 className="text-[24px] md:text-[32px] font-bold text-[#1a202c] mt-[37px] pb-2">
+        <h3 className="text-[24px] md:text-[32px] font-bold text-[#1a202c] mt-[16px] md:mt-[37px] pb-2">
           Sign up as Paylode merchant
         </h3>
 
@@ -65,7 +65,7 @@ const RequestOtp = () => {
 
           <button
             type="submit"
-            class="py-4 items-center rounded-[20px] w-full my-[32px] bg-[#124072] text-[#ffffff] text-[16px] leading-[24px] tracking-[0.2px] font-extrabold flex justify-center "
+            class="py-4 items-center rounded-[20px] w-full mt-[20px]  mb-[5px] bg-[#124072] text-[#ffffff] text-[16px] leading-[24px] tracking-[0.2px] font-extrabold flex justify-center "
           >
             Next{" "}
             {isLoading && (

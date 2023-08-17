@@ -305,7 +305,7 @@ const Dashboard = () => {
               ) : (
                 <div className="mx-auto text-center justify-center items-center mt-4">
                   {/* <img src="./nodata.gif" className="mx-auto mt-6 " alt="" /> */}
-                  <h3 className="text-[30px] leading-[35px]  text-[#1A202C] font-extrabold">
+                  <h3 className="text-[16px]  md:text-[20px]    lg:text-[30px] leading-[35px]  text-[#1A202C] font-extrabold">
                     No Transaction Data
                   </h3>
                 </div>
@@ -464,7 +464,7 @@ const Dashboard = () => {
         ) : (
           <div className="mx-auto text-center justify-center items-center mt-4">
             <img src="./nodata.gif" className="mx-auto mt-6 " alt="" />
-            <h3 className="text-[30px] leading-[35px]  text-[#1A202C] font-extrabold">
+            <h3 className="text-[30px] leading-[35px]  text-[#1A202C] font-extrabold"> 
               No Data
             </h3>
           </div>

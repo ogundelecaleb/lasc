@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import api from "../../api";
 import { enqueueSnackbar } from "notistack";
 import { useQuery } from "@tanstack/react-query";
@@ -16,8 +15,6 @@ const SettlementAccount = () => {
   const [country, setCountry] = useState("");
   const [accountName, setAccountName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
-  const [pin, setPin] = useState("");
-
   const [merchantData, setMerchantData] = useState("");
 
   const handleUpdateModalOpen = (id) => {
@@ -28,18 +25,6 @@ const SettlementAccount = () => {
   const handleUpdateModalClose = () => {
     setIsOpen(false);
   };
-
-  function formatTime(date) {
-    const datetime = Moment(date);
-    const formattedTime = datetime.format("hh.mm A");
-    return formattedTime;
-  }
-  function formatDate(datetimeStr) {
-    const date = Moment(datetimeStr);
-    const formattedDate = date.format("MMM DD, YYYY");
-
-    return formattedDate;
-  }
 
   async function createSettlementAcct(e) {
     e.preventDefault();

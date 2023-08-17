@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import api from "../../api";
-import { enqueueSnackbar } from "notistack";
 import { useQuery } from "@tanstack/react-query";
-import Modal from "../../components/Modal";
 
 const PersonalInfo = () => {
-  const BaseApiUrl = "https://pgmerchantsapi.paylodeservices.com/api/v1";
-  const [logo, setLogo] = useState("");
-  const [file, setFile] = useState("");
-  const [loading, setLoading] = useState(false);
+
 
   const getMerchantProfilenQuery = useQuery(
     ["getMerchantProfile"],
@@ -44,7 +39,7 @@ const PersonalInfo = () => {
             <tr className="my-2">
               <th className="text-grey-600 font-bold text-left ">First Name</th>
               <td className="py-6 md:pl-3 text-gray-600">
-              <p className="py-3 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
+              <p className="py-3 md:pl-3 px-2 md:px-3 text-left text-gray-600 border border-grey-600 rounded-lg">
                   {getMerchantProfilenQuery.data?.data?.user?.firstName}
                 </p>
               </td>
@@ -52,7 +47,7 @@ const PersonalInfo = () => {
             <tr className="my-2">
               <th className="text-grey-600 font-bold text-left ">Last Name</th>
               <td className="py-6 md:pl-3 text-gray-600">
-              <p className="py-3 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
+              <p className="py-3 md:pl-3 px-2 md:px-3 text-left text-gray-600 border border-grey-600 rounded-lg">
                   {getMerchantProfilenQuery.data?.data?.user?.lastName}
                 </p>
               </td>
@@ -60,7 +55,7 @@ const PersonalInfo = () => {
             <tr className="my-2">
               <th className="text-grey-600 font-bold text-left ">Email</th>
               <td className="py-6 md:pl-3 text-gray-600">
-              <p className="py-3 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
+              <p className="py-3 md:pl-3 px-2 md:px-3 text-left text-gray-600 border border-grey-600 rounded-lg">
                   {getMerchantProfilenQuery.data?.data?.user?.email}
                 </p>
               </td>
@@ -70,27 +65,12 @@ const PersonalInfo = () => {
                 Phone Number
               </th>
               <td className="py-6 md:pl-3 text-gray-600">
-              <p className="py-3 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
+              <p className="py-3 md:pl-3 px-2 md:px-3 text-left text-gray-600 border border-grey-600 rounded-lg">
                   {getMerchantProfilenQuery.data?.data?.user?.phoneNumber}
                 </p>
               </td>
             </tr>
-            {/* <tr className="my-2">
-              <th className="text-grey-600 font-bold "></th>
-              <td className="py-6 md:pl-3 text-grey-600 text-right">
-                <button
-                  onClick={() =>
-                    handleUpdateModalOpen(
-                      getMerchantProfilenQuery.data?.data?.userId
-                    )
-                  }
-                  className="bg-[blue] text-[white] px-4 py-2 rounded-lg shadow "
-                >
-                  Edit
-                </button>
-               
-              </td>
-            </tr> */}
+           
           </table>
         )}
 

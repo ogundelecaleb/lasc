@@ -8,6 +8,8 @@ import { enqueueSnackbar } from "notistack";
 
 const Transaction = () => {
   const [open, setOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
   const [currency, setCurrency] = useState("");
   const [channel, setChannel] = useState("");
@@ -16,6 +18,9 @@ const Transaction = () => {
   const [endDate, setEndDate] = useState("");
   const [status, setStatus] = useState("")
   const [transactionRef, setTransactionRef] = useState("")
+  const [exportStatus, setExportStatus] = useState("");
+  const [exportStartDate, setExportStartDate] = useState("");
+  const [exportEndDate, setExportEndDate] = useState("");
 
   const handleDisplaySearch = () => {
     setDisplaySearch(!displaySearch);
@@ -24,6 +29,14 @@ const Transaction = () => {
   const handleTransacModalOpen =() => {
     setOpen(true)
   }
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   function formatTime(date) {
     const datetime = Moment(date);
@@ -86,6 +99,47 @@ const Transaction = () => {
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
+
+  function clearForm() {
+    
+    setExportStatus("");
+    setExportStartDate("");
+    setExportEndDate("");
+  }
+
+  async function exportTransaction(e) {
+    e.preventDefault();
+
+    setLoading(true);
+    try {
+      const response = await api.exportTransactions({
+        params: {
+          StartDate: exportStartDate,
+          EndDate: exportEndDate,
+          Status: exportStatus,
+        },
+      });
+      console.log("res of export==>>>>>", response);
+      // window.open('http://stackoverflow.com', '_blank');
+      const url = window.URL.createObjectURL(new Blob([response]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Transactions.csv"); // or any other filename you want
+      document.body.appendChild(link);
+      link.click();
+      enqueueSnackbar("Transaction Exported Successfully", {
+        variant: "success",
+      });
+      setLoading(false);
+      refetch();
+      handleModalClose();
+      clearForm();
+    } catch (error) {
+      console.log(error);
+      enqueueSnackbar(error.message, { variant: "error" });
+      setLoading(false);
+    }
+  }
 
   if (isError) {
     return (
@@ -185,8 +239,8 @@ const Transaction = () => {
             </svg>
             Filters
           </button>
-          {/* <button
-            // onClick={handleModalOpen}
+          <button
+            onClick={handleModalOpen}
             className="px-4 py-4 border border-[#E2E8F0]  text-[#1A202C] text-[14px] leading-[21px] tracking-[0.2px] h-[48px] font-semibold rounded-xl flex items-center "
           >
             <svg
@@ -213,7 +267,7 @@ const Transaction = () => {
               />
             </svg>
             Export
-          </button> */}
+          </button>
         </div>
       </div>
       {/* end search and filter button */}
@@ -487,6 +541,123 @@ const Transaction = () => {
           </div>
         )}
       </div>
+      <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+        <div className="inline-block overflow-hidden text-left align-bottom transition-all transform bg-[white] rounded-2xl shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+          <div className="mt-4 flex justify-between mx-5">
+            <h3 className="text-[24px] leading-[31px]  text-[#1A202C] font-extrabold">
+              Export Transaction
+            </h3>
+            <svg
+              onClick={handleModalClose}
+              className="cursor-pointer"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16.9497 7.05032L7.05021 16.9498"
+                stroke="#171717"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M7.05029 7.05032L16.9498 16.9498"
+                stroke="#171717"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div className="mt-5 md:mt-0 md:col-span-2">
+            <form onSubmit={exportTransaction}>
+              <div className="overflow-hidden shadow sm:rounded-md">
+                <div className="px-4 py-5 bg-white sm:p-6">
+                  <div className="grid grid-cols-6 gap-6 pt-4">
+                    <div className="col-span-12 sm:col-span-6 ">
+                      <p className="text-[#718096] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]">
+                        Status
+                      </p>
+                      <select
+                        className="block w-full webkit  h-14 px-4 py-[13.5px] placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
+                        value={exportStatus}
+                        onChange={(e) => setExportStatus(e.target.value)}
+                      >
+                        <option value="">All Status</option>
+
+                        <option value={"Success"}>Success</option>
+                        <option value={"Failed"}>Failed</option>
+                        <option value={"Initiated"}>Initiated</option>
+                        <option value={"Processing"}>Processing</option>
+                      </select>
+                    </div>
+                    <div className="col-span-12 sm:col-span-6 ">
+                      <p className="text-[#718096] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]">
+                        Start Date
+                      </p>
+                      <input
+                        type="date"
+                        className="block w-full  h-14 px-4 py-[13.5px] placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
+                        placeholder="start date"
+                        value={exportStartDate}
+                        onChange={(e) => setExportStartDate(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-span-12 sm:col-span-6 ">
+                      <p className="text-[#718096] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold mb-[12px]">
+                        End Date
+                      </p>
+                      <input
+                        type="date"
+                        className="block w-full  h-14 px-4 py-[13.5px] placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
+                        placeholder=""
+                        value={exportEndDate}
+                        onChange={(e) => setExportEndDate(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="col-span-12 sm:col-span-6 mb- mt-6">
+                      <button
+                        type="submit"
+                        className="py-4 items-center rounded-[24px] w-full bg-[#124072] text-[white] text-[16px] leading-[24px] tracking-[0.2px] font-extrabold flex justify-center "
+                      >
+                        Export
+                        {loading && (
+                          <svg
+                            className="ml-4 w-6 h-6 text-[white] animate-spin"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              stroke-width="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </Modal>
+
+
     </div>
   );
 };

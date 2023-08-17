@@ -83,16 +83,16 @@ const Topbar = ({ setIsSidebar, userData }) => {
             ? "Dashboard"
             : location.pathname === "/transaction"
             ? "Transactions"
-            : location.pathname === "/bank"
-            ? "Bank"
-            : location.pathname === "/channel"
-            ? "Channel"
-            : location.pathname === "/wallet"
-            ? "Wallet"
-            : location.pathname === "/country"
-            ? "Country"
+            : location.pathname === "/settlement"
+            ? "Settlements"
             : location.pathname === "/merchant"
-            ? "Merchant"
+            ? "Team"
+            : location.pathname === "/apikey"
+            ? "API Credentials"
+            : location.pathname === "/businessProfile"
+            ? "Business Profile"
+            : location.pathname === "/settlementAccount"
+            ? "Settlement Account"
             : location.pathname === "/name"
             ? "Name"
             : location.pathname === "/userAdmin"
@@ -147,7 +147,7 @@ const Topbar = ({ setIsSidebar, userData }) => {
             <img
             src={logo || "../avatar.png"}
             alt=""
-            className="border object-contain  w-[30px] md:w-[48px]  lg:w-[48px]  h-[30px] md:h-[48px]  lg:h-[48px] bg-[#b3c2d6] border-dark-blue rounded-full p-1 mr-2  lg:mr-4"
+            className="border object-contain  w-[30px] md:w-[40px]  lg:w-[40px]  h-[30px] md:h-[40px]  lg:h-[40px] bg-[#b3c2d6] border-dark-blue rounded-full p-1 mr-2  lg:mr-4"
           />
               <h4 class="text-[#1A202C] lg:text-[16px] lg:leading-[24px] text-[14px] leading-[21px] tracking-[0.2px] font-extrabold ">
                 {userData.fullName}
@@ -170,27 +170,7 @@ const Topbar = ({ setIsSidebar, userData }) => {
             </svg>
           </div>
 
-          {/* <img
-            src="./profile-pic.png"
-            alt="profile-pic"
-            className="h-[32px] rounded-full "
-          />
-          <h3>Emmanuel .O</h3>
-          <button
-            onClick={() => {
-              if (isOpen === false) {
-                setIsOpen(true);
-              } else {
-                setIsOpen(false);
-              }
-            }}
-          >
-            <img
-              src="./dropdown.png"
-              alt="dropdown icon"
-              className="h-[16px]"
-            />
-          </button> */}
+       
         </div>
 
         {/* Create filter Modal */}

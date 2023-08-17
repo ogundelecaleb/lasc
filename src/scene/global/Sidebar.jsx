@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { MdOutlineContactSupport } from "react-icons/md";
+import { BiBookAlt } from "react-icons/bi";
+import { BsBoxArrowUpRight } from "react-icons/bs";
 
 const Sidebar = ({ isSidebarOpen, onClose }) => {
   const router = useLocation();
 
   const [openUsers, setOpenUsers] = useState(false);
-  const [openWallet, setOpenWallet] = useState(false);
+  const [settings, setSettings] = useState(true);
   const [openOption, setOpenOption] = useState(false);
   const [openBiller, setOpenBiller] = useState(false);
   const [openStock, setOpenStock] = useState(false);
@@ -212,13 +214,13 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
                 stroke-linejoin="round"
               />
             </svg>
-            Users
+            My Team
           </Link>
 
           {/* Settings */}
 
           <button
-            onClick={() => setOpenWallet(!openWallet)}
+            onClick={() => setSettings(!settings)}
             // to="/dashboard"
             className={`mx-[24px]  px-[16px] py-[13px] flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-end  mb-[12px] ${
               window.location.pathname === "/businessProfile" ||
@@ -231,7 +233,7 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
             <FiSettings className="mr-[12px] text-xl" />
             Settings
           </button>
-          {openWallet && (
+          {settings && (
             <div className={`ml-[50px] mb-3 `}>
               <div className="border-l border-[#E2E8F0]">
                 <Link
@@ -274,7 +276,8 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
               <div className={`ml-[50px] mb-1 `}>
                 <div className="border-l border-[#E2E8F0]">
                   <Link
-                    to="https://paylodeservices.com/"
+                    to="https://paylodeservices.com/support"
+                    target="_blank"
                     className={` px-[16px]  flex tracking-[0.2px] text-[14px] leading-[21px]  mb-[5px] hover:text-[#124072] ${
                       window.location.pathname === "/CustomerSupport"
                         ? " text-[#124072] font-extrabold"
@@ -284,7 +287,7 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
                     Customer Support
                   </Link>
                   <Link
-                    to="https://paylodeservices.com/"
+                    to="/faq"
                     className={` px-[16px]  flex tracking-[0.2px] text-[14px] leading-[21px]  hover:text-[#124072] ${
                       window.location.pathname === "/faq"
                         ? " text-[#124072] font-extrabold"
@@ -308,6 +311,24 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
               <MdOutlineContactSupport className="mr-[12px] text-xl" />
               Support
             </button>
+
+            <Link to="http://94.229.79.27:65123/" target="_blank">
+              <button
+                onClick={() => setSettings(!settings)}
+                // to="/dashboard"
+                className={`mx-[24px]  px-[16px] py-[13px] flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-center  mb-[12px] ${
+                  window.location.pathname === "/businessProfile" ||
+                  window.location.pathname === "/settlementAccount" ||
+                  window.location.pathname === "/apikey"
+                    ? "bg-[#124072] text-[white] rounded-xl"
+                    : "text-[#718096]"
+                }`}
+              >
+                <BiBookAlt className="mr-[12px] text-xl" />
+                Developer Docs{" "}
+                <BsBoxArrowUpRight className="ml-[6px] text-md" />
+              </button>
+            </Link>
           </div>
         </div>
       </div>

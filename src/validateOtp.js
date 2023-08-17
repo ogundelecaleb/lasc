@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import OTPInput, { ResendOTP } from "otp-input-react";
-import { toast } from "react-hot-toast";
+import OTPInput from "otp-input-react";
 import { enqueueSnackbar } from "notistack";
 import api from "./api";
 
@@ -10,35 +9,35 @@ const ValidateOtp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [otp, setOtp] = useState("");
   const userRef = useRef();
-  const sessionId = localStorage.getItem('sessionId');
+  const sessionId = localStorage.getItem("sessionId");
 
- 
   async function validtaeOtp(e) {
     e.preventDefault();
 
     setIsLoading(true);
     try {
-      const response = await api.validateOtp({ sessionHash:sessionId, code: otp });
+      const response = await api.validateOtp({
+        sessionHash: sessionId,
+        code: otp,
+      });
       console.log("res of login==>>>>>", response);
       enqueueSnackbar(response.message, { variant: "success" });
-      // toast.success(response.message);
-     
+
       setIsLoading(false);
       navigate("/signUp");
-      // navigation.navigate(routes.OTP);
     } catch (error) {
       console.log(error);
       enqueueSnackbar(error.message, { variant: "error" });
-      // toast.error(error.message)
+
       setIsLoading(false);
     }
   }
 
   return (
-    <div className=" bg-[#f5f5f5]  py-[108px]   px-[30px] ">
-      <div className="flex flex-col bg-[white] justify-center items-center pb-[171px] pt-[81px] lg:px-[90px] md:px-[50px] px-[40px] max-w-[630px] mx-auto text-center ">
+    <div className=" bg-[#f5f5f5]  py-[108px]   md:px-[30px] ">
+      <div className="flex flex-col bg-[white] justify-center items-center pb-[171px] pt-[81px] lg:px-[90px] md:px-[50px] px-[40px] max-w-[730px] mx-auto text-center ">
         <h3 className="text-[32px] text-[#1a202c] max-w-[430px] font-bold pb-1">
-        Verify your email
+          Verify your email
         </h3>
         <p className="text-[#718096] text-md mb-5">
           We have sent code to your email
@@ -61,10 +60,10 @@ const ValidateOtp = () => {
             borderRadius: "5px",
           }}
         />
-        <ResendOTP handelResendClick={() => console.log("Resend clicked")} />
+
 
         <button
-          type="button"
+          type="submit"
           onClick={validtaeOtp}
           class="py-4 items-center rounded-[20px] w-full my-[32px] bg-[#124072] text-[#ffffff] text-[16px] leading-[24px] tracking-[0.2px] font-extrabold flex justify-center "
         >
@@ -92,48 +91,7 @@ const ValidateOtp = () => {
             </svg>
           )}
         </button>
-        {/* <form action="" className="flex flex-col mt-[40px]">
-          <div className="flex flex-row gap-[10px] justify-center">
-            <input
-              type="number"
-              className="border h-[45px] w-[42px] rounded-[6px] text-center "
-            />
-            <input
-              type="number"
-              disabled
-              className="border h-[45px] w-[42px] rounded-[6px] text-center "
-            />
-
-            <input
-              type="number"
-              disabled
-              className="border h-[45px] w-[42px] rounded-[6px] text-center "
-            />
-            <input
-              type="number"
-              disabled
-              className="border h-[45px] w-[42px] rounded-[6px] text-center "
-            />
-            <input
-              type="number"
-              disabled
-              className="border h-[45px] w-[42px] rounded-[6px] text-center "
-            />
-          </div>
-
-          <button
-            onClick={() => {
-              navigate("/newPass");
-            }}
-            className="bg-[#124072] p-2 rounded-[20px] text-gray-200 my-[32px]"
-          >
-            Reset Password
-          </button>
-        </form> */}
-
-        {/* <button className="text-sm text-[#718096]">
-          Resend code in <span className="font-bold text-[#1a202c]">59:00</span>
-        </button> */}
+       
       </div>
     </div>
   );

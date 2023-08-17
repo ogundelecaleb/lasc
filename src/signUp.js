@@ -78,14 +78,14 @@ const SignUp = () => {
 
   return (
     <div className=" bg-[#f5f5f5] py-[108px] px-[30px]">
-      <div className="flex flex-col bg-[white] justify-center items-center pb-[171px] pt-[81px] lg:px-[90px] md:px-[50px] px-[30px] max-w-[630px] mx-auto text-center ">
-        <img src="./paylodelogo.png" alt="" className="h-[70px]" />
+      <div className="flex flex-col bg-[white] justify-center items-center pb-[50px] pt-[40px] md:pb-[100px] md:pt-[60px] lg:pb-[171px] lg:pt-[81px] lg:px-[90px] md:px-[50px] px-[20px] max-w-[630px] mx-auto text-center ">
+        <img src="./paylodelogo.png" alt="" className="h-[40px]  md:h-[60px] lg:h-[70px]" />
 
-        <h3 className="text-[32px] font-bold text-[#1a202c] mt-[37px] pb-2">
+        <h3 className=" text-[20px]  md:text-[32px] font-bold text-[#1a202c] mt-[16px] md:mt-[37px] pb-2">
           Create merchant account
         </h3>
 
-        <p className="text-md text-[#a0aec0] max-w-[288px] self-center mb-[45px]">
+        <p className="text-md text-[#a0aec0] max-w-[288px] self-center  mb-[15px] md:mb-[40px]">
           Enter valid details to sign up
         </p>
 
@@ -93,7 +93,7 @@ const SignUp = () => {
           onSubmit={signUp}
           className="flex flex-col max-w-[427px]  w-full self-center gap-4"
         >
-          <div className="flex flex-col md:flex-row gap-10 items-center ">
+          <div className="flex flex-col md:flex-row gap-5 md:gap-10 items-center ">
             <input
               type="text"
               className=" h-14 px-4 py-4 w-full placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#124072] text-[16px] leading-[24px] tracking-[0.2px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
@@ -155,10 +155,32 @@ const SignUp = () => {
               {errorMessage}
             </p>
           </div>
+          <div className="flex">
+            <input
+              type="checkbox"
+              id="t&c"
+              name="t&c"
+              value="yes"
+              required
+              className="mt-3"
+            />
+            <label for="t&c" className="text-sm">
+              Ticking this checkbox implies that you acknowledge that you have
+              read and are bound by the{" "}
+              <a
+                href="https://paylodeservices.com/termsofuse"
+                target="_blank"
+                className="text-[#2f71b8] cursor-pointer "
+              >
+                Terms and Condition
+              </a>{" "}
+              , as well as any other usage
+            </label>
+          </div>
 
           <button
             type="submit"
-            class="py-4 items-center rounded-[20px] w-[427px] my-[32px] bg-[#124072] text-[#ffffff] text-[16px] leading-[24px] tracking-[0.2px] font-extrabold flex justify-center "
+            class="py-4 items-center rounded-[20px] w-full mt-[20px]  mb-[5px] bg-[#124072] text-[#ffffff] text-[16px] leading-[24px] tracking-[0.2px] font-extrabold flex justify-center "
           >
             Sign Up{" "}
             {isLoading && (
@@ -185,7 +207,7 @@ const SignUp = () => {
             )}
           </button>
           <p>
-            Alraedy have an account{" "}
+            Alraedy have an account
             <button
               onClick={() => {
                 navigate("/login");
