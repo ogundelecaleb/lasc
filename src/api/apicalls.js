@@ -16,7 +16,7 @@ import {
   GETUSER,
   GETBANK,
   GETCOUNTRY,
-  GETCURRENCY,UPLOAD,GETALLKEYS,
+  GETCURRENCY,UPLOAD,GETALLKEYS,INVOICE,INVOICELIST
 } from "../utils/config";
 import { apiGet, apiGetCSV, apiPost, apiPut } from "../utils/utils";
 
@@ -99,4 +99,13 @@ export function getCurrency(data) {
 //All Bank
 export function getBank(data) {
   return apiGet(GETBANK, data);
+}
+
+//Payment Link
+export function createInvoice(data) {
+  return apiPost(INVOICE, data);
+}
+
+export function getInvoice(data) {
+  return apiGet(INVOICELIST, data);
 }

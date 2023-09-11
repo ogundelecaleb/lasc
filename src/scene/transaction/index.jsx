@@ -366,9 +366,10 @@ const Transaction = () => {
 
       <div className="flex flex-col break-words overflow-x-auto bg-white  mb-6">
         <table className="min-w-full mb-6">
-          <thead>
+          <thead className="bg-light-gray">
             <tr className="mb-2">
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+              <th 
+              className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                 Transaction Reference
               </th>
               <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">

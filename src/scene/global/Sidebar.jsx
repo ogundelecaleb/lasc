@@ -7,6 +7,7 @@ import { FiSettings } from "react-icons/fi";
 import { MdOutlineContactSupport } from "react-icons/md";
 import { BiBookAlt } from "react-icons/bi";
 import { BsBoxArrowUpRight } from "react-icons/bs";
+import {TbFileInvoice} from "react-icons/tb"
 
 const Sidebar = ({ isSidebarOpen, onClose }) => {
   const router = useLocation();
@@ -182,6 +183,21 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
             Transactions
           </Link>
 
+
+                    {/* Payment Link */}
+          <Link
+            to="/paymentlink"
+            className={`mx-[24px] py-[13px] px-[16px]  flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-center mb-[12px] ${
+              window.location.pathname === "/paymentlink"
+                ? "bg-[#124072] text-[white] rounded-xl"
+                : "text-[#718096]"
+            }`}
+          >             
+
+           <TbFileInvoice  className="mr-[12px] text-xl"/>
+            Payment Link
+          </Link>
+
           {/* Users */}
           <Link
             to="/merchant"
@@ -314,15 +330,12 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
 
             <Link to="http://94.229.79.27:65123/" target="_blank">
               <button
-                onClick={() => setSettings(!settings)}
+                
                 // to="/dashboard"
-                className={`mx-[24px]  px-[16px] py-[13px] flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-center  mb-[12px] ${
-                  window.location.pathname === "/businessProfile" ||
-                  window.location.pathname === "/settlementAccount" ||
-                  window.location.pathname === "/apikey"
-                    ? "bg-[#124072] text-[white] rounded-xl"
-                    : "text-[#718096]"
-                }`}
+                className="mx-[24px]  px-[16px] py-[13px] flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-center  mb-[12px] 
+                hover:bg-[#124072] hover:text-[white] rounded-xl
+                  text-[#718096]
+                "
               >
                 <BiBookAlt className="mr-[12px] text-xl" />
                 Developer Docs{" "}

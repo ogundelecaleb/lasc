@@ -7,8 +7,8 @@ import Modal from "../../components/Modal";
 import { useEffect } from "react";
 
 const BusinessProfile = () => {
-  // const BaseApiUrl = "https://pgmerchantsapi.paylodeservices.com/api/v1";
-  const BaseApiUrl = "http://94.229.79.27:55412/api/v1";
+  const BaseApiUrl = "https://pgmerchantsapi.paylodeservices.com/api/v1";
+  // const BaseApiUrl = "http://94.229.79.27:55412/api/v1";
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
@@ -23,7 +23,6 @@ const BusinessProfile = () => {
   const [file, setFile] = useState("");
   const [logoLoading, setLogoLoading] = useState(false);
 
-
   const handleUpdateModalOpen = (id) => {
     setMerchantData(id.userId);
     setBusinessAddresss(id.businessAddresss);
@@ -35,10 +34,6 @@ const BusinessProfile = () => {
   const handleUpdateModalClose = () => {
     setIsOpen(false);
   };
-
-
-
-
 
   async function createTransactionAccess(e) {
     e.preventDefault();
@@ -63,7 +58,6 @@ const BusinessProfile = () => {
     }
   }
 
-
   useEffect(() => {
     console.log(merchantData);
   });
@@ -81,7 +75,6 @@ const BusinessProfile = () => {
     setBusinessName("");
     setBusinessAddresss(" ");
     setBvn("");
-   
   }
 
   async function getMerchantProfile() {
@@ -150,7 +143,7 @@ const BusinessProfile = () => {
     const data = await response.json();
     if (data.isSuccessful && data.data) {
       setLogoLoading(false);
-      getMerchantProfilenQuery.refetch()
+      getMerchantProfilenQuery.refetch();
       enqueueSnackbar("Image uploaded successfully", { variant: "success" });
     } else {
       setLogoLoading(false);
@@ -163,9 +156,7 @@ const BusinessProfile = () => {
       {" "}
       <div className="px-[40px] py-[20px] ">
         <div className="w-full pb-1 mb-[28px] border-b border-b-[#EDF2F7]">
-          <h2 className="text-[24px] text-dark font-bold">
-            Bussiness Details
-          </h2>
+          <h2 className="text-[24px] text-dark font-bold">Bussiness Details</h2>
         </div>
         <div className="flex flex-row items-center mb-[30px] ">
           <img
@@ -211,35 +202,55 @@ const BusinessProfile = () => {
         </div>
 
         {getMerchantProfilenQuery.data && (
-          <table>
-            <tr className="my-2 rounded-xl ">
-              <th className="text-grey-600 font-bold text-left ">
-                Business Name:
-              </th>
-              <td className="py-3 w-full md:w-[65%] lg:w-[72%]">
-                <p className="py-3 px-3 ml-2 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
+          <div>
+            {/* <div className="flex items-center">
+              <div>Business Name:</div>{" "}
+              <div>
+                {" "}
+                <input
+                  type="text"
+                  onChange={(e) => setBusinessName(e.target.value)}
+                  defaultvalue={getMerchantProfilenQuery.data?.data?.businessName}
+                />
+              </div>
+            </div> */}
+            <table>
+              <tr className="my-2 rounded-xl ">
+                <th className="text-grey-600 font-bold text-left ">
+                  Business Name:
+                </th>
+                <td className="py-3 w-full md:w-[65%] lg:w-[72%]">
+                  {/* <input
+                    type="text"
+                    onChange={(e) => setBusinessName(e.target.value)}
+                    // value={businessName}
+                    value={getMerchantProfilenQuery.data?.data?.businessName}
+
+                  /> */}
+                  <p className="py-3 px-3 ml-2 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
                   {getMerchantProfilenQuery.data?.data?.businessName}
                 </p>
-              </td>
-            </tr>
-            <tr className="my-2">
-              <th className="text-grey-600 font-bold text-left mr-2 ">
-                Business Address:
-              </th>
-              <td className="py-3 ml-2 w-full md:w-[65%] lg:w-[72%]">
-                <p className="py-3 px-3 ml-2 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
-                  {getMerchantProfilenQuery.data?.data?.businessAddresss}
-                </p>
-              </td>
-            </tr>
-            <tr className="my-2">
-              <th className="text-grey-600 font-bold text-left mr-2">BVN:</th>
-              <td className="py-3 w-full md:w-[65%] lg:w-[72%]">
-                <p className="py-3 px-3 ml-2 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
-                  {getMerchantProfilenQuery.data?.data?.bvn}</p>
-              </td>
-            </tr>
-            {/* <tr className="space-y-9">
+                </td>
+              </tr>
+              <tr className="my-2">
+                <th className="text-grey-600 font-bold text-left mr-2 ">
+                  Business Address:
+                </th>
+                <td className="py-3 ml-2 w-full md:w-[65%] lg:w-[72%]">
+                  <p className="py-3 px-3 ml-2 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
+                    {getMerchantProfilenQuery.data?.data?.businessAddresss}
+                  </p>
+                </td>
+              </tr>
+              <tr className="my-2">
+                <th className="text-grey-600 font-bold text-left mr-2">BVN:</th>
+                <td className="py-3 w-full md:w-[65%] lg:w-[72%]">
+                  <p className="py-3 px-3 ml-2 md:pl-3 text-left text-gray-600 border border-grey-600 rounded-lg">
+                    {getMerchantProfilenQuery.data?.data?.bvn}
+                  </p>
+                </td>
+              </tr>
+              {/* <tr className="space-y-9">
               <th className="text-grey-600 font-bold text-left ">
                 Industry Type:
               </th>
@@ -249,23 +260,22 @@ const BusinessProfile = () => {
                 </p>
               </td>
             </tr> */}
-            <tr className="my-2">
-              <th className="text-grey-600 font-bold "></th>
-              <td className="py-6 md:pl-3 text-grey-600 text-right">
-                <button
-                  onClick={() =>
-                    handleUpdateModalOpen(
-                      getMerchantProfilenQuery.data?.data
-                    )
-                  }
-                  className="py-[7px] px-[12px]   lg:py-[11px] lg:px-[20px] bg-dark-blue text-[#fafafa] text-[12px] font-bold mr-3 rounded-lg "
-                >
-                  Edit
-                </button>
-                {/* <p className="md:px-10 ">{getMerchantProfilenQuery.data?.data?.businessName}</p> */}
-              </td>
-            </tr>
-          </table>
+              <tr className="my-2">
+                <th className="text-grey-600 font-bold "></th>
+                <td className="py-6 md:pl-3 text-grey-600 text-right">
+                  <button
+                    onClick={() =>
+                      handleUpdateModalOpen(getMerchantProfilenQuery.data?.data)
+                    }
+                    className="py-[7px] px-[12px]   lg:py-[11px] lg:px-[20px] bg-dark-blue text-[#fafafa] text-[12px] font-bold mr-3 rounded-lg "
+                  >
+                    Edit
+                  </button>
+                  {/* <p className="md:px-10 ">{getMerchantProfilenQuery.data?.data?.businessName}</p> */}
+                </td>
+              </tr>
+            </table>
+          </div>
         )}
       </div>
       <Modal isOpen={isOpen} onClose={handleUpdateModalClose}>

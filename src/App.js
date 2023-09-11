@@ -32,6 +32,7 @@ import Settlements from "./scene/settlement";
 import ApiKey from "./scene/apiKey";
 import CustomerSupport from "./scene/customerSupport";
 import FAQ from "./scene/faq";
+import PaymentLink from "./scene/paymentLink";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -79,6 +80,7 @@ function App() {
                 
               </Route>
               <Route path="/transaction" element={<Transaction />} />
+              <Route path="/paymentlink" element={<PaymentLink />} />
               <Route path="/merchant" element={<Merchant />} />
               <Route path="/settlement" element={<Settlements />} />
               <Route path="/businessProfile" element={<BusinessProfile />} />

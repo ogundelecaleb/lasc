@@ -92,7 +92,7 @@ const LoginSecurity = () => {
           Change Password
         </h2>
         <form action="" className="">
-          <div className="flex flex-col mb-[28px] gap-[24px]">
+          <div className="flex flex-col mb-[28px] gap-[18px]">
             <div className="flex flex-col">
               <label
                 htmlFor=""
@@ -103,7 +103,7 @@ const LoginSecurity = () => {
                   <input
                     type={open === false ? "password" : "text"}
                     className="border px-[16px] py-[9px] rounded-[10px] mb-[16px] w-full "
-                    placeholder="password"
+                    placeholder=""
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
                   />
@@ -128,7 +128,7 @@ const LoginSecurity = () => {
                   <input
                     type={open1 === false ? "password" : "text"}
                     className="border px-[16px] py-[9px] rounded-[10px]  w-full "
-                    placeholder="password"
+                    placeholder=""
                     value={newPassword}
                     onChange={handlePassword}
                   />
@@ -165,7 +165,7 @@ const LoginSecurity = () => {
                   <input
                     type={open2 === false ? "password" : "text"}
                     className="border px-[16px] py-[9px] rounded-[10px] w-full "
-                    placeholder="password"
+                    placeholder=""
                     value={confirmPassword}
                     onChange={handleConfirmPassword}
                   />

@@ -1,8 +1,8 @@
 //production server
-export const API_BASE_URL = 'http://94.229.79.27:55412/api/v1';
+// export const API_BASE_URL = 'http://94.229.79.27:55412/api/v1';
 
 //live server
-// export const API_BASE_URL = 'https://pgmerchantsapi.paylodeservices.com/api/v1';
+export const API_BASE_URL = 'https://pgmerchantsapi.paylodeservices.com/api/v1';
 export const getApiUrl = (endpoint) => API_BASE_URL + endpoint
 
 
@@ -25,6 +25,8 @@ export const GETUSER= getApiUrl('/usermanagement/users');
 export const GETBANK= getApiUrl('/supportedservices/getallbanks');
 export const GETCOUNTRY= getApiUrl('/supportedservices/getallcountries');
 export const GETCURRENCY= getApiUrl('/supportedservices/getallcurrencies');
+export const INVOICE= getApiUrl('/invoice');
+export const INVOICELIST= getApiUrl('/invoice/list');
 
 export const GENERATEKEY = getApiUrl('/applicationprofile/generate');
 export const GETALLKEYS = getApiUrl('/applicationprofile/getmerchantapplicationprofile');
