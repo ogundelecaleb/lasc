@@ -7,17 +7,17 @@ import Modal from "../../components/Modal";
 import { enqueueSnackbar } from "notistack";
 
 const Transaction = () => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [currency, setCurrency] = useState("");
   const [channel, setChannel] = useState("");
   const [displaySearch, setDisplaySearch] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [status, setStatus] = useState("")
-  const [transactionRef, setTransactionRef] = useState("")
+  const [status, setStatus] = useState("");
+  const [transactionRef, setTransactionRef] = useState("");
   const [exportStatus, setExportStatus] = useState("");
   const [exportStartDate, setExportStartDate] = useState("");
   const [exportEndDate, setExportEndDate] = useState("");
@@ -26,9 +26,9 @@ const Transaction = () => {
     setDisplaySearch(!displaySearch);
   };
 
-  const handleTransacModalOpen =() => {
-    setOpen(true)
-  }
+  const handleTransacModalOpen = () => {
+    setOpen(true);
+  };
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -67,8 +67,26 @@ const Transaction = () => {
   }
 
   const { isLoading, isError, data, error, isPreviousData, refetch } = useQuery(
-    ["transaction", currentPage, channel, currency, status, startDate,transactionRef, endDate],
-    () => getTransaction(currentPage, channel,currency, status, startDate,transactionRef, endDate),
+    [
+      "transaction",
+      currentPage,
+      channel,
+      currency,
+      status,
+      startDate,
+      transactionRef,
+      endDate,
+    ],
+    () =>
+      getTransaction(
+        currentPage,
+        channel,
+        currency,
+        status,
+        startDate,
+        transactionRef,
+        endDate
+      ),
     {
       keepPreviousData: true,
       refetchOnWindowFocus: "always",
@@ -101,7 +119,6 @@ const Transaction = () => {
   };
 
   function clearForm() {
-    
     setExportStatus("");
     setExportStartDate("");
     setExportEndDate("");
@@ -294,22 +311,25 @@ const Transaction = () => {
                 </select>
               </div>
               <div className="py-4   w-full px-4 ">
-              <select
-                type="text"
-                className=" w-full  text-[9px]  px-2 py-[8px] placeholder:text-[#A0AEC0] placeholder:text-[5px] placeholder:font-normal font-medium text-[#1A202C] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
-                autofocus
-                required
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
-              >
-                <option value="">Currency </option>
-                {currencyQuery.data &&
-                  currencyQuery.data?.data?.results.map((currency) => (
-                    <option key={currency.currencyCode} value={currency.currencyCode}>
-                      {currency.currencyName}
-                    </option>
-                  ))}
-              </select>
+                <select
+                  type="text"
+                  className=" w-full  text-[9px]  px-2 py-[8px] placeholder:text-[#A0AEC0] placeholder:text-[5px] placeholder:font-normal font-medium text-[#1A202C] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
+                  autofocus
+                  required
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                >
+                  <option value="">Currency </option>
+                  {currencyQuery.data &&
+                    currencyQuery.data?.data?.results.map((currency) => (
+                      <option
+                        key={currency.currencyCode}
+                        value={currency.currencyCode}
+                      >
+                        {currency.currencyName}
+                      </option>
+                    ))}
+                </select>
               </div>
               {/* <div className="relative py-4   w-full px-4 ">
                 <input
@@ -364,108 +384,128 @@ const Transaction = () => {
 
       {/* table */}
 
-      <div className="flex flex-col break-words overflow-x-auto bg-white  mb-6">
-        <table className="min-w-full mb-6">
-          <thead className="bg-light-gray">
-            <tr className="mb-2">
-              <th 
-              className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Transaction Reference
-              </th>
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Channel
-              </th>
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Amount
-              </th>
+      <div class="flex flex-col overflow-x-auto">
+        <div class="sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+            <div class="overflow-x-auto">
+              <table className="min-w-full mb-6">
+                <thead className="bg-light-gray">
+                  <tr className="mb-2">
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      Transaction Reference
+                    </th>
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      Channel
+                    </th>
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      Amount
+                    </th>
 
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Charges
-              </th>
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      Charges
+                    </th>
 
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Status
-              </th>
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Date
-              </th>
-              {/* <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      Status
+                    </th>
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      Date
+                    </th>
+                    {/* <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                 Action
               </th> */}
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading && !isPreviousData && <div>Loading...</div>}
-            {!isLoading && data?.data?.results.length === 0 && (
-              <tr>
-                <td className="text-center" colspan="6">
-                  <img src="./nodata.gif" className="mx-auto mt-6 " alt="" />
-                  <h3 className="text-[30px] leading-[35px]  text-[#1A202C] font-extrabold mb-[6px]">
-                    No Data
-                  </h3>
-                </td>
-              </tr>
-            )}
-            {data &&
-              data?.data?.results?.map((result) => (
-                <tr key={result.id} className="mb-2">
-                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                   {result.transactionReference}
-                  </td>
-                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    {result.channel}
-                  </td>
-                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    <NumericFormat
-                      value={result.amount}
-                      displayType={"text"}
-                      thousandSeparator={true}
-                      prefix={result.currencyCode === "NGN" ? "₦" : result.currencyCode === "USD" ? "$" : "₦"}
-                      decimalScale={2}
-                      fixedDecimalScale={true}
-                      renderText={(value) => <p>{value}</p>}
-                    />
-                  </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {isLoading && !isPreviousData && <div>Loading...</div>}
+                  {!isLoading && data?.data?.results.length === 0 && (
+                    <tr>
+                      <td className="text-center" colspan="6">
+                        <img
+                          src="./nodata.gif"
+                          className="mx-auto mt-6 "
+                          alt=""
+                        />
+                        <h3 className="text-[30px] leading-[35px]  text-[#1A202C] font-extrabold mb-[6px]">
+                          No Data
+                        </h3>
+                      </td>
+                    </tr>
+                  )}
+                  {data &&
+                    data?.data?.results?.map((result) => (
+                      <tr key={result.id} className="mb-2">
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          {result.transactionReference}
+                        </td>
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          {result.channel}
+                        </td>
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          <NumericFormat
+                            value={result.amount}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={
+                              result.currencyCode === "NGN"
+                                ? "₦"
+                                : result.currencyCode === "USD"
+                                ? "$"
+                                : "₦"
+                            }
+                            decimalScale={2}
+                            fixedDecimalScale={true}
+                            renderText={(value) => <p>{value}</p>}
+                          />
+                        </td>
 
-                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    <NumericFormat
-                      value={result.charges}
-                      displayType={"text"}
-                      thousandSeparator={true}
-                      prefix={result.currencyCode === "NGN" ? "₦" : result.currencyCode === "USD" ? "$" : "₦"}
-                      decimalScale={2}
-                      fixedDecimalScale={true}
-                      renderText={(value) => <p>{value}</p>}
-                    />
-                  </td>
+                        <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          <NumericFormat
+                            value={result.charges}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={
+                              result.currencyCode === "NGN"
+                                ? "₦"
+                                : result.currencyCode === "USD"
+                                ? "$"
+                                : "₦"
+                            }
+                            decimalScale={2}
+                            fixedDecimalScale={true}
+                            renderText={(value) => <p>{value}</p>}
+                          />
+                        </td>
 
-                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    {result.transactionStatus === "Success" ? (
-                      <button class="bg-[#F6FDF9] flex rounded-lg text-[#22C55E] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
-                        Success
-                      </button>
-                    ): result.transactionStatus === "Processing" ?  (
-                      <button class="bg-[#FFF7F5] flex rounded-lg text-[#FF784B] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
-                        Processing
-                      </button>
-                    ) : result.transactionStatus === "Failed" ?  (
-                      <button class="bg-[#FFF7F5] flex rounded-lg text-[#e23f3f] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
-                        Failed
-                      </button>
-                    ) : ""}
-                  </td>
-                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    <div className="">
-                      <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1">
-                        {formatDate(result.createdDate)}
-                      </p>
-                      <p className="text-[14px] leading-[21px] tracking-[0.2px] text-[#718096] font-medium text-left">
-                        at {formatTime(result.createdDate)}
-                      </p>
-                    </div>
-                  </td>
+                        <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          {result.transactionStatus === "Success" ? (
+                            <button class="bg-[#F6FDF9] flex rounded-lg text-[#22C55E] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
+                              Success
+                            </button>
+                          ) : result.transactionStatus === "Processing" ? (
+                            <button class="bg-[#FFF7F5] flex rounded-lg text-[#FF784B] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
+                              Processing
+                            </button>
+                          ) : result.transactionStatus === "Failed" ? (
+                            <button class="bg-[#FFF7F5] flex rounded-lg text-[#e23f3f] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
+                              Failed
+                            </button>
+                          ) : (
+                            ""
+                          )}
+                        </td>
+                        <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          <div className="">
+                            <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1">
+                              {formatDate(result.createdDate)}
+                            </p>
+                            <p className="text-[14px] leading-[21px] tracking-[0.2px] text-[#718096] font-medium text-left">
+                              at {formatTime(result.createdDate)}
+                            </p>
+                          </div>
+                        </td>
 
-                  {/* <td className=" py-[24px] border-t border-[#EDF2F7]  ">
+                        {/* <td className=" py-[24px] border-t border-[#EDF2F7]  ">
                     <div>
                       <button
                         onClick={() => handleTransacModalOpen(result)}
@@ -475,10 +515,13 @@ const Transaction = () => {
                       </button>
                     </div>
                   </td> */}
-                </tr>
-              ))}
-          </tbody>
-        </table>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
         {data && data.data && data?.data?.results.length > 0 && (
           <div className="flex justify-between items-center">
             <div className="mt-4 flex justify-center text-gray-500 text-sm">
@@ -657,8 +700,6 @@ const Transaction = () => {
           </div>
         </div>
       </Modal>
-
-
     </div>
   );
 };

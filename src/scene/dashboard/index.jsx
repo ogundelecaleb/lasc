@@ -106,6 +106,7 @@ const Dashboard = () => {
 
     let newArray = Object.entries(response.data.TransactionVolume).map(
       ([label, value]) => {
+        
         return { date: label, amount: value };
       }
     );

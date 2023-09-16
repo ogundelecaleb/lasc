@@ -5,6 +5,7 @@ import Modal from "../../components/Modal";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../api";
 import { enqueueSnackbar } from "notistack";
+import { Link } from "react-router-dom";
 
 const PaymentLink = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,6 +22,7 @@ const PaymentLink = () => {
   const [singleCustomer, setSingleCustomer] = useState(false);
   const [multipleCustomer, setMultipleCustomer] = useState(false);
   const [currencyCode, setCurrencyCode] = useState("NGN");
+  const [publicCopySuccess, setPublicCopySuccess] = useState("");
 
   const HandleModalOpen = () => {
     setIsOpen(true);
@@ -40,7 +42,7 @@ const PaymentLink = () => {
     }
     setSingleCustomer(true);
     setLinkUsageType("single");
-    
+
     clearForm();
   };
 
@@ -50,7 +52,7 @@ const PaymentLink = () => {
     }
     setMultipleCustomer(true);
     clearForm();
-    setLinkUsageType("multiple"); 
+    setLinkUsageType("multiple");
   };
 
   function formatTime(date) {
@@ -66,12 +68,20 @@ const PaymentLink = () => {
     return formattedDate;
   }
 
+  const copyPublicKeyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+    setPublicCopySuccess(text);
+    setTimeout(() => {
+      setPublicCopySuccess("");
+    }, 3000);
+  };
+
   function clearForm() {
     setPhoneNumber("");
     setEmail("");
     setDescription("");
     setAmount("");
-    setExpiryDate("")
+    setExpiryDate("");
   }
 
   const currencyQuery = useQuery(["getCurrency"], () => getCurrency(), {
@@ -147,7 +157,6 @@ const PaymentLink = () => {
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
-
 
   return (
     <div className="mt-2  mx-6">
@@ -298,89 +307,133 @@ const PaymentLink = () => {
 
       {/* table */}
 
-      <div className="flex flex-col break-words overflow-x-auto bg-white  mb-6">
-        <table className="min-w-full mb-6">
-          <thead>
-            <tr className="mb-2">
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Amount
-              </th>
+      <div class="flex flex-col overflow-x-auto">
+        <div class="sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+            <div class="overflow-x-auto">
+              <table className="min-w-full mb-6">
+                <thead>
+                  <tr className="mb-2">
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      Amount
+                    </th>
 
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Link
-              </th>
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                Invoice Type{" "}
-              </th>
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      Link
+                    </th>
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      Invoice Type{" "}
+                    </th>
 
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                 Date Created
-              </th>
-              <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-              Expiry Date
-</th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading && !isPreviousData && <div>Loading...</div>}
-            {!isLoading && data?.data?.results.length === 0 && (
-              <tr>
-                <td className="text-center" colspan="6">
-                  <img src="./nodata.gif" className="mx-auto mt-6 " alt="" />
-                  <h3 className="text-[30px] leading-[35px]  text-[#1A202C] font-extrabold mb-[6px]">
-                    No Data
-                  </h3>
-                </td>
-              </tr>
-            )}
-            {data &&
-              data?.data?.results?.map((result) => (
-                <tr key={result.id} className="mb-2">
-                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    <div className="text-[18px] leading-[24px] tracking-[0.2px] text-[#3b434e] font-extrabold">
-                    <NumericFormat
-                      value={result.amount}
-                      displayType={"text"}
-                      thousandSeparator={true}
-                      prefix={result.currencyCode}
-                      decimalScale={2}
-                      fixedDecimalScale={true}
-                      renderText={(value) => <p>{value}</p>}
-                    />
-                    </div>
-                  </td>
-                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    {result.paymentLink}
-                  </td>
-                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                    {result.linkUsageType}
-                  </td>
-                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                  <div className="">
-                      <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1">
-                        {formatDate(result.createdDate)}
-                      </p>
-                      <p className="text-[14px] leading-[21px] tracking-[0.2px] text-[#718096] font-medium text-left">
-                        at {formatTime(result.createdDate)}
-                      </p>
-                    </div>
-                    
-                  </td>
-                  <td className=" py-[28px] pr-3 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                  <div className="">
-                      <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1">
-                        {formatDate(result.expiration)}
-                      </p>
-                      <p className="text-[14px] leading-[21px] tracking-[0.2px] text-[#718096] font-medium text-left">
-                        at {formatTime(result.expiration)}
-                      </p>
-                    </div>
-                    
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      Date Created
+                    </th>
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      Expiry Date
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {isLoading && !isPreviousData && <div>Loading...</div>}
+                  {!isLoading && data?.data?.results.length === 0 && (
+                    <tr>
+                      <td className="text-center" colspan="6">
+                        <img
+                          src="./nodata.gif"
+                          className="mx-auto mt-6 "
+                          alt=""
+                        />
+                        <h3 className="text-[30px] leading-[35px]  text-[#1A202C] font-extrabold mb-[6px]">
+                          No Data
+                        </h3>
+                      </td>
+                    </tr>
+                  )}
+                  {data &&
+                    data?.data?.results?.map((result) => (
+                      <tr key={result.id} className="mb-2">
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          <div className="text-[18px] leading-[24px] tracking-[0.2px] text-[#3b434e] font-extrabold">
+                            <NumericFormat
+                              value={result.amount}
+                              displayType={"text"}
+                              thousandSeparator={true}
+                              prefix={result.currencyCode}
+                              decimalScale={2}
+                              fixedDecimalScale={true}
+                              renderText={(value) => <p>{value}</p>}
+                            />
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          <div className="">
+                            <Link
+                              to={result.paymentLink}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <button className="text-[16px] leading-[24px] px-2 py-1 tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1 border border-grey-600 rounded-xl shadow hover:-translate-y-2 transition ease-in-out duration-150">
+                                Preview link
+                              </button>
+                            </Link>
+                            <div
+                              onClick={() =>
+                                copyPublicKeyToClipboard(result.paymentLink)
+                              }
+                              className="flex cursor-pointer"
+                            >
+                              <svg
+                                className="mr-2"
+                                width="17"
+                                height="20"
+                                viewBox="0 0 17 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M2 20.0002C1.45 20.0002 0.979 19.8045 0.587 19.4132C0.195667 19.0212 0 18.5502 0 18.0002V4.00018H2V18.0002H13V20.0002H2ZM6 16.0002C5.45 16.0002 4.97933 15.8045 4.588 15.4132C4.196 15.0212 4 14.5502 4 14.0002V2.00018C4 1.45018 4.196 0.979183 4.588 0.587183C4.97933 0.19585 5.45 0.000183105 6 0.000183105H15C15.55 0.000183105 16.021 0.19585 16.413 0.587183C16.8043 0.979183 17 1.45018 17 2.00018V14.0002C17 14.5502 16.8043 15.0212 16.413 15.4132C16.021 15.8045 15.55 16.0002 15 16.0002H6ZM6 14.0002H15V2.00018H6V14.0002Z"
+                                  fill="#96A3BE"
+                                />
+                              </svg>
+
+                              <p className="text-[14px] leading-[21px] tracking-[0.2px] text-[#718096] font-medium text-left">
+                                {publicCopySuccess === result.paymentLink
+                                  ? "Copied!"
+                                  : "Click to copy"}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          {result.linkUsageType}
+                        </td>
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          <div className="">
+                            <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1">
+                              {formatDate(result.createdDate)}
+                            </p>
+                            <p className="text-[14px] leading-[21px] tracking-[0.2px] text-[#718096] font-medium text-left">
+                              at {formatTime(result.createdDate)}
+                            </p>
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          <div className="">
+                            <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1">
+                              {formatDate(result.expiration)}
+                            </p>
+                            <p className="text-[14px] leading-[21px] tracking-[0.2px] text-[#718096] font-medium text-left">
+                              at {formatTime(result.expiration)}
+                            </p>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
         {data && data.data && data?.data?.results.length > 0 && (
           <div className="flex justify-between items-center">
             <div className="mt-4 flex justify-center text-gray-500 text-sm">
@@ -479,7 +532,7 @@ const PaymentLink = () => {
           </div>
           <div className="mt-5 md:mt-0 md:col-span-2">
             <div className="px-5">
-              <div className="flex justify-between mt-5 ">
+              <form className="flex justify-between mt-5 ">
                 <div className="flex justify-between items-center gap-3 ">
                   <input type="radio" onClick={handleMultipleOption} />
                   <label
@@ -504,12 +557,14 @@ const PaymentLink = () => {
                     One Time Customer
                   </p>
                 </div>
-              </div>
+              </form>
               {singleCustomer && (
                 <div>
                   <form onSubmit={createInvoice}>
                     <div className="mt-7">
-                      <label className="font-semibold text-[#718096]">Amount</label>
+                      <label className="font-semibold text-[#718096]">
+                        Amount
+                      </label>
 
                       <div className="bg-[#F7F7F7] gap-2  h-[36px] flex items-center pl-1 rounded-lg">
                         <select
@@ -544,7 +599,9 @@ const PaymentLink = () => {
                       </div>
                     </div>
                     <div className="mt-5">
-                      <label className="font-semibold text-[#718096] ">Customer Email</label>
+                      <label className="font-semibold text-[#718096] ">
+                        Customer Email
+                      </label>
                       <div className="bg-[#F7F7F7]   h-[36px] flex items-center rounded-lg">
                         <input
                           type="email"
@@ -590,7 +647,9 @@ const PaymentLink = () => {
                       </div>
                     </div>
                     <div className="mt-3">
-                      <label className="font-semibold text-[#718096]">Description</label>
+                      <label className="font-semibold text-[#718096]">
+                        Description
+                      </label>
                       <textarea
                         placeholder="Tell your customer why you are requesting this payment"
                         className="w-full h-full placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  focus:outline-none focus:ring-[#124072] focus:border-[#124072]  sm:text-sm"
@@ -633,7 +692,9 @@ const PaymentLink = () => {
                 <div>
                   <form onSubmit={createInvoice}>
                     <div className="mt-7">
-                      <label className="font-semibold text-[#718096]">Amount</label>
+                      <label className="font-semibold text-[#718096]">
+                        Amount
+                      </label>
                       <div className="bg-[#F7F7F7] gap-2  h-[36px] flex items-center pl-1 rounded-lg">
                         <select
                           type="text"
@@ -683,7 +744,9 @@ const PaymentLink = () => {
                       </div>
                     </div>
                     <div className="mt-3">
-                      <label className="font-semibold text-[#718096]">Description</label>
+                      <label className="font-semibold text-[#718096]">
+                        Description
+                      </label>
                       <textarea
                         placeholder="Tell your customer why you are requesting this payment"
                         className="w-full h-full placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#1A202C] text-[16px] leading-[24px] tracking-[0.3px] bg-white border border-[#E2E8F0]  focus:outline-none focus:ring-[#124072] focus:border-[#124072]  sm:text-sm"
