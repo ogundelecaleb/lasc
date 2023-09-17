@@ -92,8 +92,6 @@ const PaymentLink = () => {
   async function getCurrency() {
     try {
       const response = await api.getCurrency();
-      console.log("All Currency", response);
-      // console.log(merchantData);
       return response;
     } catch (error) {
       return error;
@@ -317,6 +315,9 @@ const PaymentLink = () => {
                     <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                       Amount
                     </th>
+                     <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      Customer Email
+                    </th>
 
                     <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                       Link
@@ -366,13 +367,16 @@ const PaymentLink = () => {
                           </div>
                         </td>
                         <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          {result.customerEmail}
+                        </td>
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
                           <div className="">
                             <Link
                               to={result.paymentLink}
                               target="_blank"
                               rel="noreferrer"
                             >
-                              <button className="text-[16px] leading-[24px] px-2 py-1 tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1 border border-grey-600 rounded-xl shadow hover:-translate-y-2 transition ease-in-out duration-150">
+                              <button className="text-[14px] leading-[24px] px-2 py-1 tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1 border border-grey-600 rounded-lg shadow hover:-translate-y-2 transition ease-in-out duration-150">
                                 Preview link
                               </button>
                             </Link>
@@ -537,7 +541,7 @@ const PaymentLink = () => {
                   <input type="radio" onClick={handleMultipleOption} />
                   <label
                     className={`text-[#718096] ${
-                      multipleCustomer ? "pb-2 border-b border-[#124072] " : ""
+                      multipleCustomer ? "px-2 py-2 border-b text-[#FFF] rounded-md bg-[#124072] " : ""
                     }`}
                   >
                     Multiple Customers
@@ -551,7 +555,7 @@ const PaymentLink = () => {
                   />
                   <p
                     className={` text-[#718096] ${
-                      singleCustomer ? "pb-2 border-b border-[#124072] " : ""
+                      singleCustomer ? "px-2 py-2 border-b text-[#FFF] rounded-md bg-[#124072] " : ""
                     }`}
                   >
                     One Time Customer

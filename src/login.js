@@ -24,8 +24,9 @@ const Login = () => {
       userRef.current.focus();
     }
   }, [userData]);
-
-  if (userData) {
+  const decodedData = JSON.parse(atob(userData.split(".")[1]));
+  let currentDate = new Date();
+  if (userData && decodedData?.exp * 1000 > currentDate.getTime()) {
     return <Navigate to="/dashboard" replace />;
   }
 
@@ -35,7 +36,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       const response = await api.signIn({ email, password });
-      console.log("res of login==>>>>>", response);
+      // console.log("res of login==>>>>>", response);
       enqueueSnackbar(response.message, { variant: "success" });
       // toast.success(response.message);
       setUserData(response);
