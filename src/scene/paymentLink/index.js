@@ -160,7 +160,7 @@ const PaymentLink = () => {
     <div className="mt-2  mx-6">
       {/* search and filter button */}
       <div className="lg:flex lg:justify-between items-center mb-8 ">
-        <div className="relative py-4 ">
+        {/* <div className="relative py-4 ">
           <span className="absolute inset-y-0 left-0 flex items-center pl-4 pr-3 ">
             <svg
               width="20"
@@ -195,7 +195,7 @@ const PaymentLink = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-        </div>
+        </div> */}
         <div className="flex items-center">
           <button
             onClick={HandleModalOpen}
@@ -326,9 +326,7 @@ const PaymentLink = () => {
                       Invoice Type{" "}
                     </th>
 
-                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                      Date Created
-                    </th>
+                   
                     <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                       Expiry Date
                     </th>
@@ -409,9 +407,9 @@ const PaymentLink = () => {
                           </div>
                         </td>
                         <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                          {result.linkUsageType}
+                          {result.linkUsageType} Charge
                         </td>
-                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                        {/* <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
                           <div className="">
                             <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1">
                               {formatDate(result.createdDate)}
@@ -420,9 +418,8 @@ const PaymentLink = () => {
                               at {formatTime(result.createdDate)}
                             </p>
                           </div>
-                        </td>
-                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                          <div className="">
+                        </td> */}
+ <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">                          <div className="">
                             <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1">
                               {formatDate(result.expiration)}
                             </p>

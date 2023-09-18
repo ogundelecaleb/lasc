@@ -24,10 +24,12 @@ const Login = () => {
       userRef.current.focus();
     }
   }, [userData]);
-  const decodedData = JSON.parse(atob(userData.split(".")[1]));
-  let currentDate = new Date();
-  if (userData && decodedData?.exp * 1000 > currentDate.getTime()) {
-    return <Navigate to="/dashboard" replace />;
+  if (userData) {
+    const decodedData = JSON.parse(atob(userData.split(".")[1]));
+    let currentDate = new Date();
+    if (userData && decodedData?.exp * 1000 < currentDate.getTime()) {
+      return <Navigate to="/dashboard" replace />;
+    }
   }
 
   async function login(e) {

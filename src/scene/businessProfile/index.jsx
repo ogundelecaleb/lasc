@@ -156,7 +156,8 @@ const BusinessProfile = () => {
       {" "}
       <div className="px-[40px] py-[20px] ">
         <div className="w-full pb-1 mb-[28px] border-b border-b-[#EDF2F7]">
-          <h2 className="text-[24px] text-dark font-bold">Bussiness Details</h2>
+        <h2 className="text-grey-600 font-bold text-lg">
+Update Bussiness Details</h2>
         </div>
         <div className="flex flex-row items-center mb-[30px] ">
           <img

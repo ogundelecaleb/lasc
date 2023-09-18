@@ -101,6 +101,8 @@ const Topbar = ({ setIsSidebar, userData }) => {
             ? "IsActive"
             : location.pathname === "/accountDetails"
             ? "Account Details"
+            : location.pathname === "/paymentlink"
+            ? "Payment Link"
             : location.pathname === "/currency"
             ? "Currency"
             : ""}
