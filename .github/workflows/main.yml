@@ -1,0 +1,38 @@
+name: Deploy to IIS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install Dependencies and Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Deploy to IIS
+        run: |
+          $secpasswd = ConvertTo-SecureString $env:SERVER_PASSWORD -AsPlainText -Force
+          $credential = New-Object System.Management.Automation.PSCredential ($env:SERVER_USERNAME, $secpasswd)
+          
+          # Copy files to the server using SMB (replace with your server path)
+          Copy-Item -Path ./build/* -Destination \\$env:SERVER_IP\$env:SERVER_PATH -Recurse -Credential $credential
+
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+          SERVER_PATH: 'C:\Documents\staging\GatewayAdminCI' 
