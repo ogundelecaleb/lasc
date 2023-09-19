@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { NumericFormat } from "react-number-format";
-import Moment from "moment";
 import Modal from "../../components/Modal";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../api";
@@ -24,12 +22,7 @@ const Merchant = () => {
     setIsOpen(false);
   };
 
-  function formatDate(datetimeStr) {
-    const date = Moment(datetimeStr);
-    const formattedDate = date.format("MMM DD, YYYY");
-
-    return formattedDate;
-  }
+ 
 
   function clearForm() {
     setPhoneNumber("");
@@ -78,7 +71,7 @@ const Merchant = () => {
     return response;
   }
 
-  const { isLoading, isError, data, error, isPreviousData, refetch } = useQuery(
+  const { isLoading, data, isPreviousData, refetch } = useQuery(
     ["transaction", currentPage, email],
     () => getUser(currentPage, email),
     {
@@ -87,6 +80,14 @@ const Merchant = () => {
       // retry: true,
     }
   );
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
   return (
     <div className="mt-2  mx-6">
@@ -303,7 +304,7 @@ const Merchant = () => {
               ))}
           </tbody>
         </table>
-        {/* {data && data.data && data?.data?.results.length > 0 && (
+        {data && data.data && data?.data?.results.length > 0 && (
           <div className="flex justify-between items-center">
             <div className="mt-4 flex justify-center text-gray-500 text-sm">
               <span className="mr-2">
@@ -342,8 +343,8 @@ const Merchant = () => {
               </button>
               <button
                 className="mr-2 px-4 py-2 flex gap-1 disabled:opacity-75 border bg-[#124072] border-transparent text-sm font-medium rounded-md text-[white]  hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#124072]"
-                // onClick={handleNextPage}
-                // disabled={currentPage === data.data.pageCount || isPreviousData}
+                onClick={handleNextPage}
+                disabled={currentPage === data.data.pageCount || isPreviousData}
               >
                 Next
                 <svg
@@ -364,7 +365,7 @@ const Merchant = () => {
               </button>
             </div>
           </div>
-        )} */}
+        )}
       </div>
 
       {/* Create New Admin Modal */}

@@ -6,20 +6,17 @@ import { useQuery } from "@tanstack/react-query";
 
 const Topbar = ({ setIsSidebar, userData }) => {
   const [logo, setLogo] = useState("")
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleIsModalOpen = () => {
-    setIsModalOpen(true);
-  };
-
+ 
   const handleIsModalClose = () => {
     setIsModalOpen(false);
   };
 
-  const getMerchantProfilenQuery = useQuery(
+  useQuery(
     ["getMerchantProfile"],
     () => getMerchantProfile(),
     {
@@ -192,7 +189,7 @@ const Topbar = ({ setIsSidebar, userData }) => {
                 onClick={() => {
                   handleIsModalClose();
                   navigate("/accountDetails");
-                  setIsOpen(false);
+                  // setIsOpen(false);
                 }}
                 className="flex flex-row gap-[12px] pt-[17px] mb-3 cursor-pointer"
               >
@@ -205,7 +202,7 @@ const Topbar = ({ setIsSidebar, userData }) => {
                   handleIsModalClose();
                   api.logout();
                   navigate("/login");
-                  setIsOpen(false);
+                  // setIsOpen(false);
                 }}
                 className="flex flex-row gap-[12px] pt-[23px] cursor-pointer mb-3"
               >
@@ -216,72 +213,7 @@ const Topbar = ({ setIsSidebar, userData }) => {
           </div>
         </Modal>
 
-        {/* {isOpen ? (
-          <div className="border-[#edf2f7] py-[17px] px-[16px] w-[200px] max-w-[200px]  rounded-[10px] absolute bg-[#ffffff] right-[20px] top-[70px] drop-shadow-lg z-10 ">
-            <div className=" border-b-[#edf2f7] border-b pb-[17px]">
-              <h3 className="text-[16px] font-bold text-[#1a202c] pb-[4px]">
-                {userData.fullName}
-              </h3>
-            </div>
-            <div
-              onClick={() => {
-                navigate("/client");
-                setIsOpen(false);
-              }}
-              className="flex flex-row gap-[12px] pt-[17px] cursor-pointer"
-            >
-              <svg
-                className="mr-[12px]"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M10 9.16667C11.841 9.16667 13.3334 7.67428 13.3334 5.83333C13.3334 3.99238 11.841 2.5 10 2.5C8.15907 2.5 6.66669 3.99238 6.66669 5.83333C6.66669 7.67428 8.15907 9.16667 10 9.16667Z"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M5 17.5V15.8333C5 14.9493 5.35119 14.1014 5.97631 13.4763C6.60143 12.8512 7.44928 12.5 8.33333 12.5H11.6667C12.5507 12.5 13.3986 12.8512 14.0237 13.4763C14.6488 14.1014 15 14.9493 15 15.8333V17.5"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-
-              <p className=" text-[#1a202c] text-[14px] ">My Profile</p>
-            </div>
-            <div
-              onClick={() => {
-                navigate("/accountDetails");
-                setIsOpen(false);
-              }}
-              className="flex flex-row gap-[12px] pt-[17px] cursor-pointer"
-            >
-              <img src="./profile.png" alt="" />
-              <p className=" text-[#1a202c] text-[14px] ">Update Profile</p>
-            </div>
-            <div
-              onClick={() => {
-                // navigate("/login");
-                api.logout();
-                navigate("/login");
-                setIsOpen(false);
-              }}
-              className="flex flex-row gap-[12px] pt-[23px] cursor-pointer"
-            >
-              <img src="./logout.png" alt="" />
-              <p className=" text-[#1a202c] text-[14px] ">Log out</p>
-            </div>
-          </div>
-        ) : (
-          ""
-        )} */}
+     
       </div>
     </div>
   );

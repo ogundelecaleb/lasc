@@ -13,10 +13,9 @@ const Home = () => {
   const [isSidebar, setIsSidebar] = useState(true);
   let userData = localStorage.getItem("userData");
   // console.log(userData)
-  const decodedData = JSON.parse(atob(userData.split(".")[1]));
 
   // const decodedData = JSON.parse(userData);
-  let currentDate = new Date();
+  
   // console.log("token expiry time:", decodedData?.exp);
 
   // console.log("token expiry time:",  decodedData?.data?.tokenExpiryTime);
@@ -24,15 +23,23 @@ const Home = () => {
 
   useEffect(()=>{
     let userData = localStorage.getItem("userData");
-    const decodedData = JSON.parse(atob(userData.split(".")[1]));
-    let currentDate = new Date();
-    if (!userData || decodedData?.exp * 1000 < currentDate.getTime()) {
+    if(userData){
+       const decodedData = JSON.parse(atob(userData?.split(".")[1]));
+    let currentDate = new Date(); 
+    if(decodedData?.exp * 1000 < currentDate.getTime()){
+      navigate("/login")
+    }
+    }
+     
+    if (!userData) {
       // return <Navigate to="/login"  />;
       navigate("/login")
   
     } else {
       console.log("Valid token");
+   
     }
+  
 
   }, [])
 

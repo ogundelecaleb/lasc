@@ -5,13 +5,13 @@ import Transaction from "./scene/transaction";
 import Merchant from "./scene/merchant";
 import Login from "./login";
 import ForgotPassword from "./forgotPassword";
-import Otp from "./validateOtp";
+// import Otp from "./validateOtp";
 import NewPass from "./newPass";
 import "./App.css";
 import Home from "./home";
 import Bank from "./scene/bank";
 import Wallet from "./scene/wallet";
-import UserAdmin from "./scene/userAdmin";
+// import UserAdmin from "./scene/userAdmin";
 import AccountDetails from "./scene/accountDetails";
 import PersonalInfo from "./scene/personalInfo";
 import BusinessProfile from "./scene/businessProfile";
@@ -23,7 +23,6 @@ import { SnackbarProvider } from "notistack";
 import Currency from "./scene/currency";
 import Channel from "./scene/channel";
 import Name from "./scene/name";
-import IsActive from "./scene/isActive";
 import SignUp from "./signUp";
 import RequestOtp from "./requestOtp";
 import ValidateOtp from "./validateOtp";
@@ -71,13 +70,10 @@ function App() {
                   path="/accountDetails/personalInfo"
                   element={<PersonalInfo />}
                 />
-
                 <Route
                   path="/accountDetails/loginSecurity"
                   element={<LoginSecurity />}
                 />
-
-                
               </Route>
               <Route path="/transaction" element={<Transaction />} />
               <Route path="/paymentlink" element={<PaymentLink />} />
@@ -86,7 +82,6 @@ function App() {
               <Route path="/businessProfile" element={<BusinessProfile />} />
               <Route path="/apikey" element={<ApiKey />} />
               <Route path="/name" element={<Name />} />
-              <Route path="/userAdmin" element={<UserAdmin />} />
               <Route path="/customersupport" element={<CustomerSupport />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/wallet" element={<Wallet />} />
@@ -98,7 +93,6 @@ function App() {
 
               <Route path="/bank" element={<Bank />} />
               <Route path="/channel" element={<Channel />} />
-              <Route path="/isActive" element={<IsActive />} />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signUp" element={<SignUp />} />

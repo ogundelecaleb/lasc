@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useState } from "react";
+import React, { useState } from "react";
 import Moment from "moment";
 
 import Modal from "../../components/Modal";
@@ -10,7 +10,6 @@ import { NumericFormat } from "react-number-format";
 const Settlements = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [biller, setBiller] = useState("");
@@ -18,9 +17,7 @@ const Settlements = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [displaySearch, setDisplaySearch] = useState(false);
-  const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
   const [currency, setCurrency] = useState("");
-  const [transactionData, setTransactionData] = useState([]);
   const [exportStatus, setExportStatus] = useState("");
   const [exportStartDate, setExportStartDate] = useState("");
   const [exportEndDate, setExportEndDate] = useState("");
@@ -30,14 +27,6 @@ const Settlements = () => {
   const handleDisplaySearch = () => {
     setDisplaySearch(!displaySearch);
   };
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
 
 
   const handleModalOpen = () => {
@@ -72,7 +61,7 @@ const Settlements = () => {
     console.log("settlement", response);
     return response;
   }
-  const { isLoading, isError, data, error, isPreviousData, refetch } = useQuery(
+  const { isLoading, data, isPreviousData, refetch } = useQuery(
     ["getSettlement", currency, status, startDate, endDate],
     () => getSettlement(),
     // currentPage,
@@ -138,6 +127,14 @@ const Settlements = () => {
   //     </div>
   //   );
   // }
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
   return (
     <div className="mt-9  mx-6">

@@ -7,7 +7,7 @@ import Modal from "../../components/Modal";
 import { enqueueSnackbar } from "notistack";
 
 const Transaction = () => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,9 +26,9 @@ const Transaction = () => {
     setDisplaySearch(!displaySearch);
   };
 
-  const handleTransacModalOpen = () => {
-    setOpen(true);
-  };
+  // const handleTransacModalOpen = () => {
+  //   setOpen(true);
+  // };
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -435,11 +435,17 @@ const Transaction = () => {
                   {data &&
                     data?.data?.results?.map((result) => (
                       <tr key={result.id} className="mb-2">
- <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">                          {result.transactionReference}
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          {" "}
+                          {result.transactionReference}
                         </td>
-                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">                          {result.channel}
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          {" "}
+                          {result.channel}
                         </td>
-                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">                          <NumericFormat
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          {" "}
+                          <NumericFormat
                             value={result.amount}
                             displayType={"text"}
                             thousandSeparator={true}
@@ -456,7 +462,9 @@ const Transaction = () => {
                           />
                         </td>
 
-                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">                          <NumericFormat
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          {" "}
+                          <NumericFormat
                             value={result.charges}
                             displayType={"text"}
                             thousandSeparator={true}
@@ -473,7 +481,9 @@ const Transaction = () => {
                           />
                         </td>
 
-                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">                          {result.transactionStatus === "Success" ? (
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          {" "}
+                          {result.transactionStatus === "Success" ? (
                             <button class="bg-[#F6FDF9] flex rounded-lg text-[#22C55E] px-5 py-[9.5px] text-[14px] leading-[21px] tracking-[0.2px] font-medium ">
                               Success
                             </button>
@@ -489,7 +499,9 @@ const Transaction = () => {
                             ""
                           )}
                         </td>
-                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">                          <div className="">
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          {" "}
+                          <div className="">
                             <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1">
                               {formatDate(result.createdDate)}
                             </p>

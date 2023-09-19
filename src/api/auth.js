@@ -1,7 +1,7 @@
 
 
 import { FORGOTPASSWORD, LOGIN, REQUESTOTP,VALIDATEOTP, RESETPASSWORD,CHANGEPASSWORD, SIGNUP } from "../utils/AuthConfig";
-import { apiPost, clearUserData, setUserData, apiDelete, setUserTempData } from "../utils/utils";
+import { apiPost, clearUserData, setUserData } from "../utils/utils";
 
 
 // export function login(data) {
