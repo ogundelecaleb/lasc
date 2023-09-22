@@ -6,16 +6,18 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../../api";
 import { enqueueSnackbar } from "notistack";
 import { Link } from "react-router-dom";
+// import QRCode from "react-qr-code";
+import QRCode from "qrcode.react";
 
 const PaymentLink = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [firstName, setFirstName] = useState("");
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [linkUsageType, setLinkUsageType] = useState("single");
-  const [lastName, setLastName] = useState("");
+  const [linkData, setLinkData] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,6 +25,9 @@ const PaymentLink = () => {
   const [multipleCustomer, setMultipleCustomer] = useState(false);
   const [currencyCode, setCurrencyCode] = useState("NGN");
   const [publicCopySuccess, setPublicCopySuccess] = useState("");
+  const [qrLoading, setQrLoading] = useState(false);
+  // const [qrText, setQrText] = useState(""); // Input text for QR code
+  const [downloadLink, setDownloadLink] = useState(null);
 
   const HandleModalOpen = () => {
     setIsOpen(true);
@@ -74,6 +79,20 @@ const PaymentLink = () => {
     setTimeout(() => {
       setPublicCopySuccess("");
     }, 3000);
+  };
+
+  const handleQRModalOpen = (code) => {
+    setTimeout(() => {
+      setLinkData(code.paymentLink);
+      setQrLoading(true);
+      generateQRCode();
+      console.log("paylink:", code.paymentLink);
+    }, 4000);
+    setIsQrModalOpen(true);
+  };
+  const handleQRModalClose = () => {
+    setIsQrModalOpen(false);
+    setQrLoading(false);
   };
 
   function clearForm() {
@@ -138,7 +157,7 @@ const PaymentLink = () => {
     return response;
   }
 
-  const { isLoading, isError, data, error, isPreviousData, refetch } = useQuery(
+  const { isLoading, data, isPreviousData, refetch } = useQuery(
     ["getInvoice", currentPage, email],
     () => getInvoice(currentPage, email),
     {
@@ -154,6 +173,28 @@ const PaymentLink = () => {
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const generateQRCode = () => {
+    if (linkData === "") {
+      alert("Please enter text to generate a QR code.");
+      return;
+    }
+
+    // Create a data URL for the QR code image
+    const qrDataURL = document.querySelector("canvas").toDataURL("image/png");
+    // const qrDataURL = document.getElementById("qr").toDataURL("image/png");
+
+    // Create a download link
+    const a = document.createElement("a");
+    a.href = qrDataURL;
+    a.download = "payment-link.png";
+
+    // Trigger a click event on the link to start the download
+    a.click();
+
+    // Clean up and reset the download link
+    setDownloadLink(qrDataURL);
   };
 
   return (
@@ -315,7 +356,7 @@ const PaymentLink = () => {
                     <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                       Amount
                     </th>
-                     <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                       Customer Email
                     </th>
 
@@ -323,10 +364,13 @@ const PaymentLink = () => {
                       Link
                     </th>
                     <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      QR Code
+                    </th>
+
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                       Invoice Type{" "}
                     </th>
 
-                   
                     <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
                       Expiry Date
                     </th>
@@ -407,6 +451,14 @@ const PaymentLink = () => {
                           </div>
                         </td>
                         <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          <button
+                            onClick={() => handleQRModalOpen(result)}
+                            className="text-[14px] leading-[24px] px-2 py-1 tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1 border border-grey-600 rounded-lg shadow hover:-translate-y-2 transition ease-in-out duration-150"
+                          >
+                            Generate QR Code
+                          </button>
+                        </td>
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
                           {result.linkUsageType} Charge
                         </td>
                         {/* <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
@@ -419,7 +471,9 @@ const PaymentLink = () => {
                             </p>
                           </div>
                         </td> */}
- <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">                          <div className="">
+                        <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
+                          {" "}
+                          <div className="">
                             <p className="text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left mb-1">
                               {formatDate(result.expiration)}
                             </p>
@@ -538,7 +592,9 @@ const PaymentLink = () => {
                   <input type="radio" onClick={handleMultipleOption} />
                   <label
                     className={`text-[#718096] ${
-                      multipleCustomer ? "px-2 py-2 border-b text-[#FFF] rounded-md bg-[#124072] " : ""
+                      multipleCustomer
+                        ? "px-2 py-2 border-b text-[#FFF] rounded-md bg-[#124072] "
+                        : ""
                     }`}
                   >
                     Multiple Customers
@@ -552,7 +608,9 @@ const PaymentLink = () => {
                   />
                   <p
                     className={` text-[#718096] ${
-                      singleCustomer ? "px-2 py-2 border-b text-[#FFF] rounded-md bg-[#124072] " : ""
+                      singleCustomer
+                        ? "px-2 py-2 border-b text-[#FFF] rounded-md bg-[#124072] "
+                        : ""
                     }`}
                   >
                     One Time Customer
@@ -788,6 +846,92 @@ const PaymentLink = () => {
               )}
             </div>
           </div>
+        </div>
+      </Modal>
+
+      {/* QR Code Modal */}
+      <Modal isOpen={isQrModalOpen} onClose={handleQRModalClose}>
+        <div className="inline-block overflow-hidden text-left align-bottom transition-all transform bg-[white] rounded-2xl shadow-xl py-8 sm:align-middle sm:max-w-lg sm:w-full">
+          <div className=" flex justify-between px-5">
+            <h3 className="text-[20px] leading-[31px]  text-[#1A202C] font-extrabold">
+              {qrLoading
+                ? "QR Code Generated Successfully!!"
+                : "Generating QR Code..."}
+            </h3>
+            <svg
+              onClick={handleQRModalClose}
+              className="cursor-pointer"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16.9497 7.05032L7.05021 16.9498"
+                stroke="#171717"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M7.05029 7.05032L16.9498 16.9498"
+                stroke="#171717"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          {qrLoading ? (
+            <div>
+              <div className="mt-[24px] items-center  flex justify-center">
+                {linkData !== null ? (
+                  <div id="qr">
+                    <QRCode
+                      value={linkData}
+                      imageSettings={{ height: "40%" }}
+                      className="h-10"
+                    />
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+              <div className="w-full flex justify-center">
+                {" "}
+                <button
+                  className=" mt-8 border px-2 py-1 shadow rounded-md "
+                  onClick={generateQRCode}
+                >
+                  Download QR Code
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-center items-center w-full h-[300px]">
+              <svg
+                className="ml-4 w-6 h-6 text-[#124072] animate-spin"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            </div>
+          )}
         </div>
       </Modal>
     </div>

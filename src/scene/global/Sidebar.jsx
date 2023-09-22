@@ -10,10 +10,9 @@ import { TbFileInvoice } from "react-icons/tb";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
 const Sidebar = ({ isSidebarOpen, onClose }) => {
-
   const [settings, setSettings] = useState(false);
   const [openOption, setOpenOption] = useState(false);
-  
+
   return (
     <div
       className={` lg:block lg:relative ${
@@ -339,66 +338,65 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
             </div>
 
             {settings && (
-              
-                <div className="h-screen absolute top-[60px] w-full bg-[#E2E8F0] z-10 ">
-                  <button
-                    className="bg-[#124072] my-5 px-2 w-[70%]  text-[white] flex items-center gap-2"
-                    onClick={() => setSettings(!settings)}
-                  >
-                    <AiOutlineArrowLeft />
-                    Back to home
-                  </button>
+              <div className="h-screen absolute top-[60px] w-full bg-[#E2E8F0] z-10 ">
+                <button
+                  className="bg-[#124072] my-5 px-2 w-[70%]  text-[white] flex items-center gap-2"
+                  onClick={() => setSettings(!settings)}
+                >
+                  <AiOutlineArrowLeft />
+                  Back to home
+                </button>
 
-                  <button
-                    // to="/dashboard"
-                    className={`mx-[24px]  px-[16px] w-[65%] bg-[#124072] rounded-lg text-[white] py-[13px] flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-end  mb-[12px] ${
-                      window.location.pathname === "/businessProfile" ||
-                      window.location.pathname === "/settlementAccount" ||
-                      window.location.pathname === "/apikey"
-                        ? "bg-[#124072] text-[white] rounded-xl"
-                        : "text-[#718096]"
-                    }`}
-                  >
-                    <FiSettings className="mr-[12px] text-xl" />
-                    Settings
-                  </button>
-                  {settings && (
-                    <div className={`ml-[50px] mb-3 `}>
-                      <div className="border-l border-[#E2E8F0]">
-                        <Link
-                          to="/apikey"
-                          className={` px-[16px]  flex tracking-[0.2px] text-[14px] leading-[21px]  mb-[8px] hover:text-[#124072] ${
-                            window.location.pathname === "/apikey"
-                              ? " text-[#124072] font-extrabold  "
-                              : "text-[#718096] font-medium "
-                          }`}
-                        >
-                          API Key
-                        </Link>
-                        <Link
-                          to="/businessProfile"
-                          className={` px-[16px]  flex tracking-[0.2px] text-[14px] leading-[21px]  mb-[8px] hover:text-[#124072] ${
-                            window.location.pathname === "/businessProfile"
-                              ? " text-[#124072] font-extrabold"
-                              : "text-[#718096] font-medium"
-                          }`}
-                        >
-                          Bussiness Profile
-                        </Link>
-                        <Link
-                          to="/settlementAccount"
-                          className={` px-[16px]  flex tracking-[0.2px] text-[14px] leading-[21px]  mb-[8px] hover:text-[#124072] ${
-                            window.location.pathname === "/settlementAccount"
-                              ? " text-[#124072] font-extrabold"
-                              : "text-[#718096] font-medium"
-                          }`}
-                        >
-                          Settlement Account
-                        </Link>
-                      </div>
+                <button
+                  // to="/dashboard"
+                  className={`mx-[24px]  px-[16px] w-[65%] bg-[#124072] rounded-lg text-[white] py-[13px] flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-end  mb-[12px] ${
+                    window.location.pathname === "/businessProfile" ||
+                    window.location.pathname === "/settlementAccount" ||
+                    window.location.pathname === "/apikey"
+                      ? "bg-[#124072] text-[white] rounded-xl"
+                      : "text-[#718096]"
+                  }`}
+                >
+                  <FiSettings className="mr-[12px] text-xl" />
+                  Settings
+                </button>
+                {settings && (
+                  <div className={`ml-[50px] mb-3 `}>
+                    <div className="border-l border-[#E2E8F0]">
+                      <Link
+                        to="/apikey"
+                        className={` px-[16px]  flex tracking-[0.2px] text-[14px] leading-[21px]  mb-[8px] hover:text-[#124072] ${
+                          window.location.pathname === "/apikey"
+                            ? " text-[#124072] font-extrabold  "
+                            : "text-[#718096] font-medium "
+                        }`}
+                      >
+                        API Key
+                      </Link>
+                      <Link
+                        to="/businessProfile"
+                        className={` px-[16px]  flex tracking-[0.2px] text-[14px] leading-[21px]  mb-[8px] hover:text-[#124072] ${
+                          window.location.pathname === "/businessProfile"
+                            ? " text-[#124072] font-extrabold"
+                            : "text-[#718096] font-medium"
+                        }`}
+                      >
+                        Bussiness Profile
+                      </Link>
+                      <Link
+                        to="/settlementAccount"
+                        className={` px-[16px]  flex tracking-[0.2px] text-[14px] leading-[21px]  mb-[8px] hover:text-[#124072] ${
+                          window.location.pathname === "/settlementAccount"
+                            ? " text-[#124072] font-extrabold"
+                            : "text-[#718096] font-medium"
+                        }`}
+                      >
+                        Settlement Account
+                      </Link>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </div>
