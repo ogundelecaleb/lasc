@@ -8,14 +8,17 @@ import { enqueueSnackbar } from "notistack";
 import { Link } from "react-router-dom";
 // import QRCode from "react-qr-code";
 import QRCode from "qrcode.react";
+import html2canvas from 'html2canvas';
 
 const PaymentLink = () => {
+  const elementToCaptureRef = React.createRef();
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
+  const [linkDescription, setLinkDescription] = useState("");
   const [linkUsageType, setLinkUsageType] = useState("single");
   const [linkData, setLinkData] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
@@ -60,6 +63,20 @@ const PaymentLink = () => {
     setLinkUsageType("multiple");
   };
 
+  const captureAndDownload = () => {
+    const element = elementToCaptureRef.current;
+    html2canvas(element).then((canvas) => {
+      // Convert the canvas to a data URL
+      const imageDataURL = canvas.toDataURL('image/png');
+  
+      // Create a link to download the image
+      const a = document.createElement('a');
+      a.href = imageDataURL;
+      a.download = 'downloaded-image.png';
+      a.click();
+    });
+  };
+
   function formatTime(date) {
     const datetime = Moment(date);
     const formattedTime = datetime.format("hh.mm A");
@@ -84,8 +101,9 @@ const PaymentLink = () => {
   const handleQRModalOpen = (code) => {
     setTimeout(() => {
       setLinkData(code.paymentLink);
+      setLinkDescription(code.description)
       setQrLoading(true);
-      generateQRCode();
+      // generateQRCode();
       console.log("paylink:", code.paymentLink);
     }, 4000);
     setIsQrModalOpen(true);
@@ -887,12 +905,14 @@ const PaymentLink = () => {
             <div>
               <div className="mt-[24px] items-center  flex justify-center">
                 {linkData !== null ? (
-                  <div id="qr">
+                 <div className="px-7 py-10" ref={elementToCaptureRef}>
                     <QRCode
                       value={linkData}
                       imageSettings={{ height: "40%" }}
-                      className="h-10"
+                      className="h-10 mx-auto mb-5"
                     />
+
+                    <p>Use the above QR code to pay for {linkDescription}</p>
                   </div>
                 ) : (
                   ""
@@ -902,7 +922,8 @@ const PaymentLink = () => {
                 {" "}
                 <button
                   className=" mt-8 border px-2 py-1 shadow rounded-md "
-                  onClick={generateQRCode}
+                  // onClick={generateQRCode}
+                  onClick={captureAndDownload}
                 >
                   Download QR Code
                 </button>

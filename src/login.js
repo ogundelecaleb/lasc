@@ -3,7 +3,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import api from "./api";
 import { setUserData } from "./utils/utils";
-import { toast } from "react-hot-toast";
 import { enqueueSnackbar } from "notistack";
 
 const Login = () => {
@@ -24,6 +23,8 @@ const Login = () => {
       userRef.current.focus();
     }
   }, [userData]);
+
+
   if (userData) {
     const decodedData = JSON.parse(atob(userData.split(".")[1]));
     let currentDate = new Date();
@@ -38,9 +39,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       const response = await api.signIn({ email, password });
-      // console.log("res of login==>>>>>", response);
       enqueueSnackbar(response.message, { variant: "success" });
-      // toast.success(response.message);
       setUserData(response);
       setIsLoading(false);
       navigate("/dashboard");
@@ -65,10 +64,6 @@ const Login = () => {
         <h3 className=" text-[20px]  md:text-[32px] font-bold text-[#1a202c] mt-[16px] md:mt-[37px] pb-2">
           Sign in
         </h3>
-
-        <p className="text-md text-[#a0aec0] max-w-[288px] self-center mb-[45px]">
-          Managing financial communities better
-        </p>
 
         <form
           onSubmit={login}
