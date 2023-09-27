@@ -52,7 +52,7 @@ const Dashboard = () => {
     try {
       const response = await api.getMerchantProfile();
       console.log("merchant profile", response);
-      
+
       return response;
     } catch (error) {
       return error;
@@ -106,7 +106,6 @@ const Dashboard = () => {
 
     let newArray = Object.entries(response.data.TransactionVolume).map(
       ([label, value]) => {
-        
         return { date: label, amount: value };
       }
     );
@@ -215,14 +214,16 @@ const Dashboard = () => {
   return (
     <div class="lg:flex mx-10 mt-6">
       <div class="lg:mr-[24px] lg:w-[65%]">
-        <div class="flex justify-between  gap-[16px] mb-6">
+        <div class="flex justify-between flex-col gap-[16px] mb-6">
           <div className="w-full">
             <div className="flex items-center mb-5">
               <h2 className="text-[16px] text-[#313841] font-bold ">
                 Default Currency:
               </h2>{" "}
-             <h2 className="font-extrabold text-sm text-[#313841]">{getMerchantProfilenQuery.data &&
-                getMerchantProfilenQuery.data?.data?.currency?.currencyName}</h2> 
+              <h2 className="font-extrabold text-sm text-[#313841]">
+                {getMerchantProfilenQuery.data &&
+                  getMerchantProfilenQuery.data?.data?.currency?.currencyName}
+              </h2>
             </div>
 
             <h2 className="text-[10px] text-gray-800  mb-2">
@@ -240,7 +241,10 @@ const Dashboard = () => {
                 <option value="">Currency </option>
                 {currencyQuery.data &&
                   currencyQuery.data?.data?.results.map((currency) => (
-                    <option key={currency.currencyCode} value={currency.currencyCode}>
+                    <option
+                      key={currency.currencyCode}
+                      value={currency.currencyCode}
+                    >
                       {currency.currencyName}
                     </option>
                   ))}
@@ -277,7 +281,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div class="bg-[white] border border-[#EDF2F7] rounded-[16px] pt-[16px] px-[20px] pb-[20px]  ">
+          <div class="bg-[white] border border-[#EDF2F7] rounded-[16px] pt-[16px] px-[20px] pb-[20px] max-w-[300px] ">
             <div className="flex flex-row justify-between items-center pt-[16px] px-[20px] pb-1">
               <p className="text-[14px] text-[#718096]">Transactions</p>
               <img src="./transaction-outlined.png" alt="" />
@@ -314,42 +318,49 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div class="bg-white border border-[#EDF2F7] rounded-[16px] pl-[24px] pt-[29px] pb-[24px] pr-[20px] mb-9 ">
-          <div className="flex flex-row justify-between items-center mb-[24px] ">
-            <h3 className="text-[18px] font-bold text-[#1a202c]">
-              Transactions Chart
-            </h3>
-            <div className="flex flex-row items-center gap-[25px]">
-              <div className="flex flex-row items-center gap-[8px]">
-                <div className="h-[4px] w-[12px] bg-[#4ade80] rounded-[50px]"></div>
-                <p className="text-[12px] ">Volume</p>
+        <div class="flex flex-col overflow-x-auto md:overflow-x-hidden">
+         
+              <div class="bg-white border border-[#EDF2F7] rounded-[16px] pl-[24px] pt-[29px] pb-[24px] pr-[20px] mb-9 ">
+                <div className="flex flex-row justify-between items-center mb-[24px] ">
+                  <h3 className="text-[18px] font-bold text-[#1a202c]">
+                    Transactions Chart
+                  </h3>
+                  <div className="flex flex-row items-center gap-[25px]">
+                    <div className="flex flex-row items-center gap-[8px]">
+                      <div className="h-[4px] w-[12px] bg-[#4ade80] rounded-[50px]"></div>
+                      <p className="text-[12px] ">Volume</p>
+                    </div>
+                    <div className="flex flex-row items-center gap-[8px]">
+                      <div className="h-[4px] w-[12px] bg-[#124072] rounded-[50px]"></div>
+                      <p className="text-[12px] ">Count</p>
+                    </div>
+                    <select
+                      className="flex flex-row py-[8px] px-[9px] w-[110px] bg-[#fafafa] rounded-[8px] gap-[4px] "
+                      value={range}
+                      onChange={(e) => setRange(e.target.value)}
+                    >
+                      <option value="Daily">Daily</option>
+                      <option value="Weekly">Weekly</option>
+                      <option value="Monthly">Monthly</option>
+                    </select>
+                  </div>
+                </div>
+                {ChartDataQuery.data ? (
+                  <Line
+                    data={ChartDataQuery.data.chartData}
+                    options={options}
+                  ></Line>
+                ) : (
+                  <div className="mx-auto text-center justify-center items-center mt-4">
+                    <img src="./nodata.gif" className="mx-auto mt-6 " alt="" />
+                    <h3 className="text-[30px] leading-[35px]  text-[#1A202C] font-extrabold">
+                      No Data
+                    </h3>
+                  </div>
+                )}
               </div>
-              <div className="flex flex-row items-center gap-[8px]">
-                <div className="h-[4px] w-[12px] bg-[#124072] rounded-[50px]"></div>
-                <p className="text-[12px] ">Count</p>
-              </div>
-              <select
-                className="flex flex-row py-[8px] px-[9px] w-[110px] bg-[#fafafa] rounded-[8px] gap-[4px] "
-                value={range}
-                onChange={(e) => setRange(e.target.value)}
-              >
-                <option value="Daily">Daily</option>
-                <option value="Weekly">Weekly</option>
-                <option value="Monthly">Monthly</option>
-              </select>
             </div>
-          </div>
-          {ChartDataQuery.data ? (
-            <Line data={ChartDataQuery.data.chartData} options={options}></Line>
-          ) : (
-            <div className="mx-auto text-center justify-center items-center mt-4">
-              <img src="./nodata.gif" className="mx-auto mt-6 " alt="" />
-              <h3 className="text-[30px] leading-[35px]  text-[#1A202C] font-extrabold">
-                No Data
-              </h3>
-            </div>
-          )}
-        </div>
+        
         {/* Biller */}
       </div>
       {/* transactions */}
@@ -375,7 +386,7 @@ const Dashboard = () => {
           TransactionQuery.data?.data?.results?.map((transaction) => (
             <div
               key={transaction.id}
-              className="flex flex-row items-center py-[8px] pr-[19px] "
+              className="flex flex-row items-center py-[8px] pr-[19px] border-t border-[#EDF2F7] "
             >
               <svg
                 class="mr-[12px] h-[38px]"
@@ -465,7 +476,7 @@ const Dashboard = () => {
         ) : (
           <div className="mx-auto text-center justify-center items-center mt-4">
             <img src="./nodata.gif" className="mx-auto mt-6 " alt="" />
-            <h3 className="text-[30px] leading-[35px]  text-[#1A202C] font-extrabold"> 
+            <h3 className="text-[30px] leading-[35px]  text-[#1A202C] font-extrabold">
               No Data
             </h3>
           </div>

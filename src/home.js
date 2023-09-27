@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Topbar from "./scene/global/Topbar";
 import Sidebar from "./scene/global/Sidebar";
-import { useNavigate, Outlet} from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -31,31 +32,10 @@ const Home = () => {
       console.log("Valid token");
     }
   }, []);
-
-  // JWT exp is in seconds
-  // if (decodedToken.exp * 1000 < currentDate.getTime()) {
-  //   return <Navigate to="/login" replace />;
-  // } else {
-  //   console.log("Valid token");
-  // }
-
-  // function isTokenExpired(token) {
-  //   const decodedToken = JSON.parse(atob(token.split(".")[1]));
-  //   const expirationDate = new Date(decodedToken.exp * 1000);
-  //   return expirationDate < new Date();
-  // }
-  // if (!userData || decodedData?.data?.tokenExpiryTime > currentDate ) {
-  // if (!userData || decodedData?.exp * 1000 < currentDate.getTime()) {
-  //   // return <Navigate to="/login"  />;
-  //   navigate("/login")
-
-  // } else {
-  //   console.log("Valid token");
-  // }
   userData = JSON.parse(userData);
 
   var decoded = jwtDecode(userData?.data?.accessToken);
-  console.log("decoded", decoded);
+  console.log("decoded", decoded)
   const handleSideBarClose = () => {
     setIsSidebar(false);
   };
@@ -67,16 +47,7 @@ const Home = () => {
       <Sidebar isSidebarOpen={isSidebar} onClose={handleSideBarClose} />
       <main className="bg-[white] w-full overflow-x-hidden">
         <Topbar setIsSidebar={toggleSidebar} userData={decoded} />
-
         <Outlet context={[decoded]} />
-
-        {/* <div className="absolute top-4 right-3">
-          {" "}
-          {posthog.has_opted_out_capturing() || // new
-          posthog.has_opted_in_capturing() ? null : (
-            <CookieBanner />
-          )}
-        </div> */}
       </main>
     </div>
   );

@@ -72,7 +72,7 @@ const PaymentLink = () => {
       // Create a link to download the image
       const a = document.createElement('a');
       a.href = imageDataURL;
-      a.download = 'downloaded-image.png';
+      a.download = 'PaymentLink-QRCode.png';
       a.click();
     });
   };
@@ -921,11 +921,11 @@ const PaymentLink = () => {
               <div className="w-full flex justify-center">
                 {" "}
                 <button
-                  className=" mt-8 border px-2 py-1 shadow rounded-md "
+                  className=" mt-8 px-2 py-1 shadow rounded-md bg-[#124072] text-[white] hover:bg-[#124071ed] "
                   // onClick={generateQRCode}
                   onClick={captureAndDownload}
                 >
-                  Download QR Code
+                  Download or Share QR Code
                 </button>
               </div>
             </div>

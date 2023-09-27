@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../../api";
 import Modal from "../../components/Modal";
+import Dropdown from "../../components/dropdown";
 import { useQuery } from "@tanstack/react-query";
+import {IoMdInformationCircleOutline} from "react-icons/io"
+// import {IoMdInformationCircleOutline} from "react-icons/io"
 
 const Topbar = ({ setIsSidebar, userData }) => {
   const [logo, setLogo] = useState("")
@@ -131,7 +134,53 @@ const Topbar = ({ setIsSidebar, userData }) => {
               />
             </svg>
           </div>
+         {/* <Dropdown
+          button={
+            <p className="cursor-pointer">
+              <IoMdInformationCircleOutline className="h-4 w-4 text-gray-600 dark:text-white" />
+            </p>
+          }
+          children={
+            <div className="flex flex-col w-[200px] max-w-[200px] justify-between mx-0 mt-4 bg-[white] shadow">
+            <div className=" border-b-[#edf2f7] border-b pb-[17px]">
+              <h3 className="text-[16px] font-bold text-[#1a202c] pb-[4px]">
+                {userData.fullName}
+              </h3>
+              <p className="text-[12px] text-[#718096]">
+                {userData.role} account
+              </p>
+            </div>
 
+            <div
+              onClick={() => {
+                handleIsModalClose();
+                navigate("/accountDetails");
+                // setIsOpen(false);
+              }}
+              className="flex flex-row gap-[12px] pt-[17px] mb-3 cursor-pointer"
+            >
+              <img src="./profile.png" alt="" />
+              <p className=" text-[#1a202c] text-[14px] ">My Profile</p>
+            </div>
+            <div
+              onClick={() => {
+                // navigate("/login");
+                handleIsModalClose();
+                api.logout();
+                navigate("/login");
+                localStorage.removeItem("userData");
+                // setIsOpen(false);
+              }}
+              className="flex flex-row gap-[12px] pt-[23px] cursor-pointer mb-3"
+            >
+              <img src="./logout.png" alt="" />
+              <p className=" text-[#1a202c] text-[14px] ">Log out</p>
+            </div>
+          </div>
+          }
+          classNames={"py-2 top-6 -left-[250px] md:-left-[330px] w-max"}
+          animation="origin-[75%_0%] md:origin-top-right transition-all duration-300 ease-in-out"
+        /> */}
           <div
             class="bg-[#FAFAFA] rounded-[1000px]  items-center lg:pl-[8px] lg:pr-[16px] pl-[6px] pr-[14px] py-2 flex cursor-pointer "
             onClick={() => {
@@ -174,7 +223,7 @@ const Topbar = ({ setIsSidebar, userData }) => {
 
         {/* Create filter Modal */}
         <Modal isOpen={isModalOpen} onClose={handleIsModalClose}>
-          <div className="inline-block absolute px-4 pb-3 right-4 top-10 overflow-hidden text-left align-bottom transition-all transform bg-[white] rounded-2xl shadow-xl sm:my-8 sm:align-middle ">
+          <div className="inline-block absolute px-4 pb-3 right-4 top-10 overflow-hidden text-left align-bottom transform bg-[white] rounded-2xl shadow-xl sm:my-8 sm:align-middle  origin-top-right transition-all duration-300 ease-in-out">
             <div className="flex flex-col w-[200px] max-w-[200px] justify-between mx-0 mt-4">
               <div className=" border-b-[#edf2f7] border-b pb-[17px]">
                 <h3 className="text-[16px] font-bold text-[#1a202c] pb-[4px]">
