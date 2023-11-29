@@ -7,12 +7,13 @@ import { enqueueSnackbar } from "notistack";
 
 const Login = () => {
   const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const userRef = useRef();
-  const userData = localStorage.getItem("userData");
+  const userData = localStorage.getItem("developerData");
   // handle toggle
   const toggle = () => {
     setOpen(!open);
@@ -24,14 +25,17 @@ const Login = () => {
     }
   }, [userData]);
 
+  // if (userData) {
+  //   const decodedData = JSON.parse(atob(userData.split(".")[1]));
+  //   let currentDate = new Date();
+  //   if (userData && decodedData?.exp * 1000 < currentDate.getTime()) {
+  //     return <Navigate to="/dashboard" replace />;
+  //   }
 
-  if (userData) {
-    const decodedData = JSON.parse(atob(userData.split(".")[1]));
-    let currentDate = new Date();
-    if (userData && decodedData?.exp * 1000 < currentDate.getTime()) {
-      return <Navigate to="/dashboard" replace />;
-    }
-  }
+  // }
+  // if (userData) {
+  //   return <Navigate to="/dashboard" replace />;
+  // }
 
   async function login(e) {
     e.preventDefault();
@@ -53,17 +57,19 @@ const Login = () => {
   }
 
   return (
-    <div className=" bg-[#f5f5f5] py-[108px] px-[30px]">
-      <div className="flex flex-col bg-[white] justify-center items-center pb-[50px] pt-[40px] md:pb-[100px] md:pt-[60px] lg:pb-[171px] lg:pt-[81px] lg:px-[90px] md:px-[50px] px-[20px] max-w-[630px] mx-auto text-center ">
+    <div className=" bg-[#f5f5f5] py-[70px] px-[30px]">
+      <div className="flex flex-col bg-[white] justify-center items-center pb-[50px] pt-[40px] md:pb-[60px] md:pt-[60px]   lg:px-[90px] md:px-[50px] px-[20px] max-w-[630px] mx-auto text-center ">
         <img
           src="./paylodelogo.png"
           alt=""
           className="h-[40px]  md:h-[60px] lg:h-[70px]"
         />
-
-        <h3 className=" text-[20px]  md:text-[32px] font-bold text-[#1a202c] mt-[16px] md:mt-[37px] pb-2">
-          Sign in
-        </h3>
+        <div className="flex items-center gap-3">
+          <h3 className=" text-[20px]  md:text-[32px] font-bold text-[#1a202c] mt-[16px] md:mt-[37px] pb-2">
+            Developer Portal
+          </h3>
+          <img src="/developer.png" alt="developer cartoon" className="rounded-full h-[60px] w-[60px] object-contain bg-[#f5f5f5]"/>
+        </div>
 
         <form
           onSubmit={login}
@@ -151,7 +157,7 @@ const Login = () => {
           Don't have an account?{" "}
           <button
             onClick={() => {
-              navigate("/requestOtp");
+              navigate("/signup");
             }}
             className="font-bold text-[14px] md:text-[16px] text-[#124072]"
           >

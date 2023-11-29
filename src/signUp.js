@@ -16,6 +16,8 @@ const SignUp = () => {
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const sessionId = localStorage.getItem("sessionId");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [errorMessage, setErrorMessage] = useState("");
   function handlePassword(event) {
@@ -54,19 +56,21 @@ const SignUp = () => {
     setIsLoading(true);
     try {
       const response = await api.signUp({
-        sessionHash: sessionId,
+        
         email,
-        password,
-        firstName,
-        lastName,
-        phoneNumber,
+        password: confirmPassword,
+        
       });
       console.log("res of signUp==>>>>>", response);
       enqueueSnackbar(response.message, { variant: "success" });
       // toast.success(response.message);
 
       setIsLoading(false);
-      navigate("/login");
+      navigate("/validateOtp", {
+        state: {
+          email: email,  
+        },
+      });
       // navigation.navigate(routes.OTP);
     } catch (error) {
       console.log(error);
@@ -76,10 +80,24 @@ const SignUp = () => {
     }
   }
 
+  const handleConfirmPassword = (event) => {
+    let confirm_pass = event.target.value;
+    setConfirmPassword(confirm_pass);
+    if (confirm_pass !== password) {
+      setConfirmPasswordError("Password does not match!");
+    } else {
+      setConfirmPasswordError("Password match!");
+    }
+  };
+
   return (
     <div className=" bg-[#f5f5f5] py-[108px] px-[30px]">
       <div className="flex flex-col bg-[white] justify-center items-center pb-[50px] pt-[40px] md:pb-[100px] md:pt-[60px] lg:pb-[171px] lg:pt-[81px] lg:px-[90px] md:px-[50px] px-[20px] max-w-[630px] mx-auto text-center ">
-        <img src="./paylodelogo.png" alt="" className="h-[40px]  md:h-[60px] lg:h-[70px]" />
+        <img
+          src="./paylodelogo.png"
+          alt=""
+          className="h-[40px]  md:h-[60px] lg:h-[70px]"
+        />
 
         <h3 className=" text-[20px]  md:text-[32px] font-bold text-[#1a202c] mt-[16px] md:mt-[37px] pb-2">
           Create merchant account
@@ -94,22 +112,22 @@ const SignUp = () => {
           className="flex flex-col max-w-[427px]  w-full self-center gap-4"
         >
           <div className="flex flex-col md:flex-row gap-5 md:gap-10 items-center ">
-            <input
+            {/* <input
               type="text"
               className=" h-14 px-4 py-4 w-full placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#124072] text-[16px] leading-[24px] tracking-[0.2px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
               placeholder="first name"
               required
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-            />
-            <input
+            /> */}
+            {/* <input
               type="text"
               className=" h-14 px-4 py-4 w-full placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#124072] text-[16px] leading-[24px] tracking-[0.2px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
               placeholder="last name"
               required
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-            />
+            /> */}
           </div>
           <input
             type="email"
@@ -119,14 +137,14 @@ const SignUp = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <input
+          {/* <input
             type="number"
             className=" h-14 px-4 py-4 placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#124072] text-[16px] leading-[24px] tracking-[0.2px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm"
             placeholder="phone number"
             required
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
-          />
+          /> */}
           <div className="relative">
             <input
               type={open === false ? "password" : "text"}
@@ -153,6 +171,34 @@ const SignUp = () => {
             >
               {" "}
               {errorMessage}
+            </p>
+          </div>
+          <div className="relative">
+            <input
+              type={open === false ? "password" : "text"}
+              className="h-14 px-4 py-4 placeholder:text-[#A0AEC0] placeholder:font-normal font-medium text-[#124072] text-[16px] leading-[24px] tracking-[0.2px] bg-white border border-[#E2E8F0]  rounded-xl focus:outline-none focus:ring-[#FFDB47] focus:border-[#FFDB47] sm:text-sm w-full"
+              placeholder="Password"
+              required
+              value={confirmPassword}
+              onChange={handleConfirmPassword}
+            />
+
+            <div className="text-2xl absolute top-4 right-5">
+              {open === false ? (
+                <AiFillEye onClick={toggle} />
+              ) : (
+                <AiFillEyeInvisible onClick={toggle} />
+              )}
+            </div>
+            <p
+              className={` ${
+                confirmPasswordError === "Password match!"
+                  ? "text-[green]"
+                  : "text-[red]"
+              }  pt-2 pl-1 text-left text-xs `}
+            >
+              {" "}
+              {confirmPasswordError}
             </p>
           </div>
           <div className="flex">

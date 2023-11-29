@@ -1,15 +1,21 @@
-import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import OTPInput from "otp-input-react";
 import { enqueueSnackbar } from "notistack";
 import api from "./api";
 
 const ValidateOtp = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [otp, setOtp] = useState("");
   const userRef = useRef();
   const sessionId = localStorage.getItem("sessionId");
+
+  useEffect(() => {
+    setEmail(location.state?.email);
+  });
 
   async function validtaeOtp(e) {
     e.preventDefault();
@@ -17,14 +23,14 @@ const ValidateOtp = () => {
     setIsLoading(true);
     try {
       const response = await api.validateOtp({
-        sessionHash: sessionId,
-        code: otp,
+        email,
+        verification_code: otp,
       });
       console.log("res of login==>>>>>", response);
       enqueueSnackbar(response.message, { variant: "success" });
 
       setIsLoading(false);
-      navigate("/signUp");
+      navigate("/login");
     } catch (error) {
       console.log(error);
       enqueueSnackbar(error.message, { variant: "error" });
@@ -34,9 +40,12 @@ const ValidateOtp = () => {
   }
 
   return (
-    <div className=" bg-[#f5f5f5]  py-[108px]   md:px-[30px] ">
-      <div className="flex flex-col bg-[white] justify-center items-center pb-[171px] pt-[81px] lg:px-[90px] md:px-[50px] px-[40px] max-w-[730px] mx-auto text-center ">
-        <h3 className="text-[32px] text-[#1a202c] max-w-[430px] font-bold pb-1">
+    
+    // <div className=" bg-[#f5f5f5]  py-[108px]   md:px-[30px] ">
+      <div className="flex justify-center items-center h-screen   bg-[#f5f5f5]">
+      {/* <div className="flex flex-col bg-[white] justify-center items-center pb-[171px] pt-[81px] lg:px-[90px] md:px-[50px] px-[40px] max-w-[730px] mx-auto text-center "> */}
+       <div className="bg-[white] text-center p-7 rounded-lg">
+        <h3 className="text-[24px] text-[#1a202c]  font-bold pb-1">
           Verify your email
         </h3>
         <p className="text-[#718096] text-md mb-5">
@@ -55,12 +64,11 @@ const ValidateOtp = () => {
           secure
           inputStyles={{
             padding: "5px",
-            width: "46px",
-            height: "46px",
+            width: "34px",
+            height: "34px",
             borderRadius: "5px",
           }}
         />
-
 
         <button
           type="submit"
@@ -91,7 +99,6 @@ const ValidateOtp = () => {
             </svg>
           )}
         </button>
-       
       </div>
     </div>
   );

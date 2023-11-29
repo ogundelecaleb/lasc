@@ -158,16 +158,16 @@ const Transaction = () => {
     }
   }
 
-  if (isError) {
-    return (
-      <div className="mx-6 text-center justify-center items-center mt-4">
-        <img src="./error.gif" className="mx-auto mt-6 mb-3" alt="" />
-        <h3 className="text-[35px] leading-[40px]  text-[#1A202C] font-extrabold">
-          {error.message}
-        </h3>
-      </div>
-    );
-  }
+  // if (isError) {
+  //   return (
+  //     <div className="mx-6 text-center justify-center items-center mt-4">
+  //       <img src="./error.gif" className="mx-auto mt-6 mb-3" alt="" />
+  //       <h3 className="text-[35px] leading-[40px]  text-[#1A202C] font-extrabold">
+  //         {error.message}
+  //       </h3>
+  //     </div>
+  //   );
+  // }
   return (
     <div className="mt-2  mx-6">
       {/* search and filter button */}
@@ -210,7 +210,7 @@ const Transaction = () => {
         </div>
         <div className="flex items-center">
           <button
-            onClick={handleDisplaySearch}
+            // onClick={handleDisplaySearch}
             className="px-4 py-4 border border-[#E2E8F0]  text-[#1A202C] text-[14px] leading-[21px] tracking-[0.2px] h-[48px] font-semibold rounded-xl flex items-center mr-4 "
           >
             <svg
@@ -257,7 +257,7 @@ const Transaction = () => {
             Filters
           </button>
           <button
-            onClick={handleModalOpen}
+            // onClick={handleModalOpen}
             className="px-4 py-4 border border-[#E2E8F0]  text-[#1A202C] text-[14px] leading-[21px] tracking-[0.2px] h-[48px] font-semibold rounded-xl flex items-center "
           >
             <svg
@@ -383,7 +383,11 @@ const Transaction = () => {
       )}
 
       {/* table */}
-
+      <div>
+        <h2 className="text-[#718096] font-extrabold text-[18px]">
+          Total Transactions:
+        </h2>
+      </div>
       <div class="flex flex-col overflow-x-auto">
         <div class="sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -418,7 +422,7 @@ const Transaction = () => {
                 </thead>
                 <tbody>
                   {isLoading && !isPreviousData && <div>Loading...</div>}
-                  {!isLoading && data?.data?.results.length === 0 && (
+                  {/* {!isLoading && data?.data?.results.length === 0 && ( */}
                     <tr>
                       <td className="text-center" colspan="6">
                         <img
@@ -431,7 +435,7 @@ const Transaction = () => {
                         </h3>
                       </td>
                     </tr>
-                  )}
+                  {/* )} */}
                   {data &&
                     data?.data?.results?.map((result) => (
                       <tr key={result.id} className="mb-2">
@@ -529,64 +533,71 @@ const Transaction = () => {
           </div>
         </div>
         {data && data.data && data?.data?.results.length > 0 && (
-          <div className="flex justify-between items-center">
-            <div className="mt-4 flex justify-center text-gray-500 text-sm">
-              <span className="mr-2">
-                Showing {data.data.firstRowOnPage} - {data.data.lastRowOnPage}{" "}
-                of {data.data.rowCount} results
-              </span>
-              <span className="mr-2">|</span>
-              <span className="mr-2">
-                Page {data.data.currentPage} of {data.data.pageCount}
-              </span>
-              <span className="mr-2">|</span>
-              <span className="mr-2">Page Size: {data.data.pageSize}</span>
-            </div>
-            <div className="mt-4 flex justify-center">
-              <button
-                className="mr-2 px-4 py-2 flex gap-1 disabled:opacity-75 border bg-[#124072] border-transparent text-sm font-medium rounded-md text-[white]  hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#124072]"
-                onClick={handlePrevPage}
-                disabled={currentPage === 1 || isPreviousData}
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+          <div className="w-full">
+            <div className="flex justify-between items-center gap-6 w-full">
+              <div className="mt-4 flex justify-center text-gray-500 text-sm">
+                <span className="mr-2">
+                  Showing {data.data.firstRowOnPage} - {data.data.lastRowOnPage}{" "}
+                  of {data.data.rowCount} results
+                </span>
+                <span className="mr-2">|</span>
+                <span className="mr-2">
+                  Page {data.data.currentPage} of {data.data.pageCount}
+                </span>
+                <div className="hidden md:block">
+                  {" "}
+                  <span className="mr-2">|</span>
+                  <span className="mr-2">Page Size: {data.data.pageSize}</span>
+                </div>
+              </div>
+              <div className="mt-4 flex justify-center">
+                <button
+                  className="mr-2 px-4 py-2 flex gap-1 disabled:opacity-75 border bg-[#124072] border-transparent text-sm font-medium rounded-md text-[white]  hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#124072]"
+                  onClick={handlePrevPage}
+                  disabled={currentPage === 1 || isPreviousData}
                 >
-                  <path
-                    d="M12.5 5L7.5 10L12.5 15"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                Prev
-              </button>
-              <button
-                className="mr-2 px-4 py-2 flex gap-1 disabled:opacity-75 border bg-[#124072] border-transparent text-sm font-medium rounded-md text-[white]  hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#124072]"
-                onClick={handleNextPage}
-                disabled={currentPage === data.data.pageCount || isPreviousData}
-              >
-                Next
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.5 5L7.5 10L12.5 15"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  Prev
+                </button>
+                <button
+                  className="mr-2 px-4 py-2 flex gap-1 disabled:opacity-75 border bg-[#124072] border-transparent text-sm font-medium rounded-md text-[white]  hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#124072]"
+                  onClick={handleNextPage}
+                  disabled={
+                    currentPage === data.data.pageCount || isPreviousData
+                  }
                 >
-                  <path
-                    d="M7.5 5L12.5 10L7.5 15"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </button>
+                  Next
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7.5 5L12.5 10L7.5 15"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         )}

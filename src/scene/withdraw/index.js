@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import QRCode from "qrcode.react";
 import html2canvas from 'html2canvas';
 
-const PaymentLink = () => {
+const Withdraw = () => {
   const elementToCaptureRef = React.createRef();
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
@@ -257,7 +257,7 @@ const PaymentLink = () => {
         </div> */}
         <div className="flex items-center">
           <button
-            onClick={HandleModalOpen}
+            // onClick={HandleModalOpen}
             className="px-6 py-2 bg-[#124072]  text-[white] text-[14px] h-[48px] leading-[21px] tracking-[0.2px] font-extrabold rounded-xl flex items-center mr-4 "
           >
             <svg
@@ -283,7 +283,7 @@ const PaymentLink = () => {
                 stroke-linejoin="round"
               />
             </svg>
-            Create Payment Link
+           Withdraw
           </button>
         </div>
       </div>
@@ -375,28 +375,27 @@ const PaymentLink = () => {
                       Amount
                     </th>
                     <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                      Customer Email
+                      Account Number
                     </th>
 
                     <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                      Link
+                      Account Name
                     </th>
                     <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                      QR Code
-                    </th>
-
-                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                      Invoice Type{" "}
+                     Bank Name
                     </th>
 
                     <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
-                      Expiry Date
+                     Status
+                    </th>
+                    <th className=" py-[20px] border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#718096] font-extrabold text-left  ">
+                      Date
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {isLoading && !isPreviousData && <div>Loading...</div>}
-                  {!isLoading && data?.data?.results.length === 0 && (
+                  {/* {!isLoading && data?.data?.results.length === 0 && ( */}
                     <tr>
                       <td className="text-center" colspan="6">
                         <img
@@ -409,17 +408,23 @@ const PaymentLink = () => {
                         </h3>
                       </td>
                     </tr>
-                  )}
+                  {/* )} */}
                   {data &&
                     data?.data?.results?.map((result) => (
                       <tr key={result.id} className="mb-2">
                         <td className="whitespace-nowrap py-[14px] pr-5 border-t border-[#EDF2F7] text-[16px] leading-[24px] tracking-[0.2px] text-[#1A202C] font-medium text-left  ">
-                          <div className="text-[18px] leading-[24px] tracking-[0.2px] text-[#3b434e] font-extrabold">
+                          <div className="text-[16px] leading-[24px]  text-[#3b434e] font-semibold">
                             <NumericFormat
                               value={result.amount}
                               displayType={"text"}
                               thousandSeparator={true}
-                              prefix={result.currencyCode}
+                              prefix={
+                                result.currencyCode === "NGN"
+                                  ? "₦"
+                                  : result.currencyCode === "USD"
+                                  ? "$"
+                                  : "₦"
+                              }
                               decimalScale={2}
                               fixedDecimalScale={true}
                               renderText={(value) => <p>{value}</p>}
@@ -449,7 +454,7 @@ const PaymentLink = () => {
                               <svg
                                 className="mr-2"
                                 width="17"
-                                height="20"
+                                height="17"
                                 viewBox="0 0 17 20"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -460,7 +465,7 @@ const PaymentLink = () => {
                                 />
                               </svg>
 
-                              <p className="text-[14px] leading-[21px] tracking-[0.2px] text-[#718096] font-medium text-left">
+                              <p className="text-[12px] leading-[21px] tracking-[0.2px] text-[#718096] font-medium text-left">
                                 {publicCopySuccess === result.paymentLink
                                   ? "Copied!"
                                   : "Click to copy"}
@@ -959,4 +964,4 @@ const PaymentLink = () => {
   );
 };
 
-export default PaymentLink;
+export default Withdraw;

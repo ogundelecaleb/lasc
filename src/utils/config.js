@@ -2,13 +2,13 @@
 // export const API_BASE_URL = 'http://94.229.79.27:55412/api/v1';
 
 //live server
-export const API_BASE_URL = 'https://pgmerchantsapi.paylodeservices.com/api/v1';
+export const API_BASE_URL = 'https://devportal.flashride.cloud/api';
 export const getApiUrl = (endpoint) => API_BASE_URL + endpoint
 
 
 
-export const CREATEPROFILE = getApiUrl('/merchant/update');
-export const GETPROFILE = getApiUrl('/merchant/profile');
+export const CREATEPROFILE = getApiUrl('/user');
+export const GETPROFILE = getApiUrl('/user');
 export const SETPIN= getApiUrl('/merchant/setpin');
 export const DASHBOARDOVERVIEW = getApiUrl('/dashboard/overview');
 export const CREATEACCESS = getApiUrl('/merchant/access');

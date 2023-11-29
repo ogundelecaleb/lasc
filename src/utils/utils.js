@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export async function getHeaders() {
-  let userData = localStorage.getItem("userData");
+  let userData = localStorage.getItem("developerData");
   // console.log(userData.data.accessToken, "header");
   if (userData) {
     userData = JSON.parse(userData);
-    const token = "Bearer " + userData.data.accessToken;
+    const token = "Bearer " + userData.token;
     // console.log(userData.data.accessToken, "header");
     return {
       authorization: token,
@@ -114,7 +114,7 @@ export function clearAsyncStorate(key) {
 
 export function setUserData(data) {
   data = JSON.stringify(data);
-  return localStorage.setItem("userData", data);
+  return localStorage.setItem("developerData", data);
 }
 
 export function setUserTempData(data) {

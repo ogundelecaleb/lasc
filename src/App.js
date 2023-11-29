@@ -27,11 +27,11 @@ import SignUp from "./signUp";
 import RequestOtp from "./requestOtp";
 import ValidateOtp from "./validateOtp";
 import SettlementAccount from "./scene/settlementAccount";
-import Settlements from "./scene/settlement";
+import Referral from "./scene/referral";
 import ApiKey from "./scene/apiKey";
 import CustomerSupport from "./scene/customerSupport";
 import FAQ from "./scene/faq";
-import PaymentLink from "./scene/paymentLink";
+import Withdraw from "./scene/withdraw"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -76,9 +76,9 @@ function App() {
                 />
               </Route>
               <Route path="/transaction" element={<Transaction />} />
-              <Route path="/paymentlink" element={<PaymentLink />} />
+              <Route path="/withdraw" element={<Withdraw />} />
               <Route path="/merchant" element={<Merchant />} />
-              <Route path="/settlement" element={<Settlements />} />
+              <Route path="/referral" element={<Referral />} />
               <Route path="/businessProfile" element={<BusinessProfile />} />
               <Route path="/apikey" element={<ApiKey />} />
               <Route path="/name" element={<Name />} />

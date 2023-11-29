@@ -86,7 +86,7 @@ const Topbar = ({ setIsSidebar, userData }) => {
             : location.pathname === "/settlement"
             ? "Settlements"
             : location.pathname === "/merchant"
-            ? "Team"
+            ? "Mercahnts"
             : location.pathname === "/apikey"
             ? "API Credentials"
             : location.pathname === "/businessProfile"
@@ -101,8 +101,8 @@ const Topbar = ({ setIsSidebar, userData }) => {
             ? "IsActive"
             : location.pathname === "/accountDetails"
             ? "Account Details"
-            : location.pathname === "/paymentlink"
-            ? "Payment Link"
+            : location.pathname === "/withdraw"
+            ? "Withdrawal"
             : location.pathname === "/currency"
             ? "Currency"
             : ""}
@@ -240,7 +240,7 @@ const Topbar = ({ setIsSidebar, userData }) => {
                   navigate("/accountDetails");
                   // setIsOpen(false);
                 }}
-                className="flex flex-row gap-[12px] pt-[17px] mb-3 cursor-pointer"
+                className="flex flex-row gap-[12px] py-[17px] rounded-lg px-2  cursor-pointer hover:bg-[#b3c2d6]"
               >
                 <img src="./profile.png" alt="" />
                 <p className=" text-[#1a202c] text-[14px] ">My Profile</p>
@@ -253,7 +253,7 @@ const Topbar = ({ setIsSidebar, userData }) => {
                   navigate("/login");
                   // setIsOpen(false);
                 }}
-                className="flex flex-row gap-[12px] pt-[23px] cursor-pointer mb-3"
+                className="flex flex-row gap-[12px]  py-[17px] rounded-lg px-2 cursor-pointer mb-3 hover:bg-[#b3c2d6]"
               >
                 <img src="./logout.png" alt="" />
                 <p className=" text-[#1a202c] text-[14px] ">Log out</p>
