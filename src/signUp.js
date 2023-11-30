@@ -100,7 +100,7 @@ const SignUp = () => {
         />
 
         <h3 className=" text-[20px]  md:text-[32px] font-bold text-[#1a202c] mt-[16px] md:mt-[37px] pb-2">
-          Create merchant account
+          Create Deloper account
         </h3>
 
         <p className="text-md text-[#a0aec0] max-w-[288px] self-center  mb-[15px] md:mb-[40px]">
