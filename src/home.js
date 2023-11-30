@@ -8,7 +8,7 @@ import jwtDecode from "jwt-decode";
 const Home = () => {
   const navigate = useNavigate();
   const [isSidebar, setIsSidebar] = useState(true);
-   let userData = localStorage.getItem("developerData");
+   const userData = localStorage.getItem("developerData");
 
   
 
