@@ -4,37 +4,22 @@ import Sidebar from "./scene/global/Sidebar";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
-
 const Home = () => {
   const navigate = useNavigate();
   const [isSidebar, setIsSidebar] = useState(true);
+  // localStorage.removeItem("developerData");
+  // return;
 
-  
+  let userData = localStorage.getItem("developerData");
 
-  useEffect(() => {
-    // let userData = localStorage.getItem("userData");
-    // if (userData) {
-    //   const decodedData = JSON.parse(atob(userData?.split(".")[1]));
-    //   let currentDate = new Date();
-    //   if (decodedData?.exp * 1000 < currentDate.getTime()) {
-    //     navigate("/login");
-    //     localStorage.removeItem("userData")
+  if (!userData) {
+    return <Navigate to="/login" />;
+  } else {
+    console.log("Valid token");
+  }
 
-    //   }
-    // }
-    const userData = localStorage.getItem("developerData");
-
-    if (!userData) {
-      return <Navigate to="/login"  />;
-    } else {
-      console.log("Valid token");
-    }
-  }, );
-  // userData = JSON.parse(userData);
-
-  // var decoded = jwtDecode(userData?.data?.accessToken);
-  var decoded = "hello"
-  console.log("decoded", decoded)
+  var decoded = "hello";
+  console.log("decoded", decoded);
   const handleSideBarClose = () => {
     setIsSidebar(false);
   };

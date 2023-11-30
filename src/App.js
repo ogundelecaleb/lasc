@@ -43,10 +43,10 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <div>
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster position="bottom-right" reverseOrder={false} />
       <SnackbarProvider
         anchorOrigin={{
-          vertical: "top",
+          vertical: "bottom",
           horizontal: "right",
         }}
 
