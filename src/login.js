@@ -57,18 +57,20 @@ const Login = () => {
   }
 
   return (
-    <div className=" bg-[#f5f5f5] py-[70px] px-[30px]">
-      <div className="flex flex-col bg-[white] justify-center items-center pb-[50px] pt-[40px] md:pb-[60px] md:pt-[60px]   lg:px-[90px] md:px-[50px] px-[20px] max-w-[630px] mx-auto text-center ">
+    <div className="flex justify-center items-center h-screen relative  ">
+      <img src="/bg.jpg" alt="background" className="w-full h-full object-cover absolute left-0 right-0 top-0 -z-10"/>
+      {/* <div className="flex flex-col bg-[white] justify-center items-center pb-[171px] pt-[81px] lg:px-[90px] md:px-[50px] px-[40px] max-w-[730px] mx-auto text-center "> */}
+       <div className="bg-[white] text-center p-4 md:p-7 lg:p-10 rounded-lg w-[600px] md:w-[500px] lg:w-[600px] m-4 flex justify-center flex-col">
         <img
           src="./paylodelogo.png"
           alt=""
-          className="h-[40px]  md:h-[60px] lg:h-[70px]"
+          className="h-[40px]  md::h-[60px] mx-auto"
         />
-        <div className="flex items-center gap-3">
+        <div className="flex justify-center items-center gap-3">
           <h3 className=" text-[20px]  md:text-[32px] font-bold text-[#1a202c] mt-[16px] md:mt-[37px] pb-2">
             Developer Portal
           </h3>
-          <img src="/developer.png" alt="developer cartoon" className="rounded-full h-[60px] w-[60px] object-contain bg-[#f5f5f5]"/>
+          {/* <img src="/developer.png" alt="developer cartoon" className="rounded-full h-[60px] w-[60px] object-contain bg-[#f5f5f5]"/> */}
         </div>
 
         <form
