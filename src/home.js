@@ -8,7 +8,6 @@ import jwtDecode from "jwt-decode";
 const Home = () => {
   const navigate = useNavigate();
   const [isSidebar, setIsSidebar] = useState(true);
-   const userData = localStorage.getItem("developerData");
 
   
 
@@ -23,14 +22,14 @@ const Home = () => {
 
     //   }
     // }
+    const userData = localStorage.getItem("developerData");
 
     if (!userData) {
       return <Navigate to="/login"  />;
-      // navigate("/login");
     } else {
       console.log("Valid token");
     }
-  }, []);
+  }, );
   // userData = JSON.parse(userData);
 
   // var decoded = jwtDecode(userData?.data?.accessToken);
