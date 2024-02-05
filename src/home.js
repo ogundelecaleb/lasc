@@ -12,11 +12,11 @@ const Home = () => {
 
   let userData = localStorage.getItem("developerData");
 
-  if (!userData) {
-    return <Navigate to="/login" />;
-  } else {
-    console.log("Valid token");
-  }
+  // if (!userData) {
+  //   return <Navigate to="/login" />;
+  // } else {
+  //   console.log("Valid token");
+  // }
 
   var decoded = "hello";
   console.log("decoded", decoded);

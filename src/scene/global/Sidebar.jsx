@@ -47,28 +47,28 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
           </svg>
         </button>
       </div>
-      <div class="max-w-[250px] min-h-screen bg-[#E2E8F0]   pt-5 pb-4 sticky top-0  ">
+      <div class="max-w-[250px] min-h-screen bg-[#17082d]   pt-5 pb-4 sticky top-0  ">
         <div className="relative">
           <div className="relative min-h-screen overflow-y-visible">
             <img
               class="ml-[37px] mr-[81px] mb-[48px] pb-[18px] border-b border-[#E2E8F0] "
-              src="./logo.svg"
+              src="./LasucomLogo.png"
               alt="logo"
             />
 
             <Link
-              to="/dashboard"
+              to="/clearance"
               className={`mx-[24px] py-[13px] pl-[17px] pr-[77px] flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-end mb-[12px] ${
-                window.location.pathname === "/dashboard"
-                  ? "bg-[#124072] text-[white] rounded-xl"
+                window.location.pathname === "/clearance"
+                  ? "bg-[#8857d3] text-[white] rounded-xl"
                   : "text-[#718096]"
               }`}
             >
               <MdOutlineDashboard className="mr-[12px] text-xl" />
-              Dashboard
+              Clearance
             </Link>
              {/* transaction */}
-             <Link
+             {/* <Link
               to="/transaction"
               className={`mx-[24px] py-[13px] px-[16px]  flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-end mb-[12px] ${
                 window.location.pathname === "/transaction"
@@ -94,10 +94,10 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
                 />
               </svg>
               Transactions
-            </Link>
+            </Link> */}
 
             {/* My settlements */}
-            <Link
+            {/* <Link
               to="/merchant"
               className={`mx-[24px] py-[13px] px-[16px]  flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-end mb-[12px] ${
                 window.location.pathname === "/merchant"
@@ -107,12 +107,12 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
             >
              <CgToolbox  className="mr-[12px] text-xl" />
               Merchants
-            </Link>
+            </Link> */}
 
            
 
             {/* Payment Link */}
-            <Link
+            {/* <Link
               to="/withdraw"
               className={`mx-[24px] py-[13px] px-[16px]  flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-center mb-[12px] ${
                 window.location.pathname === "/withdraw"
@@ -122,10 +122,10 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
             >
               <TbTransferOut  className="mr-[12px] text-xl"/>
               Withdrawal
-            </Link>
+            </Link> */}
 
             {/* Users */}
-            <Link
+            {/* <Link
               to="/referral"
               className={`mx-[24px] py-[13px] px-[16px]  flex tracking-[0.2px] font-medium text-[14px] leading-[21px] items-end mb-[12px] ${
                 window.location.pathname === "/referral"
@@ -135,7 +135,7 @@ const Sidebar = ({ isSidebarOpen, onClose }) => {
             >
               <HiUserGroup className="mr-[12px] text-xl"  />
               Refferal
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

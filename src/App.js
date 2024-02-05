@@ -1,6 +1,6 @@
 // import { useState } from "react";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
-import Dashboard from "./scene/dashboard";
+import Clearance from "./scene/clearance";
 import Transaction from "./scene/transaction";
 import Merchant from "./scene/merchant";
 import Login from "./login";
@@ -63,7 +63,7 @@ function App() {
           <Routes>
             <Route element={<Home />}>
               <Route path="/" element={<HomeIndex />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/clearance" element={<Clearance />} />
               <Route path="/accountDetails" element={<AccountDetails />}>
                 <Route index element={<PersonalInfo />} />
                 <Route
