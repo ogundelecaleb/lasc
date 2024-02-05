@@ -195,7 +195,6 @@ const Clearance = () => {
   };
 
   return (
-    <div class=" px-10 pt-6">
       <div className="px-[16px] md:px-[40px] py-[20px] ">
         <form>
           <div className="space-y-12">
@@ -659,7 +658,6 @@ const Clearance = () => {
           </div>
         </form>
       </div>
-    </div>
   );
 };
 
